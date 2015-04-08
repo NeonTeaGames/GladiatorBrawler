@@ -12,13 +12,13 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.saltosion.gladiator.SpriteSequence;
-import com.saltosion.gladiator.components.CPosition;
+import com.saltosion.gladiator.components.CPhysics;
 import com.saltosion.gladiator.components.CRenderedObject;
 
 public class RenderingSystem extends EntitySystem {
 
 	private ComponentMapper<CRenderedObject> rom = ComponentMapper.getFor(CRenderedObject.class);
-	private ComponentMapper<CPosition> pm = ComponentMapper.getFor(CPosition.class);
+	private ComponentMapper<CPhysics> pm = ComponentMapper.getFor(CPhysics.class);
 	private ImmutableArray<Entity> entities;
 	
 	private SpriteBatch batch;
@@ -52,9 +52,9 @@ public class RenderingSystem extends EntitySystem {
 			int currFrame = (int) Math.floor(renderedObject.getCurrentFrame());
 			Sprite currSprite = currSequence.getSprite(currFrame);
 			
-			CPosition position = pm.get(entities.get(i));
+			CPhysics physics = pm.get(entities.get(i));
 			
-			batch.draw(currSprite, position.x, position.y);
+			batch.draw(currSprite, physics.position.x, physics.position.y);
 			
 			float nextFrame = renderedObject.getCurrentFrame() + deltaTime*currSequence.getPlayspeed();
 			renderedObject.setCurrentFrame(nextFrame%currSequence.frameCount());
@@ -64,7 +64,7 @@ public class RenderingSystem extends EntitySystem {
 	}
 	
 	public void updateEntities(Engine engine) {
-		entities = engine.getEntitiesFor(Family.getFor(CRenderedObject.class, CPosition.class));
+		entities = engine.getEntitiesFor(Family.getFor(CRenderedObject.class, CPhysics.class));
 	}
 
 }

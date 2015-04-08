@@ -7,7 +7,7 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.saltosion.gladiator.components.CPosition;
+import com.saltosion.gladiator.components.CPhysics;
 import com.saltosion.gladiator.components.CRenderedObject;
 import com.saltosion.gladiator.systems.RenderingSystem;
 import com.saltosion.gladiator.util.GlobalStrings;
@@ -27,7 +27,7 @@ public class GladiatorBrawler extends ApplicationAdapter {
 		
 		engine.addSystem(new RenderingSystem());
 		
-		engine.addEntityListener(Family.getFor(CRenderedObject.class, CPosition.class), 
+		engine.addEntityListener(Family.getFor(CRenderedObject.class, CPhysics.class), 
 				new EntityListener() {
 					@Override
 					public void entityRemoved(Entity entity) {
@@ -72,9 +72,8 @@ public class GladiatorBrawler extends ApplicationAdapter {
 		renderedObject.addSequence("Idle", sequence);
 		renderedObject.setCurrentSequence("Idle");
 		player.add(renderedObject);
-		player.add(new CPosition());
-		player.getComponent(CPosition.class).x = 50;
-		player.getComponent(CPosition.class).y = 50;
+		player.add(new CPhysics());
+		player.getComponent(CPhysics.class).position.set(50, 50);
 		
 		engine.addEntity(player);
 	}
