@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.saltosion.gladiator.SpriteSequence;
+import com.saltosion.gladiator.components.CPosition;
 import com.saltosion.gladiator.components.CRenderedObject;
 
 public class RenderingSystem extends EntitySystem {
@@ -39,17 +40,23 @@ public class RenderingSystem extends EntitySystem {
 		
 		for (int i=0; i<entities.size(); i++) {
 			CRenderedObject renderedObject = entities.get(i).getComponent(CRenderedObject.class);
-			SpriteSequence currSequence = renderedObject.spritesequences.get(renderedObject.currentSequence);
-			int currFrame = (int) Math.floor(renderedObject.currentframe);
+			SpriteSequence currSequence = renderedObject.getSequence(renderedObject.getCurrentSequence());
+			int currFrame = (int) Math.floor(renderedObject.getCurrentFrame());
 			Sprite currSprite = currSequence.getSprite(currFrame);
-			batch.draw(currSprite, 0, 0);
+			
+			CPosition position = entities.get(i).getComponent(CPosition.class);
+			
+			batch.draw(currSprite, position.x, position.y);
+			
+			float nextFrame = renderedObject.getCurrentFrame() + deltaTime*currSequence.getPlayspeed();
+			renderedObject.setCurrentFrame(nextFrame%currSequence.frameCount());
 		}
 		
 		batch.end();
 	}
 	
 	public void updateEntities(Engine engine) {
-		entities = engine.getEntitiesFor(Family.getFor(CRenderedObject.class));
+		entities = engine.getEntitiesFor(Family.getFor(CRenderedObject.class, CPosition.class));
 	}
 
 }

@@ -18,11 +18,16 @@ public class SpriteSequence {
 		defaultPlayspeed = 0;
 	}
 	
-	public SpriteSequence(float playspeed, ArrayList<Sprite> sprites) {
+	public SpriteSequence(float playspeed) {
 		this.defaultPlayspeed = playspeed;
 		if (sprites != null) {
 			this.sprites = sprites;
 		}
+	}
+	
+	public SpriteSequence addSprite(Sprite s) {
+		sprites.add(s);
+		return this;
 	}
 	
 	public Sprite getSprite(int index) {
@@ -32,5 +37,8 @@ public class SpriteSequence {
 	public float getPlayspeed() {
 		return defaultPlayspeed;
 	}
-
+	
+	public int frameCount() {
+		return sprites.size();
+	}
 }

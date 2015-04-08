@@ -13,6 +13,7 @@ public class SpriteLoader {
 	
 	static {
 		loadTexture(GlobalStrings.STATICPLAYER, "sprites/staticplayer.png");
+		loadTexture(GlobalStrings.PLAYERIMG, "sprites/player/player.png");
 	}
 	
 	/**
@@ -25,7 +26,7 @@ public class SpriteLoader {
 	 * @return
 	 */
 	public static Sprite loadSprite(String texKey, int x, int y, int width, int height) {
-		TextureRegion tr = new TextureRegion(textures.get(texKey), x, y, width, height);
+		TextureRegion tr = new TextureRegion(textures.get(texKey), x*width, y*height, width, height);
 		return new Sprite(tr);
 	}
 	
