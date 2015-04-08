@@ -60,9 +60,6 @@ public class GladiatorBrawler extends ApplicationAdapter {
 		RenderingSystem rs = engine.getSystem(RenderingSystem.class);
 		float aspectratio = ((float)width)/((float)height);
 		rs.setViewport((int)(rs.VPHEIGHT_CONST*aspectratio), rs.VPHEIGHT_CONST);
-		System.out.println(width + "x" + height);
-		System.out.println(aspectratio);
-		System.out.println(rs.VPHEIGHT_CONST + "x" + rs.VPHEIGHT_CONST*aspectratio);
 	}
 	
 	public void initializePlayer() {
