@@ -1,4 +1,4 @@
-package com.saltosion.gladiator.util;
+	package com.saltosion.gladiator.util;
 
 public class GlobalStrings {
 	

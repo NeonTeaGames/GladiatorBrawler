@@ -1,6 +1,5 @@
 package com.saltosion.gladiator.util;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.badlogic.gdx.Gdx;
