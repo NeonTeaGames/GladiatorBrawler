@@ -54,6 +54,17 @@ public class GladiatorBrawler extends ApplicationAdapter {
 		engine.update(Gdx.graphics.getDeltaTime());
 	}
 	
+	@Override
+	public void resize(int width, int height) {
+		super.resize(width, height);
+		RenderingSystem rs = engine.getSystem(RenderingSystem.class);
+		float aspectratio = ((float)width)/((float)height);
+		rs.setViewport((int)(rs.VPHEIGHT_CONST*aspectratio), rs.VPHEIGHT_CONST);
+		System.out.println(width + "x" + height);
+		System.out.println(aspectratio);
+		System.out.println(rs.VPHEIGHT_CONST + "x" + rs.VPHEIGHT_CONST*aspectratio);
+	}
+	
 	public void initializePlayer() {
 		player = new Entity();
 		

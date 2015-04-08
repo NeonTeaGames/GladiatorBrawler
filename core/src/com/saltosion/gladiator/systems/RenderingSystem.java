@@ -20,6 +20,7 @@ public class RenderingSystem extends EntitySystem {
 	
 	private SpriteBatch batch;
 	private OrthographicCamera camera;
+	public final int VPHEIGHT_CONST = 252;
 	
 	@Override
 	public void addedToEngine(Engine engine) {
@@ -27,7 +28,11 @@ public class RenderingSystem extends EntitySystem {
 		
 		batch = new SpriteBatch();
 		camera = new OrthographicCamera();
-		camera.setToOrtho(false, 384, 216);
+		camera.setToOrtho(false, 448, 252);
+	}
+	
+	public void setViewport(int width, int height) {
+		camera.setToOrtho(false, width, height);
 	}
 	
 	@Override
