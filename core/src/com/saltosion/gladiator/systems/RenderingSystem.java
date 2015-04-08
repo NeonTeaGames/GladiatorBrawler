@@ -1,5 +1,6 @@
 package com.saltosion.gladiator.systems;
 
+import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntitySystem;
@@ -15,7 +16,9 @@ import com.saltosion.gladiator.components.CPosition;
 import com.saltosion.gladiator.components.CRenderedObject;
 
 public class RenderingSystem extends EntitySystem {
-	
+
+	private ComponentMapper<CRenderedObject> rom = ComponentMapper.getFor(CRenderedObject.class);
+	private ComponentMapper<CPosition> pm = ComponentMapper.getFor(CPosition.class);
 	private ImmutableArray<Entity> entities;
 	
 	private SpriteBatch batch;
@@ -44,12 +47,12 @@ public class RenderingSystem extends EntitySystem {
 		batch.begin();
 		
 		for (int i=0; i<entities.size(); i++) {
-			CRenderedObject renderedObject = entities.get(i).getComponent(CRenderedObject.class);
+			CRenderedObject renderedObject = rom.get(entities.get(i));
 			SpriteSequence currSequence = renderedObject.getSequence(renderedObject.getCurrentSequence());
 			int currFrame = (int) Math.floor(renderedObject.getCurrentFrame());
 			Sprite currSprite = currSequence.getSprite(currFrame);
 			
-			CPosition position = entities.get(i).getComponent(CPosition.class);
+			CPosition position = pm.get(entities.get(i));
 			
 			batch.draw(currSprite, position.x, position.y);
 			
