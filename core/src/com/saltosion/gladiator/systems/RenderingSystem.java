@@ -69,7 +69,9 @@ public class RenderingSystem extends EntitySystem {
 			int spriteHeight = currSprite.getRegionHeight();
 			int spriteWidth = currSprite.getRegionWidth();
 			
-			currSprite.setPosition(physics.position.x-spriteWidth/2, physics.position.y-spriteHeight/2);
+			currSprite.setPosition(physics.body.getPosition().x-spriteWidth/2, 
+					physics.body.getPosition().y-spriteHeight/2);
+			currSprite.setRotation(physics.body.getAngle());
 			currSprite.draw(batch);
 			
 			float nextFrame = renderedObject.getCurrentFrame() + deltaTime*currSequence.getPlayspeed();

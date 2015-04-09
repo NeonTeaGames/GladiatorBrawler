@@ -98,8 +98,6 @@ public class GladiatorBrawler extends ApplicationAdapter {
 		
 		box.dispose();
 		
-		
-		
 		player = new Entity();
 		
 		CRenderedObject renderedObject = new CRenderedObject();
@@ -110,7 +108,7 @@ public class GladiatorBrawler extends ApplicationAdapter {
 		renderedObject.setCurrentSequence("Idle");
 		player.add(renderedObject);
 		player.add(new CPhysics());
-		player.getComponent(CPhysics.class).position.set(body.getPosition());
+		player.getComponent(CPhysics.class).body = body;
 		
 		engine.addEntity(player);
 	}
