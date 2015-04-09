@@ -3,6 +3,7 @@ package com.saltosion.gladiator;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntityListener;
+import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
@@ -42,7 +43,7 @@ public class GladiatorBrawler extends ApplicationAdapter {
 		
 		engine.addSystem(new RenderingSystem(world));
 		
-		engine.addEntityListener(Family.getFor(CRenderedObject.class, CPhysics.class), 
+		engine.addEntityListener(Family.getFor(), 
 				new EntityListener() {
 					@Override
 					public void entityRemoved(Entity entity) {
@@ -59,9 +60,10 @@ public class GladiatorBrawler extends ApplicationAdapter {
 				});
 		
 		
-		// Initialize player
+		// Initialize stuff in the world
 		
 		initializePlayer();
+		initializeTerrain();
 		
 	}
 
@@ -93,7 +95,6 @@ public class GladiatorBrawler extends ApplicationAdapter {
 		fixtureDef.shape = box;
 		fixtureDef.density = 0.5f;
 		fixtureDef.friction = 0.4f;
-		fixtureDef.restitution = 0.6f;
 		Fixture fixture =  body.createFixture(fixtureDef);
 		
 		box.dispose();
@@ -111,6 +112,15 @@ public class GladiatorBrawler extends ApplicationAdapter {
 		player.getComponent(CPhysics.class).body = body;
 		
 		engine.addEntity(player);
+	}
+	
+	public void initializeTerrain() {
+		BodyDef terrain = new BodyDef();
+		Body terrainBody = world.createBody(terrain);
+		PolygonShape terrainBox = new PolygonShape();
+		terrainBox.setAsBox(20, 2);
+		terrainBody.createFixture(terrainBox, 0);
+		terrainBox.dispose();
 	}
 	
 	@Override
