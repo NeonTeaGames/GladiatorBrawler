@@ -9,11 +9,16 @@ import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.physics.box2d.World;
 import com.saltosion.gladiator.SpriteSequence;
 import com.saltosion.gladiator.components.CPhysics;
 import com.saltosion.gladiator.components.CRenderedObject;
+import com.saltosion.gladiator.util.Global;
+import com.saltosion.gladiator.util.SpriteLoader;
 
 public class RenderingSystem extends EntitySystem {
 
@@ -23,15 +28,23 @@ public class RenderingSystem extends EntitySystem {
 	
 	private SpriteBatch batch;
 	private OrthographicCamera camera;
-	public final int VPHEIGHT_CONST = 252;
+	
+	private Box2DDebugRenderer debugRenderer;
+	private World world;
+	
+	public RenderingSystem(World world) {
+		this.world = world;
+	}
 	
 	@Override
 	public void addedToEngine(Engine engine) {
+		debugRenderer = new Box2DDebugRenderer();
+		
 		updateEntities(engine);
 		
 		batch = new SpriteBatch();
 		camera = new OrthographicCamera();
-		camera.setToOrtho(false, 448, 252);
+		camera.setToOrtho(false, 1, 1);
 	}
 	
 	public void setViewport(int width, int height) {
@@ -41,11 +54,10 @@ public class RenderingSystem extends EntitySystem {
 	@Override
 	public void update(float deltaTime) {
 
-		Gdx.gl.glClearColor(1, 1, 1, 1);
+		Gdx.gl.glClearColor(0, 0, 0, 0);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
-		
 		for (int i=0; i<entities.size(); i++) {
 			CRenderedObject renderedObject = rom.get(entities.get(i));
 			SpriteSequence currSequence = renderedObject.getSequence(renderedObject.getCurrentSequence());
@@ -54,13 +66,18 @@ public class RenderingSystem extends EntitySystem {
 			
 			CPhysics physics = pm.get(entities.get(i));
 			
-			batch.draw(currSprite, physics.position.x, physics.position.y);
+			int spriteHeight = currSprite.getRegionHeight();
+			int spriteWidth = currSprite.getRegionWidth();
+			
+			currSprite.setPosition(physics.position.x-spriteWidth/2, physics.position.y-spriteHeight/2);
+			currSprite.draw(batch);
 			
 			float nextFrame = renderedObject.getCurrentFrame() + deltaTime*currSequence.getPlayspeed();
 			renderedObject.setCurrentFrame(nextFrame%currSequence.frameCount());
-		}
-		
+		}		
 		batch.end();
+		
+		debugRenderer.render(world, camera.combined);
 	}
 	
 	public void updateEntities(Engine engine) {
