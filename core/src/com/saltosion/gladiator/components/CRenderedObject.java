@@ -38,6 +38,21 @@ public class CRenderedObject extends Component {
 		return spritesequences.get(key);
 	}
 	
+	public void playAnimation(String key) {
+		playAnimation(key, 0);
+	}
+	
+	public void playAnimation(String key, int startingframe) {
+		if (spritesequences.containsKey(key)) {
+			currentSequence = key;
+			currentframe = startingframe;
+			return;
+		}
+		String[] s = (String[]) spritesequences.keySet().toArray();
+		currentSequence = s[0];
+		currentframe = 0;
+	}
+	
 	public float getCurrentFrame() {
 		return currentframe;
 	}

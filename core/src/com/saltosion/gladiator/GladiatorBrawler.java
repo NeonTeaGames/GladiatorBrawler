@@ -130,7 +130,7 @@ public class GladiatorBrawler extends ApplicationAdapter {
 		Sprite player2 = SpriteLoader.loadSprite(Name.PLAYERIMG, 1, 0, 64, 64);
 		SpriteSequence sequence = new SpriteSequence(1).addSprite(player1).addSprite(player2);
 		renderedObject.addSequence("Idle", sequence);
-		renderedObject.setCurrentSequence("Idle");
+		renderedObject.playAnimation("Idle");
 		player.add(renderedObject);
 		player.add(new CPhysics());
 		player.getComponent(CPhysics.class).body = body;
