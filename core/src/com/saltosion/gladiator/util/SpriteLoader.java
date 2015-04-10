@@ -12,8 +12,8 @@ public class SpriteLoader {
 	public static HashMap<String, Texture> textures = new HashMap<String, Texture>();
 	
 	static {
-		loadTexture(Global.STATICPLAYER, "sprites/staticplayer.png");
-		loadTexture(Global.PLAYERIMG, "sprites/player/player.png");
+		loadTexture(Name.STATICPLAYER, "sprites/staticplayer.png");
+		loadTexture(Name.PLAYERIMG, "sprites/player/player.png");
 	}
 	
 	/**

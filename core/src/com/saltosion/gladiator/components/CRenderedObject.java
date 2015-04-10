@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.saltosion.gladiator.SpriteSequence;
+import com.saltosion.gladiator.util.SpriteSequence;
 
 public class CRenderedObject extends Component {
 	private HashMap<String, SpriteSequence> spritesequences = new HashMap<String, SpriteSequence>();

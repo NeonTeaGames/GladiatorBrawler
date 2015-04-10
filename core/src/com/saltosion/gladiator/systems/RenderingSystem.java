@@ -14,11 +14,11 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
-import com.saltosion.gladiator.SpriteSequence;
 import com.saltosion.gladiator.components.CPhysics;
 import com.saltosion.gladiator.components.CRenderedObject;
-import com.saltosion.gladiator.util.Global;
+import com.saltosion.gladiator.util.AppUtil;
 import com.saltosion.gladiator.util.SpriteLoader;
+import com.saltosion.gladiator.util.SpriteSequence;
 
 public class RenderingSystem extends EntitySystem {
 
@@ -53,6 +53,9 @@ public class RenderingSystem extends EntitySystem {
 	
 	@Override
 	public void update(float deltaTime) {
+		CPhysics phys = pm.get(AppUtil.player);
+		camera.position.set(phys.body.getPosition().x, phys.body.getPosition().y, 0);
+		camera.update();
 
 		Gdx.gl.glClearColor(0, 0, 0, 0);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
