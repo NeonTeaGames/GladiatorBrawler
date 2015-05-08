@@ -43,4 +43,9 @@ public class CPhysics extends Component {
         return this;
     }
 
+    public CPhysics setPosition(float x, float y) {
+        this.position.set(x, y);
+        return this;
+    }
+
 }

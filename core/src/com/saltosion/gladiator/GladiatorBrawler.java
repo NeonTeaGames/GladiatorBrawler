@@ -86,7 +86,8 @@ public class GladiatorBrawler extends ApplicationAdapter {
         renderedObject.addSequence("Idle", sequence);
         renderedObject.playAnimation("Idle");
         player.add(renderedObject);
-        player.add(new CPhysics().setSize(player1.getRegionWidth() * Global.SPRITE_SCALE, player1.getRegionHeight() * Global.SPRITE_SCALE));
+        player.add(new CPhysics().setSize(player1.getRegionWidth() * Global.SPRITE_SCALE,
+                player1.getRegionHeight() * Global.SPRITE_SCALE).setPosition(0, 5));
 
         engine.addEntity(player);
 
@@ -99,7 +100,7 @@ public class GladiatorBrawler extends ApplicationAdapter {
         Sprite groundSprite = SpriteLoader.loadSprite(Name.GROUNDIMG, 0, 0, 256, 64);
         CRenderedObject renderedObject = new CRenderedObject(groundSprite);
         ground.add(renderedObject);
-        CPhysics physics = new CPhysics().setMovable(false).setGravityApplied(false)
+        CPhysics physics = new CPhysics().setMovable(false).setGravityApplied(false).setDynamic(false)
                 .setSize(groundSprite.getRegionWidth() * Global.SPRITE_SCALE,
                         groundSprite.getRegionHeight() * Global.SPRITE_SCALE);
         physics.position.set(new Vector2(0, -4));
@@ -109,7 +110,7 @@ public class GladiatorBrawler extends ApplicationAdapter {
 
         Entity wall0 = new Entity();
         CRenderedObject wall0RenderedObject = new CRenderedObject(wallSprite);
-        CPhysics wall0Physics = new CPhysics().setMovable(false).setGravityApplied(false)
+        CPhysics wall0Physics = new CPhysics().setMovable(false).setGravityApplied(false).setDynamic(false)
                 .setSize(wallSprite.getRegionWidth() * Global.SPRITE_SCALE,
                         wallSprite.getRegionHeight() * Global.SPRITE_SCALE);
         wall0Physics.position.set(new Vector2(6, 0));
@@ -118,7 +119,7 @@ public class GladiatorBrawler extends ApplicationAdapter {
 
         Entity wall1 = new Entity();
         CRenderedObject wall1RenderedObject = new CRenderedObject(wallSprite);
-        CPhysics wall1Physics = new CPhysics().setMovable(false).setGravityApplied(false)
+        CPhysics wall1Physics = new CPhysics().setMovable(false).setGravityApplied(false).setDynamic(false)
                 .setSize(wallSprite.getRegionWidth() * Global.SPRITE_SCALE,
                         wallSprite.getRegionHeight() * Global.SPRITE_SCALE);
         wall1Physics.position.set(new Vector2(-6, 0));
