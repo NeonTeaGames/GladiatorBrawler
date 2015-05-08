@@ -8,7 +8,7 @@ public class CPhysics extends Component {
     public Vector2 position = new Vector2();
     public Vector2 velocity = new Vector2();
     public Vector2 size = new Vector2();
-    public float movespeed = 5f, jumpForce = 5f, gravity = 1f;
+    public float movespeed = 5f, jumpForce = 0.3f, gravity = 1f;
     public boolean grounded = true;
 
     // Movable toggles if the entity can move by itself

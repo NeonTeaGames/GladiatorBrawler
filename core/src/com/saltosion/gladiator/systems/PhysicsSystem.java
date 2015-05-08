@@ -37,7 +37,8 @@ public class PhysicsSystem extends EntitySystem {
                     move++;
                 }
                 obj.velocity.x = move * obj.movespeed * deltaTime;
-                if (obj.jumping) {
+                if (obj.jumping && obj.grounded) {
+                    obj.grounded = false;
                     obj.velocity.y = obj.jumpForce;
                 }
             }
@@ -72,8 +73,6 @@ public class PhysicsSystem extends EntitySystem {
         float y01 = cp0.position.y + cp0.size.y / 2;
         float y10 = cp1.position.y - cp1.size.y / 2;
         float y11 = cp1.position.y + cp1.size.y / 2;
-        cp0.grounded = false;
-        cp1.grounded = false;
 
         boolean colliding = (x00 < x11) && (x01 > x10) && (y00 < y11) && (y01 > y10);
 
