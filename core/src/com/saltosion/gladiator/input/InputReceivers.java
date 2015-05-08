@@ -10,6 +10,7 @@ public class InputReceivers {
 	static {
 		inputreceivers.put(Name.MOVE_LEFT, new IRMoveLeft());
 		inputreceivers.put(Name.MOVE_RIGHT, new IRMoveRight());
+		inputreceivers.put(Name.JUMP, new IRJump());
 	}
 	
 	public static InputReceiver getReceiver(String key) {

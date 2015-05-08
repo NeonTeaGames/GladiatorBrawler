@@ -13,6 +13,7 @@ public class InputHandler implements InputProcessor {
 	public InputHandler() {
 		keys.put(Keys.A, Name.MOVE_LEFT);
 		keys.put(Keys.D, Name.MOVE_RIGHT);
+		keys.put(Keys.SPACE, Name.JUMP);
 	}
 	
 	@Override

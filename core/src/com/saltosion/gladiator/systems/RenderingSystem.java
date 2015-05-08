@@ -9,15 +9,11 @@ import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.badlogic.gdx.physics.box2d.World;
 import com.saltosion.gladiator.components.CPhysics;
 import com.saltosion.gladiator.components.CRenderedObject;
 import com.saltosion.gladiator.util.AppUtil;
-import com.saltosion.gladiator.util.SpriteLoader;
 import com.saltosion.gladiator.util.SpriteSequence;
 
 public class RenderingSystem extends EntitySystem {
@@ -29,16 +25,8 @@ public class RenderingSystem extends EntitySystem {
 	private SpriteBatch batch;
 	private OrthographicCamera camera;
 	
-	private Box2DDebugRenderer debugRenderer;
-	private World world;
-	
-	public RenderingSystem(World world) {
-		this.world = world;
-	}
-	
 	@Override
 	public void addedToEngine(Engine engine) {
-		debugRenderer = new Box2DDebugRenderer();
 		
 		updateEntities(engine);
 		
@@ -54,7 +42,7 @@ public class RenderingSystem extends EntitySystem {
 	@Override
 	public void update(float deltaTime) {
 		CPhysics phys = pm.get(AppUtil.player);
-		camera.position.set(phys.body.getPosition().x, phys.body.getPosition().y, 0);
+		camera.position.set(phys.position.x, phys.position.y, 0);
 		camera.update();
 
 		Gdx.gl.glClearColor(0, 0, 0, 0);
@@ -72,17 +60,14 @@ public class RenderingSystem extends EntitySystem {
 			int spriteHeight = currSprite.getRegionHeight();
 			int spriteWidth = currSprite.getRegionWidth();
 			
-			currSprite.setPosition(physics.body.getPosition().x-spriteWidth/2, 
-					physics.body.getPosition().y-spriteHeight/2);
-			currSprite.setRotation(physics.body.getAngle());
+			currSprite.setPosition(physics.position.x-spriteWidth/2, 
+					physics.position.y-spriteHeight/2);
 			currSprite.draw(batch);
 			
 			float nextFrame = renderedObject.getCurrentFrame() + deltaTime*currSequence.getPlayspeed();
 			renderedObject.setCurrentFrame(nextFrame%currSequence.frameCount());
 		}		
 		batch.end();
-		
-		debugRenderer.render(world, camera.combined);
 	}
 	
 	public void updateEntities(Engine engine) {

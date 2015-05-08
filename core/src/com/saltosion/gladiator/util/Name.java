@@ -9,5 +9,6 @@ public class Name {
 	
 	public static final String MOVE_LEFT = "MOVE_LEFT";
 	public static final String MOVE_RIGHT = "MOVE_RIGHT";
+	public static final String JUMP = "JUMP";
 
 }
