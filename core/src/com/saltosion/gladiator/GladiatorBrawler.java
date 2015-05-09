@@ -20,122 +20,120 @@ import com.saltosion.gladiator.util.SpriteSequence;
 
 public class GladiatorBrawler extends ApplicationAdapter {
 
-    private Engine engine;
-    private InputHandler inputHandler;
+	private Engine engine;
+	private InputHandler inputHandler;
 
-    private Entity player;
+	private Entity player;
 
-    @Override
-    public void create() {
+	@Override
+	public void create() {
+		// Initialize the Engine
+		engine = new Engine();
 
-        // Initialize the Engine
-        engine = new Engine();
+		engine.addSystem(new PhysicsSystem());
+		engine.addEntityListener(new EntityListener() {
+			@Override
+			public void entityAdded(Entity entity) {
+				PhysicsSystem ps = engine.getSystem(PhysicsSystem.class);
+				ps.updateEntities(engine);
+			}
 
-        engine.addSystem(new PhysicsSystem());
-        engine.addEntityListener(new EntityListener() {
-            @Override
-            public void entityAdded(Entity entity) {
-                PhysicsSystem ps = engine.getSystem(PhysicsSystem.class);
-                ps.updateEntities(engine);
-            }
+			@Override
+			public void entityRemoved(Entity entity) {
+				PhysicsSystem ps = engine.getSystem(PhysicsSystem.class);
+				ps.updateEntities(engine);
+			}
+		});
 
-            @Override
-            public void entityRemoved(Entity entity) {
-                PhysicsSystem ps = engine.getSystem(PhysicsSystem.class);
-                ps.updateEntities(engine);
-            }
-        });
+		engine.addSystem(new RenderingSystem());
+		engine.addEntityListener(new EntityListener() {
+			@Override
+			public void entityRemoved(Entity entity) {
+				RenderingSystem rs = engine.getSystem(RenderingSystem.class);
+				rs.updateEntities(engine);
+			}
 
-        engine.addSystem(new RenderingSystem());
-        engine.addEntityListener(new EntityListener() {
-            @Override
-            public void entityRemoved(Entity entity) {
-                RenderingSystem rs = engine.getSystem(RenderingSystem.class);
-                rs.updateEntities(engine);
-            }
+			@Override
+			public void entityAdded(Entity entity) {
+				RenderingSystem rs = engine.getSystem(RenderingSystem.class);
+				rs.updateEntities(engine);
+			}
+		});
 
-            @Override
-            public void entityAdded(Entity entity) {
-                RenderingSystem rs = engine.getSystem(RenderingSystem.class);
-                rs.updateEntities(engine);
-            }
-        });
+		// Initialize stuff in the world
+		initializePlayer();
+		initializeLevel();
 
-        // Initialize stuff in the world
-        initializePlayer();
-        initializeLevel();
+		// Initialize input
+		inputHandler = new InputHandler();
+		Gdx.input.setInputProcessor(inputHandler);
+	}
 
-        // Initialize input
-        inputHandler = new InputHandler();
-        Gdx.input.setInputProcessor(inputHandler);
-    }
+	@Override
+	public void render() {
+		engine.update(Gdx.graphics.getDeltaTime());
+	}
 
-    @Override
-    public void render() {
-        engine.update(Gdx.graphics.getDeltaTime());
-    }
+	public void initializePlayer() {
+		player = new Entity();
 
-    public void initializePlayer() {
+		CRenderedObject renderedObject = new CRenderedObject();
+		Sprite player1 = SpriteLoader.loadSprite(Name.PLAYERIMG, 0, 0, 64, 64);
+		Sprite player2 = SpriteLoader.loadSprite(Name.PLAYERIMG, 1, 0, 64, 64);
+		SpriteSequence sequence = new SpriteSequence(1).addSprite(player1).addSprite(player2);
+		renderedObject.addSequence("Idle", sequence);
+		renderedObject.playAnimation("Idle");
+		player.add(renderedObject);
+		player.add(new CPhysics().setSize(player1.getRegionWidth() * Global.SPRITE_SCALE,
+				player1.getRegionHeight() * Global.SPRITE_SCALE).setPosition(0, 5));
 
-        player = new Entity();
+		engine.addEntity(player);
 
-        CRenderedObject renderedObject = new CRenderedObject();
-        Sprite player1 = SpriteLoader.loadSprite(Name.PLAYERIMG, 0, 0, 64, 64);
-        Sprite player2 = SpriteLoader.loadSprite(Name.PLAYERIMG, 1, 0, 64, 64);
-        SpriteSequence sequence = new SpriteSequence(1).addSprite(player1).addSprite(player2);
-        renderedObject.addSequence("Idle", sequence);
-        renderedObject.playAnimation("Idle");
-        player.add(renderedObject);
-        player.add(new CPhysics().setSize(player1.getRegionWidth() * Global.SPRITE_SCALE,
-                player1.getRegionHeight() * Global.SPRITE_SCALE).setPosition(0, 5));
+		AppUtil.player = player;
+	}
 
-        engine.addEntity(player);
+	public void initializeLevel() {
+		Entity ground = new Entity();
 
-        AppUtil.player = player;
-    }
+		Sprite groundSprite = SpriteLoader.loadSprite(Name.GROUNDIMG, 0, 0, 256, 64);
+		CRenderedObject renderedObject = new CRenderedObject(groundSprite);
+		ground.add(renderedObject);
+		CPhysics physics = new CPhysics().setMovable(false).setGravityApplied(false).setDynamic(false)
+				.setSize(groundSprite.getRegionWidth() * Global.SPRITE_SCALE,
+						groundSprite.getRegionHeight() * Global.SPRITE_SCALE);
+		physics.position.set(new Vector2(0, -4));
+		ground.add(physics);
 
-    public void initializeLevel() {
-        Entity ground = new Entity();
+		Sprite wallSprite = SpriteLoader.loadSprite(Name.WALLIMG, 0, 0, 64, 64);
 
-        Sprite groundSprite = SpriteLoader.loadSprite(Name.GROUNDIMG, 0, 0, 256, 64);
-        CRenderedObject renderedObject = new CRenderedObject(groundSprite);
-        ground.add(renderedObject);
-        CPhysics physics = new CPhysics().setMovable(false).setGravityApplied(false).setDynamic(false)
-                .setSize(groundSprite.getRegionWidth() * Global.SPRITE_SCALE,
-                        groundSprite.getRegionHeight() * Global.SPRITE_SCALE);
-        physics.position.set(new Vector2(0, -4));
-        ground.add(physics);
+		Entity wall0 = new Entity();
+		CRenderedObject wall0RenderedObject = new CRenderedObject(wallSprite);
+		CPhysics wall0Physics = new CPhysics().setMovable(false).setGravityApplied(false).setDynamic(false)
+				.setSize(wallSprite.getRegionWidth() * Global.SPRITE_SCALE,
+						wallSprite.getRegionHeight() * Global.SPRITE_SCALE);
+		wall0Physics.position.set(new Vector2(6, 0));
+		wall0.add(wall0RenderedObject);
+		wall0.add(wall0Physics);
 
-        Sprite wallSprite = SpriteLoader.loadSprite(Name.WALLIMG, 0, 0, 64, 64);
+		Entity wall1 = new Entity();
+		CRenderedObject wall1RenderedObject = new CRenderedObject(wallSprite);
+		CPhysics wall1Physics = new CPhysics().setMovable(false).setGravityApplied(false).setDynamic(false)
+				.setSize(wallSprite.getRegionWidth() * Global.SPRITE_SCALE,
+						wallSprite.getRegionHeight() * Global.SPRITE_SCALE);
+		wall1Physics.position.set(new Vector2(-6, 0));
+		wall1.add(wall1RenderedObject);
+		wall1.add(wall1Physics);
 
-        Entity wall0 = new Entity();
-        CRenderedObject wall0RenderedObject = new CRenderedObject(wallSprite);
-        CPhysics wall0Physics = new CPhysics().setMovable(false).setGravityApplied(false).setDynamic(false)
-                .setSize(wallSprite.getRegionWidth() * Global.SPRITE_SCALE,
-                        wallSprite.getRegionHeight() * Global.SPRITE_SCALE);
-        wall0Physics.position.set(new Vector2(6, 0));
-        wall0.add(wall0RenderedObject);
-        wall0.add(wall0Physics);
+		engine.addEntity(ground);
+		engine.addEntity(wall0);
+		engine.addEntity(wall1);
+	}
 
-        Entity wall1 = new Entity();
-        CRenderedObject wall1RenderedObject = new CRenderedObject(wallSprite);
-        CPhysics wall1Physics = new CPhysics().setMovable(false).setGravityApplied(false).setDynamic(false)
-                .setSize(wallSprite.getRegionWidth() * Global.SPRITE_SCALE,
-                        wallSprite.getRegionHeight() * Global.SPRITE_SCALE);
-        wall1Physics.position.set(new Vector2(-6, 0));
-        wall1.add(wall1RenderedObject);
-        wall1.add(wall1Physics);
-
-        engine.addEntity(ground);
-        engine.addEntity(wall0);
-        engine.addEntity(wall1);
-    }
-
-    @Override
-    public void resize(int width, int height) {
-        super.resize(width, height);
-        RenderingSystem rs = engine.getSystem(RenderingSystem.class);
-        float aspectratio = ((float) width) / ((float) height);
-        rs.setViewport((int) (AppUtil.VPHEIGHT_CONST * aspectratio), AppUtil.VPHEIGHT_CONST);
-    }
+	@Override
+	public void resize(int width, int height) {
+		super.resize(width, height);
+		RenderingSystem rs = engine.getSystem(RenderingSystem.class);
+		float aspectratio = ((float) width) / ((float) height);
+		rs.setViewport((int) (AppUtil.VPHEIGHT_CONST * aspectratio), AppUtil.VPHEIGHT_CONST);
+	}
 }
