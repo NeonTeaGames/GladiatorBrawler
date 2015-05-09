@@ -30,6 +30,9 @@ public class PhysicsSystem extends EntitySystem {
 		for (int i = 0; i < entities.size(); i++) {
 			CPhysics obj = pm.get(entities.get(i));
 
+			// Apply movement
+			obj.position.add(obj.velocity);
+
 			// Movement
 			if (obj.movable) {
 				float move = 0;
@@ -62,9 +65,6 @@ public class PhysicsSystem extends EntitySystem {
 					collision(entities.get(i), entities.get(j));
 				}
 			}
-
-			// Apply movement
-			obj.position.add(obj.velocity);
 		}
 	}
 
@@ -116,7 +116,7 @@ public class PhysicsSystem extends EntitySystem {
 				cp0.velocity.y = 0;
 			}
 			cp0.grounded = true;
-			cp0.position.y += (y11 - y00) * 1.1f;
+			cp0.position.y += y11 - y00;
 
 			if (cp0.collisionListener != null) {
 				cp0.collisionListener.collision(CollisionSide.BOTTOM, entity0, entity1);
