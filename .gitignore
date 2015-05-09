@@ -53,6 +53,7 @@ dist/
 nbdist/
 nbactions.xml
 nb-configuration.xml
+.nb-gradle/
 
 ## Gradle
 
@@ -62,3 +63,4 @@ build/
 
 ## OS Specific
 .DS_Store
+/.nb-gradle/private/
