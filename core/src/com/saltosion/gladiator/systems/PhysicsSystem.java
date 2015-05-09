@@ -7,6 +7,7 @@ import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.saltosion.gladiator.components.CPhysics;
+import com.saltosion.gladiator.physics.CollisionSide;
 
 /**
  *
@@ -54,8 +55,7 @@ public class PhysicsSystem extends EntitySystem {
                     if (i == j) {
                         continue;
                     }
-                    CPhysics other = pm.get(entities.get(j));
-                    collision(obj, other);
+                    collision(entities.get(i), entities.get(j));
                 }
             }
 
@@ -64,7 +64,10 @@ public class PhysicsSystem extends EntitySystem {
         }
     }
 
-    public void collision(CPhysics cp0, CPhysics cp1) {
+    public void collision(Entity entity0, Entity entity1) {
+        CPhysics cp0 = pm.get(entity0);
+        CPhysics cp1 = pm.get(entity1);
+
         float x00 = cp0.position.x - cp0.size.x / 2;
         float x01 = cp0.position.x + cp0.size.x / 2;
         float x10 = cp1.position.x - cp1.size.x / 2;
@@ -86,12 +89,20 @@ public class PhysicsSystem extends EntitySystem {
                 // cp0 is going left, stop
                 cp0.velocity.x = 0;
             }
+
+            if (cp0.collisionListener != null) {
+                cp0.collisionListener.collision(CollisionSide.LEFT, entity0, entity1);
+            }
         }
         if (x01 > x10 && Math.abs(x01 - x10) < (cp0.size.x + cp1.size.x) / 16) {
             // cp0's right side is colliding with cp1's left side
             if (cp0.velocity.x > 0) {
                 // cp0 is going right, stop
                 cp0.velocity.x = 0;
+            }
+
+            if (cp0.collisionListener != null) {
+                cp0.collisionListener.collision(CollisionSide.RIGHT, entity0, entity1);
             }
         }
         if (y00 <= y11 && Math.abs(y00 - y11) < (cp0.size.y + cp1.size.y) / 16) {
@@ -101,13 +112,20 @@ public class PhysicsSystem extends EntitySystem {
                 cp0.velocity.y = 0;
             }
             cp0.grounded = true;
-            //cp0.position.y -= Math.abs(y00 - y11);
+
+            if (cp0.collisionListener != null) {
+                cp0.collisionListener.collision(CollisionSide.BOTTOM, entity0, entity1);
+            }
         }
         if (y01 > y10 && Math.abs(y01 - y10) < (cp0.size.y + cp1.size.y) / 16) {
             // cp0's top side is colliding with cp1's bottom side
             if (cp0.velocity.y > 0) {
                 // cp0 is going up, stop
                 cp0.velocity.y = 0;
+            }
+
+            if (cp0.collisionListener != null) {
+                cp0.collisionListener.collision(CollisionSide.TOP, entity0, entity1);
             }
         }
     }

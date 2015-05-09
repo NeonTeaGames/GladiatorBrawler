@@ -2,6 +2,7 @@ package com.saltosion.gladiator.components;
 
 import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.math.Vector2;
+import com.saltosion.gladiator.physics.CollisionListener;
 
 public class CPhysics extends Component {
 
@@ -10,6 +11,7 @@ public class CPhysics extends Component {
     public Vector2 size = new Vector2();
     public float movespeed = 5f, jumpForce = 0.3f, gravity = 1f;
     public boolean grounded = true;
+    public CollisionListener collisionListener = null;
 
     // Movable toggles if the entity can move by itself
     public boolean movable = true;
@@ -45,6 +47,11 @@ public class CPhysics extends Component {
 
     public CPhysics setPosition(float x, float y) {
         this.position.set(x, y);
+        return this;
+    }
+
+    public CPhysics setCollisionListener(CollisionListener collisionListener) {
+        this.collisionListener = collisionListener;
         return this;
     }
 
