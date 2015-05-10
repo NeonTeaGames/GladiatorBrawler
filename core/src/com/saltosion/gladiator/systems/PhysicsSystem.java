@@ -87,6 +87,8 @@ public class PhysicsSystem extends EntitySystem {
 			return;
 		}
 
+		boolean collidedAlready = false;
+
 		if (x00 <= x11 && Math.abs(x00 - x11) < (cp0.getSize().x + cp1.getSize().x) / 16) {
 			// cp0's left side is colliding with cp1's right side
 			if (!cp0.isGhost() && !cp1.isGhost()) {
@@ -99,6 +101,7 @@ public class PhysicsSystem extends EntitySystem {
 			if (cp0.getCollisionListener() != null) {
 				cp0.getCollisionListener().collision(Direction.LEFT, entity0, entity1);
 			}
+			collidedAlready = true;
 		}
 		if (x01 > x10 && Math.abs(x01 - x10) < (cp0.getSize().x + cp1.getSize().x) / 16) {
 			// cp0's right side is colliding with cp1's left side
@@ -112,6 +115,7 @@ public class PhysicsSystem extends EntitySystem {
 			if (cp0.getCollisionListener() != null) {
 				cp0.getCollisionListener().collision(Direction.RIGHT, entity0, entity1);
 			}
+			collidedAlready = true;
 		}
 		if (y00 <= y11 && Math.abs(y00 - y11) < (cp0.getSize().y + cp1.getSize().y) / 16) {
 			// cp0's bottom side is colliding with cp1's top side
@@ -127,6 +131,7 @@ public class PhysicsSystem extends EntitySystem {
 			if (cp0.getCollisionListener() != null) {
 				cp0.getCollisionListener().collision(Direction.DOWN, entity0, entity1);
 			}
+			collidedAlready = true;
 		}
 		if (y01 > y10 && Math.abs(y01 - y10) < (cp0.getSize().y + cp1.getSize().y) / 16) {
 			// cp0's top side is colliding with cp1's bottom side
@@ -140,6 +145,10 @@ public class PhysicsSystem extends EntitySystem {
 			if (cp0.getCollisionListener() != null) {
 				cp0.getCollisionListener().collision(Direction.UP, entity0, entity1);
 			}
+			collidedAlready = true;
+		}
+		if (!collidedAlready && cp0.getCollisionListener() != null) {
+			cp0.getCollisionListener().collision(Direction.CENTRE, entity0, entity1);
 		}
 	}
 
