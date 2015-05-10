@@ -31,30 +31,20 @@ public class GladiatorBrawler extends ApplicationAdapter {
 		engine = new Engine();
 
 		engine.addSystem(new PhysicsSystem());
+		engine.addSystem(new RenderingSystem());
 		engine.addEntityListener(new EntityListener() {
 			@Override
 			public void entityAdded(Entity entity) {
 				PhysicsSystem ps = engine.getSystem(PhysicsSystem.class);
 				ps.updateEntities(engine);
-			}
-
-			@Override
-			public void entityRemoved(Entity entity) {
-				PhysicsSystem ps = engine.getSystem(PhysicsSystem.class);
-				ps.updateEntities(engine);
-			}
-		});
-
-		engine.addSystem(new RenderingSystem());
-		engine.addEntityListener(new EntityListener() {
-			@Override
-			public void entityRemoved(Entity entity) {
 				RenderingSystem rs = engine.getSystem(RenderingSystem.class);
 				rs.updateEntities(engine);
 			}
 
 			@Override
-			public void entityAdded(Entity entity) {
+			public void entityRemoved(Entity entity) {
+				PhysicsSystem ps = engine.getSystem(PhysicsSystem.class);
+				ps.updateEntities(engine);
 				RenderingSystem rs = engine.getSystem(RenderingSystem.class);
 				rs.updateEntities(engine);
 			}
@@ -94,7 +84,7 @@ public class GladiatorBrawler extends ApplicationAdapter {
 	public void initializeLevel() {
 		Entity ground = new Entity();
 
-		Sprite groundSprite = SpriteLoader.loadSprite(Name.GROUNDIMG, 0, 0, 256, 64);
+		Sprite groundSprite = SpriteLoader.loadSprite(Name.GROUNDIMG);
 		CRenderedObject renderedObject = new CRenderedObject(groundSprite);
 		ground.add(renderedObject);
 		CPhysics physics = new CPhysics().setMovable(false).setGravityApplied(false).setDynamic(false)
@@ -103,7 +93,7 @@ public class GladiatorBrawler extends ApplicationAdapter {
 		physics.position.set(new Vector2(0, -4));
 		ground.add(physics);
 
-		Sprite wallSprite = SpriteLoader.loadSprite(Name.WALLIMG, 0, 0, 64, 64);
+		Sprite wallSprite = SpriteLoader.loadSprite(Name.WALLIMG);
 
 		Entity wall0 = new Entity();
 		CRenderedObject wall0RenderedObject = new CRenderedObject(wallSprite);
