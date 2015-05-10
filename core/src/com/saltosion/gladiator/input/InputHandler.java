@@ -7,7 +7,7 @@ import com.badlogic.gdx.InputProcessor;
 import com.saltosion.gladiator.util.Name;
 
 public class InputHandler implements InputProcessor {
-	
+
 	public HashMap<Integer, String> keys = new HashMap<Integer, String>();
 
 	public InputHandler() {
@@ -18,8 +18,9 @@ public class InputHandler implements InputProcessor {
 		keys.put(Keys.RIGHT, Name.SWING_RIGHT);
 		keys.put(Keys.UP, Name.SWING_UP);
 		keys.put(Keys.DOWN, Name.SWING_DOWN);
+		keys.put(Keys.F2, Name.DEBUG);
 	}
-	
+
 	@Override
 	public boolean keyDown(int keycode) {
 		if (!keys.containsKey(keycode)) {
