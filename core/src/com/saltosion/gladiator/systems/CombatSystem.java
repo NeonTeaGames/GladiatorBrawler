@@ -12,6 +12,7 @@ import com.saltosion.gladiator.components.CCombat;
 import com.saltosion.gladiator.components.CDestructive;
 import com.saltosion.gladiator.components.CPhysics;
 import com.saltosion.gladiator.components.CRenderedObject;
+import com.saltosion.gladiator.listeners.CombatListener;
 import com.saltosion.gladiator.listeners.SwingHitboxListener;
 import com.saltosion.gladiator.util.AppUtil;
 import com.saltosion.gladiator.util.Direction;
@@ -87,6 +88,39 @@ public class CombatSystem extends EntitySystem {
 	
 	public void updateEntities(Engine engine) {
 		entities = engine.getEntitiesFor(Family.getFor(CCombat.class));
+	}
+	
+	/**
+	 * Deal <b>damage</b> to <b>target</b>. Source is optional, leave null if none.
+	 * @param source Source of the <b>damage</b>.
+	 * @param target Target to kill.
+	 * @param damage Damage taken, that was dealth to the <b>target</b>.
+	 */
+	public static void dealDamage(Entity source, Entity target, int damage) {
+		CCombat combat = target.getComponent(CCombat.class);
+		CombatListener listener = combat.getCombatListener();
+		if (listener != null) {
+			listener.damageTaken(source, damage);
+		}
+		combat.health -= damage;
+		if (combat.health <= 0) {
+			killEntity(source, target, damage);
+		}
+	}
+	
+	/**
+	 * Straight off kill the <b>target</b>.
+	 * @param source Source of the <b/>damage</b>.
+	 * @param target Target to kill.
+	 * @param damage Damage taken, that killed <b>target</b>.
+	 */
+	public static void killEntity(Entity source, Entity target, int damage) {
+		CCombat combat = target.getComponent(CCombat.class);
+		CombatListener listener = combat.getCombatListener();
+		if (listener != null) {
+			listener.died(source, damage);
+		}
+		AppUtil.engine.removeEntity(target);		
 	}
 
 }
