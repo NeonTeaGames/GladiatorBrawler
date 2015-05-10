@@ -7,7 +7,7 @@ import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.saltosion.gladiator.components.CPhysics;
-import com.saltosion.gladiator.physics.CollisionSide;
+import com.saltosion.gladiator.util.Direction;
 
 /**
  *
@@ -97,7 +97,7 @@ public class PhysicsSystem extends EntitySystem {
 			}
 
 			if (cp0.getCollisionListener() != null) {
-				cp0.getCollisionListener().collision(CollisionSide.LEFT, entity0, entity1);
+				cp0.getCollisionListener().collision(Direction.LEFT, entity0, entity1);
 			}
 		}
 		if (x01 > x10 && Math.abs(x01 - x10) < (cp0.getSize().x + cp1.getSize().x) / 16) {
@@ -110,7 +110,7 @@ public class PhysicsSystem extends EntitySystem {
 			}
 
 			if (cp0.getCollisionListener() != null) {
-				cp0.getCollisionListener().collision(CollisionSide.RIGHT, entity0, entity1);
+				cp0.getCollisionListener().collision(Direction.RIGHT, entity0, entity1);
 			}
 		}
 		if (y00 <= y11 && Math.abs(y00 - y11) < (cp0.getSize().y + cp1.getSize().y) / 16) {
@@ -125,7 +125,7 @@ public class PhysicsSystem extends EntitySystem {
 			}
 
 			if (cp0.getCollisionListener() != null) {
-				cp0.getCollisionListener().collision(CollisionSide.BOTTOM, entity0, entity1);
+				cp0.getCollisionListener().collision(Direction.DOWN, entity0, entity1);
 			}
 		}
 		if (y01 > y10 && Math.abs(y01 - y10) < (cp0.getSize().y + cp1.getSize().y) / 16) {
@@ -138,7 +138,7 @@ public class PhysicsSystem extends EntitySystem {
 			}
 
 			if (cp0.getCollisionListener() != null) {
-				cp0.getCollisionListener().collision(CollisionSide.TOP, entity0, entity1);
+				cp0.getCollisionListener().collision(Direction.UP, entity0, entity1);
 			}
 		}
 	}

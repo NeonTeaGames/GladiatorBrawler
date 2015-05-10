@@ -2,7 +2,7 @@ package com.saltosion.gladiator.components;
 
 import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.math.Vector2;
-import com.saltosion.gladiator.physics.CollisionListener;
+import com.saltosion.gladiator.util.CollisionListener;
 
 public class CPhysics extends Component {
 

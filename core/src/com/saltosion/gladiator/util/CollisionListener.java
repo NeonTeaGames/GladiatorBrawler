@@ -1,4 +1,4 @@
-package com.saltosion.gladiator.physics;
+package com.saltosion.gladiator.util;
 
 import com.badlogic.ashley.core.Entity;
 
@@ -17,6 +17,6 @@ public interface CollisionListener {
      * @param host
      * @param other
      */
-    public void collision(CollisionSide side, Entity host, Entity other);
+    public void collision(Direction side, Entity host, Entity other);
 
 }
