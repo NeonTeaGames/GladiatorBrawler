@@ -8,6 +8,7 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
+import com.saltosion.gladiator.collisionlisteners.SwingHitboxListener;
 import com.saltosion.gladiator.components.CCombat;
 import com.saltosion.gladiator.components.CDestructive;
 import com.saltosion.gladiator.components.CPhysics;
@@ -40,7 +41,6 @@ public class CombatSystem extends EntitySystem {
 			} if (combat.swingCdCounter > 0) { return; }
 			
 			// Ready to swing !
-			System.out.println("Ready to swing!");
 			
 			combat.getSwing().setZero();
 			if (combat.inputs.get(Direction.LEFT)) {
@@ -67,7 +67,6 @@ public class CombatSystem extends EntitySystem {
 				}
 				createSwingHitbox(e, pos);
 				
-				System.out.println("Swing to " + combat.getSwingDirection().toString());
 				combat.swingCdCounter = combat.getSwingCD();
 			}
 		}
@@ -80,7 +79,7 @@ public class CombatSystem extends EntitySystem {
 		e.add(new CRenderedObject(s));
 		e.add(new CPhysics().setGhost(true).setGravityApplied(false).setMovable(false)
 				.setSize(combat.getSwingSize()));
-		e.getComponent(CPhysics.class).setPosition(position);
+		e.getComponent(CPhysics.class).setPosition(position).setCollisionListener(new SwingHitboxListener(source));
 		e.add(new CDestructive(.1f));
 		AppUtil.engine.addEntity(e);
 		

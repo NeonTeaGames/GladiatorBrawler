@@ -1,6 +1,7 @@
-package com.saltosion.gladiator.util;
+package com.saltosion.gladiator.collisionlisteners;
 
 import com.badlogic.ashley.core.Entity;
+import com.saltosion.gladiator.util.Direction;
 
 /**
  *
