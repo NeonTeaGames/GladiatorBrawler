@@ -13,30 +13,50 @@ public class CPhysics extends Component {
 	public boolean grounded = true;
 	public CollisionListener collisionListener = null;
 
-	// Movable toggles if the entity can move by itself
 	public boolean movable = true;
-	// GravityApplied toggles if the entity is affected by gravity
 	public boolean gravityApplied = true;
-	// Dynamic toggles if the entity processes collisions
 	public boolean dynamic = true;
+	public boolean ghost = false;
 
 	// Movement (/input) vars
 	public boolean movingLeft = false;
 	public boolean movingRight = false;
 	public boolean jumping = false;
 
+	/**
+	 * @param movable Toggles if the entity can move by itself
+	 * @return Returns the instance this methdod was called from
+	 */
 	public CPhysics setMovable(boolean movable) {
 		this.movable = movable;
 		return this;
 	}
 
+	/**
+	 * @param gravityApplied Toggles if the entity is affected by gravity
+	 * @return Returns the instance this methdod was called from
+	 */
 	public CPhysics setGravityApplied(boolean gravityApplied) {
 		this.gravityApplied = gravityApplied;
 		return this;
 	}
 
+	/**
+	 * @param dynamic Toggles if the entity processes collisions
+	 * @return Returns the instance this methdod was called from
+	 */
 	public CPhysics setDynamic(boolean dynamic) {
 		this.dynamic = dynamic;
+		return this;
+	}
+
+	/**
+	 * @param ghost Toggles if the entity is affected by collisions (will call
+	 * collision listener anyway if dynamic == true)
+	 * @return Returns the instance this methdod was called from
+	 */
+	public CPhysics setGhost(boolean ghost) {
+		this.ghost = ghost;
 		return this;
 	}
 

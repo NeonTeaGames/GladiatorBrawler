@@ -89,9 +89,11 @@ public class PhysicsSystem extends EntitySystem {
 
 		if (x00 <= x11 && Math.abs(x00 - x11) < (cp0.size.x + cp1.size.x) / 16) {
 			// cp0's left side is colliding with cp1's right side
-			if (cp0.velocity.x < 0) {
-				// cp0 is going left, stop
-				cp0.velocity.x = 0;
+			if (!cp0.ghost && !cp1.ghost) {
+				if (cp0.velocity.x < 0) {
+					// cp0 is going left, stop
+					cp0.velocity.x = 0;
+				}
 			}
 
 			if (cp0.collisionListener != null) {
@@ -100,9 +102,11 @@ public class PhysicsSystem extends EntitySystem {
 		}
 		if (x01 > x10 && Math.abs(x01 - x10) < (cp0.size.x + cp1.size.x) / 16) {
 			// cp0's right side is colliding with cp1's left side
-			if (cp0.velocity.x > 0) {
-				// cp0 is going right, stop
-				cp0.velocity.x = 0;
+			if (!cp0.ghost && !cp1.ghost) {
+				if (cp0.velocity.x > 0) {
+					// cp0 is going right, stop
+					cp0.velocity.x = 0;
+				}
 			}
 
 			if (cp0.collisionListener != null) {
@@ -111,12 +115,14 @@ public class PhysicsSystem extends EntitySystem {
 		}
 		if (y00 <= y11 && Math.abs(y00 - y11) < (cp0.size.y + cp1.size.y) / 16) {
 			// cp0's bottom side is colliding with cp1's top side
-			if (cp0.velocity.y < 0) {
-				// cp0 is going down, stop
-				cp0.velocity.y = 0;
+			if (!cp0.ghost && !cp1.ghost) {
+				if (cp0.velocity.y < 0) {
+					// cp0 is going down, stop
+					cp0.velocity.y = 0;
+				}
+				cp0.grounded = true;
+				cp0.position.y += y11 - y00;
 			}
-			cp0.grounded = true;
-			cp0.position.y += y11 - y00;
 
 			if (cp0.collisionListener != null) {
 				cp0.collisionListener.collision(CollisionSide.BOTTOM, entity0, entity1);
@@ -124,9 +130,11 @@ public class PhysicsSystem extends EntitySystem {
 		}
 		if (y01 > y10 && Math.abs(y01 - y10) < (cp0.size.y + cp1.size.y) / 16) {
 			// cp0's top side is colliding with cp1's bottom side
-			if (cp0.velocity.y > 0) {
-				// cp0 is going up, stop
-				cp0.velocity.y = 0;
+			if (!cp0.ghost && !cp1.ghost) {
+				if (cp0.velocity.y > 0) {
+					// cp0 is going up, stop
+					cp0.velocity.y = 0;
+				}
 			}
 
 			if (cp0.collisionListener != null) {

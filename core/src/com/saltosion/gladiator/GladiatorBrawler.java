@@ -84,8 +84,7 @@ public class GladiatorBrawler extends ApplicationAdapter {
 		renderedObject.addSequence("Idle", sequence);
 		renderedObject.playAnimation("Idle");
 		player.add(renderedObject);
-		player.add(new CPhysics().setSize(player1.getRegionWidth() * Global.SPRITE_SCALE,
-				player1.getRegionHeight() * Global.SPRITE_SCALE).setPosition(0, 5));
+		player.add(new CPhysics().setSize(2, 4).setPosition(0, 5));
 
 		engine.addEntity(player);
 
