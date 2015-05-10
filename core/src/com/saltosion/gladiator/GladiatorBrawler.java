@@ -17,6 +17,7 @@ import com.saltosion.gladiator.systems.MiscManagerSystem;
 import com.saltosion.gladiator.systems.PhysicsSystem;
 import com.saltosion.gladiator.systems.RenderingSystem;
 import com.saltosion.gladiator.util.AppUtil;
+import com.saltosion.gladiator.util.Direction;
 import com.saltosion.gladiator.util.Global;
 import com.saltosion.gladiator.util.Name;
 import com.saltosion.gladiator.util.SpriteLoader;
@@ -121,6 +122,7 @@ public class GladiatorBrawler extends ApplicationAdapter {
 			
 		}));
 		engine.addEntity(dummy);
+		dummy.getComponent(CCombat.class).inputs.put(Direction.UP, true);
 	}
 
 	public void initializeLevel() {

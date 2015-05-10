@@ -39,7 +39,7 @@ public class CombatSystem extends EntitySystem {
 			
 			if (combat.swingCdCounter > 0) {
 				combat.swingCdCounter -= deltaTime;
-			} if (combat.swingCdCounter > 0) { return; }
+			} if (combat.swingCdCounter > 0) { continue; }
 			
 			// Ready to swing !
 			
