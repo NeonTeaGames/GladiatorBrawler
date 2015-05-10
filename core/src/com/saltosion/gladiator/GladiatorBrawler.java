@@ -91,7 +91,7 @@ public class GladiatorBrawler extends ApplicationAdapter {
 		renderedObject.playAnimation("Idle");
 		player.add(renderedObject);
 		player.add(new CPhysics().setSize(2, 4).setPosition(0, 5));
-		player.add(new CCombat().setBaseDamage(100).setHealth(1000).setSwingCD(.5f));
+		player.add(new CCombat().setBaseDamage(100).setHealth(1000));
 		engine.addEntity(player);
 
 		AppUtil.player = player;

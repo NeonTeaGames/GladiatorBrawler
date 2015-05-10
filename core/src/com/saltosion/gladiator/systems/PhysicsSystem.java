@@ -6,6 +6,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.utils.ImmutableArray;
+import com.saltosion.gladiator.components.CCombat;
 import com.saltosion.gladiator.components.CPhysics;
 import com.saltosion.gladiator.util.Direction;
 
@@ -17,6 +18,7 @@ public class PhysicsSystem extends EntitySystem {
 
 	private static final float MAX_VEL = 0.5f;
 	private ComponentMapper<CPhysics> pm = ComponentMapper.getFor(CPhysics.class);
+	private ComponentMapper<CCombat> cm = ComponentMapper.getFor(CCombat.class);
 	private ImmutableArray<Entity> entities;
 
 	@Override
@@ -29,6 +31,7 @@ public class PhysicsSystem extends EntitySystem {
 		deltaTime = Math.min(deltaTime, 0.033f);
 		for (int i = 0; i < entities.size(); i++) {
 			CPhysics obj = pm.get(entities.get(i));
+			CCombat combat = cm.get(entities.get(i));
 
 			// Apply movement
 			obj.getPosition().add(obj.getVelocity());
@@ -43,6 +46,11 @@ public class PhysicsSystem extends EntitySystem {
 					move++;
 				}
 				obj.getVelocity().x = move * obj.getMovespeed() * deltaTime;
+				if (combat != null) {
+					if (combat.swingCdCounter > 0) {
+						obj.getVelocity().x /= 2;
+					}
+				}
 				if (obj.jumping && obj.isGrounded()) {
 					obj.setGrounded(false);
 					obj.getVelocity().y = obj.getJumpForce();

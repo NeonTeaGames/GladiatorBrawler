@@ -16,7 +16,7 @@ public class CCombat extends Component {
 	private CombatListener combatListener;
 	
 	private Vector2 swinging = new Vector2();
-	private float swingCd = 0;
+	private float swingDuration = 0.4f;
 	public float swingCdCounter = 0;
 
 	public HashMap<Direction, Boolean> inputs = new HashMap<Direction, Boolean>();
@@ -50,7 +50,7 @@ public class CCombat extends Component {
 	}
 	
 	public CCombat setSwingCD(float cd) {
-		this.swingCd = cd;
+		this.swingDuration = cd;
 		return this;
 	}
 	
@@ -83,8 +83,8 @@ public class CCombat extends Component {
 		return randomdamage;
 	}
 	
-	public float getSwingCD() {
-		return this.swingCd;
+	public float getSwingDuration() {
+		return this.swingDuration;
 	}
 	
 	public Vector2 getSwing() {

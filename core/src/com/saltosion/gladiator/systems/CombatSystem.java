@@ -68,7 +68,7 @@ public class CombatSystem extends EntitySystem {
 				}
 				createSwingHitbox(e, pos);
 				
-				combat.swingCdCounter = combat.getSwingCD();
+				combat.swingCdCounter = combat.getSwingDuration();
 			}
 		}
 	}
@@ -81,7 +81,7 @@ public class CombatSystem extends EntitySystem {
 		e.add(new CPhysics().setGhost(true).setGravityApplied(false).setMovable(false)
 				.setSize(combat.getSwingSize()));
 		e.getComponent(CPhysics.class).setPosition(position).setCollisionListener(new SwingHitboxListener(source));
-		e.add(new CDestructive(.1f));
+		e.add(new CDestructive(combat.getSwingDuration()/2));
 		AppUtil.engine.addEntity(e);
 		
 	}
