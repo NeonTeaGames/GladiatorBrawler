@@ -6,15 +6,15 @@ import com.saltosion.gladiator.util.CollisionListener;
 
 public class CPhysics extends Component {
 
-	private Vector2 position = new Vector2();
-	private Vector2 velocity = new Vector2();
-	private Vector2 size = new Vector2();
+	private final Vector2 position = new Vector2();
+	private final Vector2 velocity = new Vector2();
+	private final Vector2 size = new Vector2();
 	private float movespeed = 5f, jumpForce = 0.5f, gravity = 1f;
 	private CollisionListener collisionListener = null;
 
 	private boolean movable = true;
 	private boolean gravityApplied = true;
-	private boolean dynamic = true;
+	private boolean processCollisions = true;
 	private boolean ghost = false;
 	private boolean grounded = true;
 
@@ -42,11 +42,11 @@ public class CPhysics extends Component {
 	}
 
 	/**
-	 * @param dynamic Toggles if the entity processes collisions
+	 * @param processCollisions Toggles if the entity processes collisions
 	 * @return Returns the instance this methdod was called from
 	 */
-	public CPhysics setDynamic(boolean dynamic) {
-		this.dynamic = dynamic;
+	public CPhysics setProcessCollisions(boolean processCollisions) {
+		this.processCollisions = processCollisions;
 		return this;
 	}
 
@@ -64,7 +64,7 @@ public class CPhysics extends Component {
 		this.size.set(w, h);
 		return this;
 	}
-	
+
 	public CPhysics setSize(Vector2 size) {
 		this.size.set(size);
 		return this;
@@ -74,66 +74,82 @@ public class CPhysics extends Component {
 		this.position.set(x, y);
 		return this;
 	}
-	
+
 	public CPhysics setPosition(Vector2 pos) {
 		this.position.set(pos);
 		return this;
+	}
+
+	public CPhysics setMoveSpeed(float movespeed) {
+		this.movespeed = movespeed;
+		return this;
+	}
+
+	public CPhysics setJumpForce(float jumpForce) {
+		this.jumpForce = jumpForce;
+		return this;
+	}
+
+	public CPhysics setGravity(float gravity) {
+		this.gravity = gravity;
+		return this;
+
 	}
 
 	public CPhysics setCollisionListener(CollisionListener collisionListener) {
 		this.collisionListener = collisionListener;
 		return this;
 	}
-	
+
 	public CPhysics setGrounded(boolean grounded) {
 		this.grounded = grounded;
 		return this;
 	}
-	
+
 	public Vector2 getPosition() {
 		return this.position;
 	}
-	
+
 	public Vector2 getVelocity() {
 		return this.velocity;
 	}
-	
+
 	public Vector2 getSize() {
 		return this.size;
 	}
-	
+
 	public float getMovespeed() {
 		return this.movespeed;
 	}
-	
+
 	public float getJumpForce() {
 		return this.jumpForce;
 	}
-	
+
 	public float getGravity() {
 		return this.gravity;
 	}
-	
+
 	public CollisionListener getCollisionListener() {
 		return this.collisionListener;
 	}
-	
+
 	public boolean isMovable() {
 		return this.movable;
 	}
-	
+
 	public boolean isGravityApplied() {
 		return this.gravityApplied;
 	}
-	
-	public boolean isDynamic() {
-		return this.dynamic;
+
+	public boolean isProcessCollisions() {
+		return this.processCollisions;
 	}
-	
+
 	public boolean isGhost() {
 		return this.ghost;
 	}
-	
+
 	public boolean isGrounded() {
 		return this.grounded;
 	}

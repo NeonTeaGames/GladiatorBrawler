@@ -57,7 +57,7 @@ public class PhysicsSystem extends EntitySystem {
 			obj.getVelocity().y = Math.max(Math.min(obj.getVelocity().y, MAX_VEL), -MAX_VEL);
 
 			// Collisions
-			if (obj.isDynamic()) {
+			if (obj.isProcessCollisions()) {
 				for (int j = 0; j < entities.size(); j++) {
 					if (i == j) {
 						continue;
