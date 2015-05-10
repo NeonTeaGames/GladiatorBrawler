@@ -11,6 +11,7 @@ import com.saltosion.gladiator.components.CCombat;
 import com.saltosion.gladiator.components.CPhysics;
 import com.saltosion.gladiator.components.CRenderedObject;
 import com.saltosion.gladiator.input.InputHandler;
+import com.saltosion.gladiator.listeners.CombatListener;
 import com.saltosion.gladiator.systems.CombatSystem;
 import com.saltosion.gladiator.systems.MiscManagerSystem;
 import com.saltosion.gladiator.systems.PhysicsSystem;
@@ -66,6 +67,7 @@ public class GladiatorBrawler extends ApplicationAdapter {
 
 		// Initialize stuff in the world
 		initializePlayer();
+		initializeTestDummy();
 		initializeLevel();
 
 		// Initialize input
@@ -93,6 +95,32 @@ public class GladiatorBrawler extends ApplicationAdapter {
 		engine.addEntity(player);
 
 		AppUtil.player = player;
+	}
+	
+	public void initializeTestDummy() {
+		Entity dummy = new Entity();
+		CRenderedObject renderedObject = new CRenderedObject();
+		Sprite player1 = SpriteLoader.loadSprite(Name.PLAYERIMG, 0, 0, 64, 64);
+		Sprite player2 = SpriteLoader.loadSprite(Name.PLAYERIMG, 1, 0, 64, 64);
+		SpriteSequence sequence = new SpriteSequence(1).addSprite(player1).addSprite(player2);
+		renderedObject.addSequence("Idle", sequence);
+		renderedObject.playAnimation("Idle");
+		dummy.add(renderedObject);
+		dummy.add(new CPhysics().setSize(2, 4).setPosition(-6, 5));
+		dummy.add(new CCombat().setBaseDamage(100).setHealth(1000).setSwingCD(.5f).setCombatListener(
+				new CombatListener() {
+					@Override
+					public void died(Entity source, int damageTaken) {
+						System.out.println("Nooooo! I died! I will revenge this!");
+					}
+
+					@Override
+					public void damageTaken(Entity source, int damageTaken) {
+						System.out.println(String.format("I took %d damage! Damnit!", damageTaken));
+					}
+			
+		}));
+		engine.addEntity(dummy);
 	}
 
 	public void initializeLevel() {

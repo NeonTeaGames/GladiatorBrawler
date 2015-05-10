@@ -16,6 +16,7 @@ public class SpriteLoader {
         loadTexture(Name.PLAYERIMG, "sprites/player/player.png");
         loadTexture(Name.GROUNDIMG, "sprites/ground.png");
         loadTexture(Name.WALLIMG, "sprites/wall.png");
+        loadTexture(Name.SWINGHITBOXIMG, "sprites/swinghitbox.png");
     }
 
     /**

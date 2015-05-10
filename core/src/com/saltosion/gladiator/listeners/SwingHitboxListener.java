@@ -1,10 +1,11 @@
-package com.saltosion.gladiator.collisionlisteners;
+package com.saltosion.gladiator.listeners;
 
 import java.util.ArrayList;
 
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.saltosion.gladiator.components.CCombat;
+import com.saltosion.gladiator.systems.CombatSystem;
 import com.saltosion.gladiator.util.Direction;
 
 public class SwingHitboxListener implements CollisionListener {
@@ -26,12 +27,10 @@ public class SwingHitboxListener implements CollisionListener {
 		
 		CCombat otherCombat = cm.get(other);
 		if (otherCombat == null) {
-			System.out.println("This entity doesn't have combat!");
 			return;
 		}
-		int damage = cm.get(source).getDamage();
-		otherCombat.health -= damage;
-		System.out.println("Entity was hit for " + damage + " damage!");
+		int damage = cm.get(source).getDamage();		
+		CombatSystem.dealDamage(source, other, damage);
 	}
 
 }

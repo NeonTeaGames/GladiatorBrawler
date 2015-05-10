@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.math.Vector2;
+import com.saltosion.gladiator.listeners.CombatListener;
 import com.saltosion.gladiator.util.Direction;
 
 public class CCombat extends Component {
@@ -11,7 +12,8 @@ public class CCombat extends Component {
 	public int health = 0;
 	private int maxHealth = 0;
 	private int damage = 0;
-	private Vector2 swingsize = new Vector2(4, 4);
+	private Vector2 swingsize = new Vector2(4, 3);
+	private CombatListener combatListener;
 	
 	private Vector2 swinging = new Vector2();
 	private float swingCd = 0;
@@ -62,6 +64,11 @@ public class CCombat extends Component {
 		return this;
 	}
 	
+	public CCombat setCombatListener(CombatListener listener) {
+		this.combatListener = listener;
+		return this;
+	}
+	
 	public int getMaxHealth() {
 		return this.maxHealth;
 	}
@@ -99,5 +106,9 @@ public class CCombat extends Component {
 	
 	public Vector2 getSwingSize() {
 		return this.swingsize;
+	}
+	
+	public CombatListener getCombatListener() {
+		return this.combatListener;
 	}
 }
