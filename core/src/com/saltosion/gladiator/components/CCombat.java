@@ -11,7 +11,7 @@ public class CCombat extends Component {
 	public int health = 0;
 	private int maxHealth = 0;
 	private int damage = 0;
-	private Vector2 swingsize = new Vector2(4, 4);
+	private Vector2 swingsize = new Vector2(4, 3);
 	
 	private Vector2 swinging = new Vector2();
 	private float swingCd = 0;

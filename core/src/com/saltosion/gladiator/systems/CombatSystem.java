@@ -57,13 +57,13 @@ public class CombatSystem extends EntitySystem {
 				Vector2 pos = obj.getPosition().cpy();
 
 				if (combat.getSwingDirection() == Direction.LEFT) {
-					pos.add(-2, 0);
+					pos.add(-combat.getSwingSize().x/2, 0);
 				} else if (combat.getSwingDirection() == Direction.RIGHT) {
-					pos.add(2, 0);
+					pos.add(combat.getSwingSize().x/2, 0);
 				} else if (combat.getSwingDirection() == Direction.UP) {
-					pos.add(0, 2);
+					pos.add(0, combat.getSwingSize().y);
 				} else if (combat.getSwingDirection() == Direction.DOWN) {
-					pos.add(0, -2);	
+					pos.add(0, -combat.getSwingSize().y/3*2);	
 				}
 				createSwingHitbox(e, pos);
 				
@@ -75,7 +75,7 @@ public class CombatSystem extends EntitySystem {
 	public void createSwingHitbox(Entity source, Vector2 position) {
 		Entity e = new Entity();
 		CCombat combat = cm.get(source);
-		Sprite s = SpriteLoader.loadSprite(Name.WALLIMG);
+		Sprite s = SpriteLoader.loadSprite(Name.SWINGHITBOXIMG);
 		e.add(new CRenderedObject(s));
 		e.add(new CPhysics().setGhost(true).setGravityApplied(false).setMovable(false)
 				.setSize(combat.getSwingSize()));

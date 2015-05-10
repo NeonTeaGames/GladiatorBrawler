@@ -8,6 +8,7 @@ public class Name {
     public static final String PLAYERIMG = "PLAYERIMG";
     public static final String GROUNDIMG = "GROUNDIMG";
     public static final String WALLIMG = "WALLIMG";
+    public static final String SWINGHITBOXIMG = "SWINGHITBOXIMG";
 
     public static final String MOVE_LEFT = "MOVE_LEFT";
     public static final String MOVE_RIGHT = "MOVE_RIGHT";
