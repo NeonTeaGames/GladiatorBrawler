@@ -7,9 +7,12 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
+import com.saltosion.gladiator.components.CCombat;
 import com.saltosion.gladiator.components.CPhysics;
 import com.saltosion.gladiator.components.CRenderedObject;
 import com.saltosion.gladiator.input.InputHandler;
+import com.saltosion.gladiator.systems.CombatSystem;
+import com.saltosion.gladiator.systems.MiscManagerSystem;
 import com.saltosion.gladiator.systems.PhysicsSystem;
 import com.saltosion.gladiator.systems.RenderingSystem;
 import com.saltosion.gladiator.util.AppUtil;
@@ -29,9 +32,12 @@ public class GladiatorBrawler extends ApplicationAdapter {
 	public void create() {
 		// Initialize the Engine
 		engine = new Engine();
+		AppUtil.engine = engine;
 
 		engine.addSystem(new PhysicsSystem());
 		engine.addSystem(new RenderingSystem());
+		engine.addSystem(new CombatSystem());
+		engine.addSystem(new MiscManagerSystem());
 		engine.addEntityListener(new EntityListener() {
 			@Override
 			public void entityAdded(Entity entity) {
@@ -39,6 +45,10 @@ public class GladiatorBrawler extends ApplicationAdapter {
 				ps.updateEntities(engine);
 				RenderingSystem rs = engine.getSystem(RenderingSystem.class);
 				rs.updateEntities(engine);
+				CombatSystem cs = engine.getSystem(CombatSystem.class);
+				cs.updateEntities(engine);
+				MiscManagerSystem mms = engine.getSystem(MiscManagerSystem.class);
+				mms.updateEntities(engine);
 			}
 
 			@Override
@@ -47,6 +57,10 @@ public class GladiatorBrawler extends ApplicationAdapter {
 				ps.updateEntities(engine);
 				RenderingSystem rs = engine.getSystem(RenderingSystem.class);
 				rs.updateEntities(engine);
+				CombatSystem cs = engine.getSystem(CombatSystem.class);
+				cs.updateEntities(engine);
+				MiscManagerSystem mms = engine.getSystem(MiscManagerSystem.class);
+				mms.updateEntities(engine);
 			}
 		});
 
@@ -75,7 +89,7 @@ public class GladiatorBrawler extends ApplicationAdapter {
 		renderedObject.playAnimation("Idle");
 		player.add(renderedObject);
 		player.add(new CPhysics().setSize(2, 4).setPosition(0, 5));
-
+		player.add(new CCombat().setBaseDamage(100).setHealth(1000).setSwingCD(.5f));
 		engine.addEntity(player);
 
 		AppUtil.player = player;

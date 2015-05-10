@@ -1,19 +1,65 @@
 package com.saltosion.gladiator.components;
 
+import java.util.HashMap;
+
 import com.badlogic.ashley.core.Component;
+import com.badlogic.gdx.math.Vector2;
+import com.saltosion.gladiator.util.Direction;
 
 public class CCombat extends Component {
 	
-	private int health = 0;
+	public int health = 0;
 	private int maxHealth = 0;
 	private int damage = 0;
+	private Vector2 swingsize = new Vector2(4, 4);
 	
-	public boolean swinging = false;
-	private float swingCdCounter = 0;
+	private Vector2 swinging = new Vector2();
 	private float swingCd = 0;
+	public float swingCdCounter = 0;
+
+	public HashMap<Direction, Boolean> inputs = new HashMap<Direction, Boolean>();
 	
-	public int getHealth() {
-		return this.health;
+	public CCombat() {
+		this.inputs.put(Direction.UP, false);
+		this.inputs.put(Direction.DOWN, false);
+		this.inputs.put(Direction.LEFT, false);
+		this.inputs.put(Direction.RIGHT, false);
+	}
+	
+	public CCombat setBaseDamage(int basedmg) {
+		this.damage = basedmg;
+		return this;
+	}
+	
+	/**
+	 * Sets max health for entity and replenishes health.
+	 * @param health
+	 * @return
+	 */
+	public CCombat setHealth(int health) {
+		this.health = health;
+		this.maxHealth = health;
+		return this;
+	}
+	
+	public CCombat setMaxHealth(int maxHealth) {
+		this.maxHealth = maxHealth;
+		return this;
+	}
+	
+	public CCombat setSwingCD(float cd) {
+		this.swingCd = cd;
+		return this;
+	}
+	
+	public CCombat setSwinging(Vector2 swingdir) {
+		this.swinging = swingdir;
+		return this;
+	}
+	
+	public CCombat setSwingSize(Vector2 swingsize) {
+		this.swingsize = swingsize;
+		return this;
 	}
 	
 	public int getMaxHealth() {
@@ -30,31 +76,28 @@ public class CCombat extends Component {
 		return randomdamage;
 	}
 	
-	public float getSwingCDCounter() {
-		return this.swingCdCounter;
-	}
-	
 	public float getSwingCD() {
 		return this.swingCd;
 	}
 	
-	public CCombat setBaseDamage(int basedmg) {
-		this.damage = basedmg;
-		return this;
+	public Vector2 getSwing() {
+		return this.swinging;
 	}
 	
-	public CCombat setCurrHealth(int health) {
-		this.health = health;
-		return this;
+	public Direction getSwingDirection() {
+		if (swinging.x > 0) {
+			return Direction.RIGHT;
+		} else if (swinging.x < 0) {
+			return Direction.LEFT;
+		} else if (swinging.y > 0) {
+			return Direction.UP;
+		} else if (swinging.y < 0) {
+			return Direction.DOWN;
+		}
+		return null;
 	}
 	
-	public CCombat setMaxHealth(int maxHealth) {
-		this.maxHealth = maxHealth;
-		return this;
-	}
-	
-	public CCombat setSwingCD(float cd) {
-		this.swingCd = cd;
-		return this;
+	public Vector2 getSwingSize() {
+		return this.swingsize;
 	}
 }

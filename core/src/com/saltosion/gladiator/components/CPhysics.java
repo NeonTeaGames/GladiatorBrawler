@@ -64,9 +64,19 @@ public class CPhysics extends Component {
 		this.size.set(w, h);
 		return this;
 	}
+	
+	public CPhysics setSize(Vector2 size) {
+		this.size.set(size);
+		return this;
+	}
 
 	public CPhysics setPosition(float x, float y) {
 		this.position.set(x, y);
+		return this;
+	}
+	
+	public CPhysics setPosition(Vector2 pos) {
+		this.position.set(pos);
 		return this;
 	}
 

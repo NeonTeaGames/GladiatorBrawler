@@ -18,6 +18,6 @@ public class IRMoveRight implements InputReceiver {
 	public boolean released() {
 		CPhysics physics = AppUtil.player.getComponent(CPhysics.class);
 		physics.movingRight = false;
-		return false;
+		return true;
 	}
 }

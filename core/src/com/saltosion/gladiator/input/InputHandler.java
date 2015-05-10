@@ -14,6 +14,10 @@ public class InputHandler implements InputProcessor {
 		keys.put(Keys.A, Name.MOVE_LEFT);
 		keys.put(Keys.D, Name.MOVE_RIGHT);
 		keys.put(Keys.SPACE, Name.JUMP);
+		keys.put(Keys.LEFT, Name.SWING_LEFT);
+		keys.put(Keys.RIGHT, Name.SWING_RIGHT);
+		keys.put(Keys.UP, Name.SWING_UP);
+		keys.put(Keys.DOWN, Name.SWING_DOWN);
 	}
 	
 	@Override
