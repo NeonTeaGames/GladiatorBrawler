@@ -90,7 +90,7 @@ public class GladiatorBrawler extends ApplicationAdapter {
 		CPhysics physics = new CPhysics().setMovable(false).setGravityApplied(false).setDynamic(false)
 				.setSize(groundSprite.getRegionWidth() * Global.SPRITE_SCALE,
 						groundSprite.getRegionHeight() * Global.SPRITE_SCALE);
-		physics.position.set(new Vector2(0, -4));
+		physics.getPosition().set(new Vector2(0, -4));
 		ground.add(physics);
 
 		Sprite wallSprite = SpriteLoader.loadSprite(Name.WALLIMG);
@@ -100,7 +100,7 @@ public class GladiatorBrawler extends ApplicationAdapter {
 		CPhysics wall0Physics = new CPhysics().setMovable(false).setGravityApplied(false).setDynamic(false)
 				.setSize(wallSprite.getRegionWidth() * Global.SPRITE_SCALE,
 						wallSprite.getRegionHeight() * Global.SPRITE_SCALE);
-		wall0Physics.position.set(new Vector2(6, 0));
+		wall0Physics.getPosition().set(new Vector2(6, 0));
 		wall0.add(wall0RenderedObject);
 		wall0.add(wall0Physics);
 
@@ -109,7 +109,7 @@ public class GladiatorBrawler extends ApplicationAdapter {
 		CPhysics wall1Physics = new CPhysics().setMovable(false).setGravityApplied(false).setDynamic(false)
 				.setSize(wallSprite.getRegionWidth() * Global.SPRITE_SCALE,
 						wallSprite.getRegionHeight() * Global.SPRITE_SCALE);
-		wall1Physics.position.set(new Vector2(-6, 0));
+		wall1Physics.getPosition().set(new Vector2(-6, 0));
 		wall1.add(wall1RenderedObject);
 		wall1.add(wall1Physics);
 

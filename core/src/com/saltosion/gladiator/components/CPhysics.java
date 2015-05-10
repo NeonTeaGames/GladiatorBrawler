@@ -6,17 +6,17 @@ import com.saltosion.gladiator.physics.CollisionListener;
 
 public class CPhysics extends Component {
 
-	public Vector2 position = new Vector2();
-	public Vector2 velocity = new Vector2();
-	public Vector2 size = new Vector2();
-	public float movespeed = 5f, jumpForce = 0.5f, gravity = 1f;
-	public boolean grounded = true;
-	public CollisionListener collisionListener = null;
+	private Vector2 position = new Vector2();
+	private Vector2 velocity = new Vector2();
+	private Vector2 size = new Vector2();
+	private float movespeed = 5f, jumpForce = 0.5f, gravity = 1f;
+	private CollisionListener collisionListener = null;
 
-	public boolean movable = true;
-	public boolean gravityApplied = true;
-	public boolean dynamic = true;
-	public boolean ghost = false;
+	private boolean movable = true;
+	private boolean gravityApplied = true;
+	private boolean dynamic = true;
+	private boolean ghost = false;
+	private boolean grounded = true;
 
 	// Movement (/input) vars
 	public boolean movingLeft = false;
@@ -73,6 +73,59 @@ public class CPhysics extends Component {
 	public CPhysics setCollisionListener(CollisionListener collisionListener) {
 		this.collisionListener = collisionListener;
 		return this;
+	}
+	
+	public CPhysics setGrounded(boolean grounded) {
+		this.grounded = grounded;
+		return this;
+	}
+	
+	public Vector2 getPosition() {
+		return this.position;
+	}
+	
+	public Vector2 getVelocity() {
+		return this.velocity;
+	}
+	
+	public Vector2 getSize() {
+		return this.size;
+	}
+	
+	public float getMovespeed() {
+		return this.movespeed;
+	}
+	
+	public float getJumpForce() {
+		return this.jumpForce;
+	}
+	
+	public float getGravity() {
+		return this.gravity;
+	}
+	
+	public CollisionListener getCollisionListener() {
+		return this.collisionListener;
+	}
+	
+	public boolean isMovable() {
+		return this.movable;
+	}
+	
+	public boolean isGravityApplied() {
+		return this.gravityApplied;
+	}
+	
+	public boolean isDynamic() {
+		return this.dynamic;
+	}
+	
+	public boolean isGhost() {
+		return this.ghost;
+	}
+	
+	public boolean isGrounded() {
+		return this.grounded;
 	}
 
 }

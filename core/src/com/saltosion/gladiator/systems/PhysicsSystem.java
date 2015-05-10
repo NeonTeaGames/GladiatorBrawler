@@ -31,10 +31,10 @@ public class PhysicsSystem extends EntitySystem {
 			CPhysics obj = pm.get(entities.get(i));
 
 			// Apply movement
-			obj.position.add(obj.velocity);
+			obj.getPosition().add(obj.getVelocity());
 
 			// Movement
-			if (obj.movable) {
+			if (obj.isMovable()) {
 				float move = 0;
 				if (obj.movingLeft) {
 					move--;
@@ -42,22 +42,22 @@ public class PhysicsSystem extends EntitySystem {
 				if (obj.movingRight) {
 					move++;
 				}
-				obj.velocity.x = move * obj.movespeed * deltaTime;
-				if (obj.jumping && obj.grounded) {
-					obj.grounded = false;
-					obj.velocity.y = obj.jumpForce;
+				obj.getVelocity().x = move * obj.getMovespeed() * deltaTime;
+				if (obj.jumping && obj.isGrounded()) {
+					obj.setGrounded(false);
+					obj.getVelocity().y = obj.getJumpForce();
 				}
 			}
 
 			// Gravity
-			if (obj.gravityApplied) {
-				obj.velocity.y -= obj.gravity * deltaTime;
+			if (obj.isGravityApplied()) {
+				obj.getVelocity().y -= obj.getGravity() * deltaTime;
 			}
 
-			obj.velocity.y = Math.max(Math.min(obj.velocity.y, MAX_VEL), -MAX_VEL);
+			obj.getVelocity().y = Math.max(Math.min(obj.getVelocity().y, MAX_VEL), -MAX_VEL);
 
 			// Collisions
-			if (obj.dynamic) {
+			if (obj.isDynamic()) {
 				for (int j = 0; j < entities.size(); j++) {
 					if (i == j) {
 						continue;
@@ -72,14 +72,14 @@ public class PhysicsSystem extends EntitySystem {
 		CPhysics cp0 = pm.get(entity0);
 		CPhysics cp1 = pm.get(entity1);
 
-		float x00 = cp0.position.x - cp0.size.x / 2;
-		float x01 = cp0.position.x + cp0.size.x / 2;
-		float x10 = cp1.position.x - cp1.size.x / 2;
-		float x11 = cp1.position.x + cp1.size.x / 2;
-		float y00 = cp0.position.y - cp0.size.y / 2;
-		float y01 = cp0.position.y + cp0.size.y / 2;
-		float y10 = cp1.position.y - cp1.size.y / 2;
-		float y11 = cp1.position.y + cp1.size.y / 2;
+		float x00 = cp0.getPosition().x - cp0.getSize().x / 2;
+		float x01 = cp0.getPosition().x + cp0.getSize().x / 2;
+		float x10 = cp1.getPosition().x - cp1.getSize().x / 2;
+		float x11 = cp1.getPosition().x + cp1.getSize().x / 2;
+		float y00 = cp0.getPosition().y - cp0.getSize().y / 2;
+		float y01 = cp0.getPosition().y + cp0.getSize().y / 2;
+		float y10 = cp1.getPosition().y - cp1.getSize().y / 2;
+		float y11 = cp1.getPosition().y + cp1.getSize().y / 2;
 
 		boolean colliding = (x00 < x11) && (x01 > x10) && (y00 < y11) && (y01 > y10);
 
@@ -87,58 +87,58 @@ public class PhysicsSystem extends EntitySystem {
 			return;
 		}
 
-		if (x00 <= x11 && Math.abs(x00 - x11) < (cp0.size.x + cp1.size.x) / 16) {
+		if (x00 <= x11 && Math.abs(x00 - x11) < (cp0.getSize().x + cp1.getSize().x) / 16) {
 			// cp0's left side is colliding with cp1's right side
-			if (!cp0.ghost && !cp1.ghost) {
-				if (cp0.velocity.x < 0) {
+			if (!cp0.isGhost() && !cp1.isGhost()) {
+				if (cp0.getVelocity().x < 0) {
 					// cp0 is going left, stop
-					cp0.velocity.x = 0;
+					cp0.getVelocity().x = 0;
 				}
 			}
 
-			if (cp0.collisionListener != null) {
-				cp0.collisionListener.collision(CollisionSide.LEFT, entity0, entity1);
+			if (cp0.getCollisionListener() != null) {
+				cp0.getCollisionListener().collision(CollisionSide.LEFT, entity0, entity1);
 			}
 		}
-		if (x01 > x10 && Math.abs(x01 - x10) < (cp0.size.x + cp1.size.x) / 16) {
+		if (x01 > x10 && Math.abs(x01 - x10) < (cp0.getSize().x + cp1.getSize().x) / 16) {
 			// cp0's right side is colliding with cp1's left side
-			if (!cp0.ghost && !cp1.ghost) {
-				if (cp0.velocity.x > 0) {
+			if (!cp0.isGhost() && !cp1.isGhost()) {
+				if (cp0.getVelocity().x > 0) {
 					// cp0 is going right, stop
-					cp0.velocity.x = 0;
+					cp0.getVelocity().x = 0;
 				}
 			}
 
-			if (cp0.collisionListener != null) {
-				cp0.collisionListener.collision(CollisionSide.RIGHT, entity0, entity1);
+			if (cp0.getCollisionListener() != null) {
+				cp0.getCollisionListener().collision(CollisionSide.RIGHT, entity0, entity1);
 			}
 		}
-		if (y00 <= y11 && Math.abs(y00 - y11) < (cp0.size.y + cp1.size.y) / 16) {
+		if (y00 <= y11 && Math.abs(y00 - y11) < (cp0.getSize().y + cp1.getSize().y) / 16) {
 			// cp0's bottom side is colliding with cp1's top side
-			if (!cp0.ghost && !cp1.ghost) {
-				if (cp0.velocity.y < 0) {
+			if (!cp0.isGhost() && !cp1.isGhost()) {
+				if (cp0.getVelocity().y < 0) {
 					// cp0 is going down, stop
-					cp0.velocity.y = 0;
+					cp0.getVelocity().y = 0;
 				}
-				cp0.grounded = true;
-				cp0.position.y += y11 - y00;
+				cp0.setGrounded(true);
+				cp0.getPosition().y += y11 - y00;
 			}
 
-			if (cp0.collisionListener != null) {
-				cp0.collisionListener.collision(CollisionSide.BOTTOM, entity0, entity1);
+			if (cp0.getCollisionListener() != null) {
+				cp0.getCollisionListener().collision(CollisionSide.BOTTOM, entity0, entity1);
 			}
 		}
-		if (y01 > y10 && Math.abs(y01 - y10) < (cp0.size.y + cp1.size.y) / 16) {
+		if (y01 > y10 && Math.abs(y01 - y10) < (cp0.getSize().y + cp1.getSize().y) / 16) {
 			// cp0's top side is colliding with cp1's bottom side
-			if (!cp0.ghost && !cp1.ghost) {
-				if (cp0.velocity.y > 0) {
+			if (!cp0.isGhost() && !cp1.isGhost()) {
+				if (cp0.getVelocity().y > 0) {
 					// cp0 is going up, stop
-					cp0.velocity.y = 0;
+					cp0.getVelocity().y = 0;
 				}
 			}
 
-			if (cp0.collisionListener != null) {
-				cp0.collisionListener.collision(CollisionSide.TOP, entity0, entity1);
+			if (cp0.getCollisionListener() != null) {
+				cp0.getCollisionListener().collision(CollisionSide.TOP, entity0, entity1);
 			}
 		}
 	}

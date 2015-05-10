@@ -42,7 +42,7 @@ public class RenderingSystem extends EntitySystem {
 	@Override
 	public void update(float deltaTime) {
 		CPhysics phys = pm.get(AppUtil.player);
-		camera.position.set(phys.position.x, phys.position.y, 0);
+		camera.position.set(phys.getPosition().x, phys.getPosition().y, 0);
 		camera.update();
 
 		Gdx.gl.glClearColor(0, 0, 0, 0);
@@ -60,8 +60,8 @@ public class RenderingSystem extends EntitySystem {
 			int spriteHeight = currSprite.getRegionHeight();
 			int spriteWidth = currSprite.getRegionWidth();
 			
-			currSprite.setPosition(physics.position.x-spriteWidth/2, 
-					physics.position.y-spriteHeight/2);
+			currSprite.setPosition(physics.getPosition().x-spriteWidth/2, 
+					physics.getPosition().y-spriteHeight/2);
 			currSprite.draw(batch);
 			
 			float nextFrame = renderedObject.getCurrentFrame() + deltaTime*currSequence.getPlayspeed();
