@@ -66,6 +66,7 @@ public class GladiatorBrawler extends ApplicationAdapter {
 
 		// Initialize stuff in the world
 		initializePlayer();
+		initializeTestDummy();
 		initializeLevel();
 
 		// Initialize input
@@ -93,6 +94,20 @@ public class GladiatorBrawler extends ApplicationAdapter {
 		engine.addEntity(player);
 
 		AppUtil.player = player;
+	}
+	
+	public void initializeTestDummy() {
+		Entity dummy = new Entity();
+		CRenderedObject renderedObject = new CRenderedObject();
+		Sprite player1 = SpriteLoader.loadSprite(Name.PLAYERIMG, 0, 0, 64, 64);
+		Sprite player2 = SpriteLoader.loadSprite(Name.PLAYERIMG, 1, 0, 64, 64);
+		SpriteSequence sequence = new SpriteSequence(1).addSprite(player1).addSprite(player2);
+		renderedObject.addSequence("Idle", sequence);
+		renderedObject.playAnimation("Idle");
+		dummy.add(renderedObject);
+		dummy.add(new CPhysics().setSize(2, 4).setPosition(-6, 5));
+		dummy.add(new CCombat().setBaseDamage(100).setHealth(1000).setSwingCD(.5f));
+		engine.addEntity(dummy);
 	}
 
 	public void initializeLevel() {
