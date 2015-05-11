@@ -188,6 +188,7 @@ public class GladiatorBrawler extends ApplicationAdapter {
 		super.resize(width, height);
 		RenderingSystem rs = engine.getSystem(RenderingSystem.class);
 		float aspectratio = ((float) width) / ((float) height);
+		rs.aspectratio = aspectratio;
 		rs.setViewport((int) (AppUtil.VPHEIGHT_CONST * aspectratio), AppUtil.VPHEIGHT_CONST);
 	}
 }

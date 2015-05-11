@@ -54,6 +54,10 @@ public class GUINode {
 		return this;
 	}
 	
+	public ArrayList<GUINode> getChildren() {
+		return this.children;
+	}
+	
 	public Vector2 getPosition() {
 		return this.position;
 	}
