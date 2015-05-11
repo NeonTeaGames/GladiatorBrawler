@@ -17,8 +17,9 @@ import com.saltosion.gladiator.util.Direction;
 public class PhysicsSystem extends EntitySystem {
 
 	private static final float MAX_VEL = 0.5f;
-	private ComponentMapper<CPhysics> pm = ComponentMapper.getFor(CPhysics.class);
-	private ComponentMapper<CCombat> cm = ComponentMapper.getFor(CCombat.class);
+
+	private static final ComponentMapper<CPhysics> pm = ComponentMapper.getFor(CPhysics.class);
+	private static final ComponentMapper<CCombat> cm = ComponentMapper.getFor(CCombat.class);
 	private ImmutableArray<Entity> entities;
 
 	@Override

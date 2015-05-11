@@ -80,6 +80,16 @@ public class CPhysics extends Component {
 		return this;
 	}
 
+	public CPhysics setVelocity(float x, float y) {
+		this.velocity.set(x, y);
+		return this;
+	}
+
+	public CPhysics setVelocity(Vector2 pos) {
+		this.velocity.set(pos);
+		return this;
+	}
+
 	public CPhysics setMoveSpeed(float movespeed) {
 		this.movespeed = movespeed;
 		return this;

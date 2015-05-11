@@ -8,6 +8,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
+import com.saltosion.gladiator.components.CAI;
 import com.saltosion.gladiator.components.CCombat;
 import com.saltosion.gladiator.components.CPhysics;
 import com.saltosion.gladiator.components.CRenderedObject;
@@ -15,6 +16,8 @@ import com.saltosion.gladiator.gui.ButtonNode;
 import com.saltosion.gladiator.gui.GUIManager;
 import com.saltosion.gladiator.input.InputHandler;
 import com.saltosion.gladiator.listeners.CombatListener;
+import com.saltosion.gladiator.listeners.ai.DummyAI;
+import com.saltosion.gladiator.systems.AISystem;
 import com.saltosion.gladiator.systems.CombatSystem;
 import com.saltosion.gladiator.systems.MiscManagerSystem;
 import com.saltosion.gladiator.systems.PhysicsSystem;
@@ -45,6 +48,7 @@ public class GladiatorBrawler extends ApplicationAdapter {
 		engine.addSystem(new RenderingSystem());
 		engine.addSystem(new CombatSystem());
 		engine.addSystem(new MiscManagerSystem());
+		engine.addSystem(new AISystem());
 		engine.addEntityListener(new EntityListener() {
 			@Override
 			public void entityAdded(Entity entity) {
@@ -56,6 +60,8 @@ public class GladiatorBrawler extends ApplicationAdapter {
 				cs.updateEntities(engine);
 				MiscManagerSystem mms = engine.getSystem(MiscManagerSystem.class);
 				mms.updateEntities(engine);
+				AISystem ais = engine.getSystem(AISystem.class);
+				ais.updateEntities(engine);
 			}
 
 			@Override
@@ -68,6 +74,8 @@ public class GladiatorBrawler extends ApplicationAdapter {
 				cs.updateEntities(engine);
 				MiscManagerSystem mms = engine.getSystem(MiscManagerSystem.class);
 				mms.updateEntities(engine);
+				AISystem ais = engine.getSystem(AISystem.class);
+				ais.updateEntities(engine);
 			}
 		});
 
@@ -75,7 +83,7 @@ public class GladiatorBrawler extends ApplicationAdapter {
 		guiManager = new GUIManager();
 		AppUtil.guiManager = this.guiManager;
 		initializeTestGUI();
-		
+
 		// Initialize stuff in the world
 		initializePlayer();
 		initializeTestDummy();
@@ -107,7 +115,7 @@ public class GladiatorBrawler extends ApplicationAdapter {
 
 		AppUtil.player = player;
 	}
-	
+
 	public void initializeTestDummy() {
 		Entity dummy = new Entity();
 		CRenderedObject renderedObject = new CRenderedObject();
@@ -129,8 +137,9 @@ public class GladiatorBrawler extends ApplicationAdapter {
 					public void damageTaken(Entity source, int damageTaken) {
 						System.out.println(String.format("I took %d damage! Damnit!", damageTaken));
 					}
-			
-		}));
+
+				}));
+		dummy.add(new CAI().setReactDistance(5).setAIListener(new DummyAI()));
 		engine.addEntity(dummy);
 		dummy.getComponent(CCombat.class).inputs.put(Direction.UP, true);
 	}
@@ -171,7 +180,7 @@ public class GladiatorBrawler extends ApplicationAdapter {
 		engine.addEntity(wall0);
 		engine.addEntity(wall1);
 	}
-	
+
 	public void initializeTestGUI() {
 		Sprite img1 = SpriteLoader.loadSprite(Name.WALLIMG, 0, 0, 32, 64);
 		Sprite img2 = SpriteLoader.loadSprite(Name.WALLIMG, 1, 0, 32, 64);
