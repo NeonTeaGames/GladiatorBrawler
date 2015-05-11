@@ -54,6 +54,7 @@ nbdist/
 nbactions.xml
 nb-configuration.xml
 .nb-gradle/
+.nb-gradle-properties
 
 ## Gradle
 
