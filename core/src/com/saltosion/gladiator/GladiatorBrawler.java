@@ -5,11 +5,14 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntityListener;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.saltosion.gladiator.components.CCombat;
 import com.saltosion.gladiator.components.CPhysics;
 import com.saltosion.gladiator.components.CRenderedObject;
+import com.saltosion.gladiator.gui.ButtonNode;
+import com.saltosion.gladiator.gui.GUIManager;
 import com.saltosion.gladiator.input.InputHandler;
 import com.saltosion.gladiator.listeners.CombatListener;
 import com.saltosion.gladiator.systems.CombatSystem;
@@ -19,6 +22,7 @@ import com.saltosion.gladiator.systems.RenderingSystem;
 import com.saltosion.gladiator.util.AppUtil;
 import com.saltosion.gladiator.util.Direction;
 import com.saltosion.gladiator.util.Global;
+import com.saltosion.gladiator.util.Log;
 import com.saltosion.gladiator.util.Name;
 import com.saltosion.gladiator.util.SpriteLoader;
 import com.saltosion.gladiator.util.SpriteSequence;
@@ -26,6 +30,7 @@ import com.saltosion.gladiator.util.SpriteSequence;
 public class GladiatorBrawler extends ApplicationAdapter {
 
 	private Engine engine;
+	private GUIManager guiManager;
 	private InputHandler inputHandler;
 
 	private Entity player;
@@ -66,6 +71,11 @@ public class GladiatorBrawler extends ApplicationAdapter {
 			}
 		});
 
+		// Initialize GUI
+		guiManager = new GUIManager();
+		AppUtil.guiManager = this.guiManager;
+		initializeTestGUI();
+		
 		// Initialize stuff in the world
 		initializePlayer();
 		initializeTestDummy();
@@ -160,6 +170,17 @@ public class GladiatorBrawler extends ApplicationAdapter {
 		engine.addEntity(ground);
 		engine.addEntity(wall0);
 		engine.addEntity(wall1);
+	}
+	
+	public void initializeTestGUI() {
+		Sprite img = SpriteLoader.loadSprite(Name.GROUNDIMG);
+		ButtonNode button = new ButtonNode("test-button", img, img) {
+			@Override
+			public void click(float x, float y, Input.Buttons mouseButton) {
+				Log.info("I should never be pressed!");
+			}
+		};
+		guiManager.getRootNode().addChild(button);
 	}
 
 	@Override
