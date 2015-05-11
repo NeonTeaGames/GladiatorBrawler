@@ -56,12 +56,30 @@ public class InputHandler implements InputProcessor {
 
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		return false;
+		for (String id : hoveredUIElements) {
+			for (GUINode node : AppUtil.guiManager.getAllRecursiveChildren(AppUtil.guiManager.getRootNode())) {
+				if (node.getID().equals(id)) {
+					if (node instanceof InteractiveNode) {
+						((InteractiveNode) node).pressed(screenX, screenY, button);
+					}
+				}
+			}
+		}
+		return true;
 	}
 
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-		return false;
+		for (String id : hoveredUIElements) {
+			for (GUINode node : AppUtil.guiManager.getAllRecursiveChildren(AppUtil.guiManager.getRootNode())) {
+				if (node.getID().equals(id)) {
+					if (node instanceof InteractiveNode) {
+						((InteractiveNode) node).released(screenX, screenY, button);
+					}
+				}
+			}
+		}
+		return true;
 	}
 
 	@Override
@@ -92,18 +110,18 @@ public class InputHandler implements InputProcessor {
 							continue;
 						}
 						hoveredUIElements.add(node.getID());
-						interactiveNode.mouseEnter(x, y);
+						interactiveNode.mouseEnter(screenX, screenY);
 					} else {
 						if (!hoveredUIElements.contains(node.getID(), false)) {
 							continue;
 						}
 						hoveredUIElements.removeValue(node.getID(), false);
-						interactiveNode.mouseLeave(x, y);
+						interactiveNode.mouseLeave(screenX, screenY);
 					}
 				}
 			}
 		}
-		return false;
+		return true;
 	}
 
 	@Override

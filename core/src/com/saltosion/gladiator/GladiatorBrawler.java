@@ -6,6 +6,7 @@ import com.badlogic.ashley.core.EntityListener;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.saltosion.gladiator.components.CAI;
@@ -187,8 +188,15 @@ public class GladiatorBrawler extends ApplicationAdapter {
 		System.out.println(img1.getRegionHeight() + " - " + img1.getRegionWidth());
 		ButtonNode button = new ButtonNode("test-button", img1, img2) {
 			@Override
-			public void click(float x, float y, Input.Buttons mouseButton) {
-				Log.info("I should never be pressed!");
+			public void pressed(int x, int y, int mouseButton) {
+				Log.info("I should never be pressed against my will!");
+				
+			}
+
+			@Override
+			public void released(int x, int y, int mouseButton) {
+				Log.info("And now I was even released! Blasphemy!");			
+				
 			}
 		};
 		button.setPosition(0.12f, 0.5f);
