@@ -37,7 +37,10 @@ public class RenderingSystem extends EntitySystem {
 	private BitmapFont font;
 	private ShapeRenderer debugRenderer;
 	private OrthographicCamera camera;
-	public float aspectratio;
+	
+	public static float aspectratio;
+	public static int screenHeight = 0;
+	public static int screenWidth = 0;
 
 	private boolean debug = true;
 	private final Color debugColor = new Color(0, 1, 0, 1);
@@ -115,7 +118,7 @@ public class RenderingSystem extends EntitySystem {
 		position.add(node.getPosition());
 		if (node instanceof ImageNode) {
 			Sprite s = ((ImageNode) node).getImage();
-			s.setPosition(position.x*AppUtil.VPHEIGHT_CONST*aspectratio-s.getWidth()/2+camera.position.x, 
+			s.setPosition(position.x*AppUtil.VPHEIGHT_CONST*aspectratio-s.getWidth()/2+camera.position.x,
 					position.y*AppUtil.VPHEIGHT_CONST-s.getHeight()/2+camera.position.y);
 			s.draw(batch);
 		}

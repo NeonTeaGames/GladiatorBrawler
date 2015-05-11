@@ -175,6 +175,7 @@ public class GladiatorBrawler extends ApplicationAdapter {
 	public void initializeTestGUI() {
 		Sprite img1 = SpriteLoader.loadSprite(Name.WALLIMG, 0, 0, 32, 64);
 		Sprite img2 = SpriteLoader.loadSprite(Name.WALLIMG, 1, 0, 32, 64);
+		System.out.println(img1.getRegionHeight() + " - " + img1.getRegionWidth());
 		ButtonNode button = new ButtonNode("test-button", img1, img2) {
 			@Override
 			public void click(float x, float y, Input.Buttons mouseButton) {
@@ -188,6 +189,8 @@ public class GladiatorBrawler extends ApplicationAdapter {
 	@Override
 	public void resize(int width, int height) {
 		super.resize(width, height);
+		RenderingSystem.screenHeight = height;
+		RenderingSystem.screenWidth = width;
 		RenderingSystem rs = engine.getSystem(RenderingSystem.class);
 		float aspectratio = ((float) width) / ((float) height);
 		rs.aspectratio = aspectratio;
