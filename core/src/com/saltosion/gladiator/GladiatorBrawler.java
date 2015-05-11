@@ -173,13 +173,15 @@ public class GladiatorBrawler extends ApplicationAdapter {
 	}
 	
 	public void initializeTestGUI() {
-		Sprite img = SpriteLoader.loadSprite(Name.GROUNDIMG);
-		ButtonNode button = new ButtonNode("test-button", img, img) {
+		Sprite img1 = SpriteLoader.loadSprite(Name.WALLIMG, 0, 0, 32, 64);
+		Sprite img2 = SpriteLoader.loadSprite(Name.WALLIMG, 1, 0, 32, 64);
+		ButtonNode button = new ButtonNode("test-button", img1, img2) {
 			@Override
 			public void click(float x, float y, Input.Buttons mouseButton) {
 				Log.info("I should never be pressed!");
 			}
 		};
+		button.setPosition(0.12f, 0.5f);
 		guiManager.getRootNode().addChild(button);
 	}
 

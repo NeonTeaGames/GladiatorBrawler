@@ -21,7 +21,10 @@ import com.saltosion.gladiator.components.CRenderedObject;
 import com.saltosion.gladiator.gui.GUINode;
 import com.saltosion.gladiator.gui.ImageNode;
 import com.saltosion.gladiator.util.AppUtil;
+import com.saltosion.gladiator.util.Global;
 import com.saltosion.gladiator.util.Log;
+import com.saltosion.gladiator.util.Name;
+import com.saltosion.gladiator.util.SpriteLoader;
 import com.saltosion.gladiator.util.SpriteSequence;
 
 public class RenderingSystem extends EntitySystem {
@@ -84,7 +87,7 @@ public class RenderingSystem extends EntitySystem {
 			float nextFrame = renderedObject.getCurrentFrame() + deltaTime * currSequence.getPlayspeed();
 			renderedObject.setCurrentFrame(nextFrame % currSequence.frameCount());
 		}
-		renderGUINode(AppUtil.guiManager.getRootNode(), Vector2.Zero);
+		renderGUINode(AppUtil.guiManager.getRootNode(), new Vector2(0, 0));
 		
 		batch.end();
 
@@ -111,10 +114,9 @@ public class RenderingSystem extends EntitySystem {
 	public void renderGUINode(GUINode node, Vector2 position) {
 		position.add(node.getPosition());
 		if (node instanceof ImageNode) {
-			Log.info("Node found with ImageNode");
 			Sprite s = ((ImageNode) node).getImage();
-			s.setPosition(position.x*AppUtil.VPHEIGHT_CONST*aspectratio+camera.position.x, 
-					position.y*AppUtil.VPHEIGHT_CONST+camera.position.y);
+			s.setPosition(position.x*AppUtil.VPHEIGHT_CONST*aspectratio-s.getWidth()/2+camera.position.x, 
+					position.y*AppUtil.VPHEIGHT_CONST-s.getHeight()/2+camera.position.y);
 			s.draw(batch);
 		}
 		for (GUINode child : node.getChildren()) {
