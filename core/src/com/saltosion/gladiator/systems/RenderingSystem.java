@@ -16,6 +16,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.saltosion.gladiator.components.CPhysics;
 import com.saltosion.gladiator.components.CRenderedObject;
 import com.saltosion.gladiator.gui.GUINode;
@@ -137,6 +138,10 @@ public class RenderingSystem extends EntitySystem {
 
 	public void setDebug(boolean debug) {
 		this.debug = debug;
+	}
+	
+	public Vector2 getCameraLocation() {
+		return new Vector2(this.camera.position.x, this.camera.position.y);
 	}
 
 }

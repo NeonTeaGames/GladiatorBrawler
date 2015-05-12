@@ -41,6 +41,8 @@ public class GladiatorBrawler extends ApplicationAdapter {
 
 	@Override
 	public void create() {
+		Log.info("Starting up the game");
+		
 		// Initialize the Engine
 		engine = new Engine();
 		AppUtil.engine = engine;
@@ -93,11 +95,13 @@ public class GladiatorBrawler extends ApplicationAdapter {
 		// Initialize input
 		inputHandler = new InputHandler();
 		Gdx.input.setInputProcessor(inputHandler);
+		
+		Log.info("Successfully started the game.");
 	}
 
 	@Override
 	public void render() {
-		engine.update(Gdx.graphics.getDeltaTime());
+		engine.update(Gdx.graphics.getDeltaTime());		
 	}
 
 	public void initializePlayer() {
@@ -185,7 +189,6 @@ public class GladiatorBrawler extends ApplicationAdapter {
 	public void initializeTestGUI() {
 		Sprite img1 = SpriteLoader.loadSprite(Name.WALLIMG, 0, 0, 32, 64);
 		Sprite img2 = SpriteLoader.loadSprite(Name.WALLIMG, 1, 0, 32, 64);
-		System.out.println(img1.getRegionHeight() + " - " + img1.getRegionWidth());
 		ButtonNode button = new ButtonNode("test-button", img1, img2) {
 			@Override
 			public void pressed(int x, int y, int mouseButton) {

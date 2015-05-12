@@ -12,6 +12,7 @@ import com.saltosion.gladiator.gui.InteractiveNode;
 import com.saltosion.gladiator.systems.RenderingSystem;
 import com.saltosion.gladiator.util.AppUtil;
 import com.saltosion.gladiator.util.Global;
+import com.saltosion.gladiator.util.Log;
 import com.saltosion.gladiator.util.Name;
 
 public class InputHandler implements InputProcessor {
@@ -57,13 +58,11 @@ public class InputHandler implements InputProcessor {
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 		for (String id : hoveredUIElements) {
-			for (GUINode node : AppUtil.guiManager.getAllRecursiveChildren(AppUtil.guiManager.getRootNode())) {
-				if (node.getID().equals(id)) {
-					if (node instanceof InteractiveNode) {
-						((InteractiveNode) node).pressed(screenX, screenY, button);
-					}
-				}
-			}
+			GUINode node = AppUtil.guiManager.getNode(id);
+			
+			if (node instanceof InteractiveNode) {
+				((InteractiveNode) node).pressed(screenX, screenY, button);
+			} else { Log.error("Attempted to call 'pressed' on a non-interactive node!"); }
 		}
 		return true;
 	}
@@ -71,13 +70,11 @@ public class InputHandler implements InputProcessor {
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
 		for (String id : hoveredUIElements) {
-			for (GUINode node : AppUtil.guiManager.getAllRecursiveChildren(AppUtil.guiManager.getRootNode())) {
-				if (node.getID().equals(id)) {
-					if (node instanceof InteractiveNode) {
-						((InteractiveNode) node).released(screenX, screenY, button);
-					}
-				}
-			}
+			GUINode node = AppUtil.guiManager.getNode(id);
+			
+			if (node instanceof InteractiveNode) {
+				((InteractiveNode) node).released(screenX, screenY, button);
+			} else { Log.error("Attempted to call 'released' on a non-interactive node!"); }
 		}
 		return true;
 	}
