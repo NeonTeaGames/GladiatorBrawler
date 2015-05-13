@@ -9,7 +9,7 @@ public class CPhysics extends Component {
 	private final Vector2 position = new Vector2();
 	private final Vector2 velocity = new Vector2();
 	private final Vector2 size = new Vector2();
-	private float movespeed = 5f, jumpForce = 0.5f, gravity = 1f;
+	private float movespeed = 7.5f, jumpForce = 35f, gravity = 100f;
 	private CollisionListener collisionListener = null;
 
 	private boolean movable = true;
