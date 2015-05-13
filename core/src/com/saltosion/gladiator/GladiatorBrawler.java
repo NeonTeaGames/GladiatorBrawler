@@ -5,8 +5,6 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntityListener;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.saltosion.gladiator.components.CAI;
@@ -42,7 +40,7 @@ public class GladiatorBrawler extends ApplicationAdapter {
 	@Override
 	public void create() {
 		Log.info("Starting up the game");
-		
+
 		// Initialize the Engine
 		engine = new Engine();
 		AppUtil.engine = engine;
@@ -95,13 +93,13 @@ public class GladiatorBrawler extends ApplicationAdapter {
 		// Initialize input
 		inputHandler = new InputHandler();
 		Gdx.input.setInputProcessor(inputHandler);
-		
+
 		Log.info("Successfully started the game.");
 	}
 
 	@Override
 	public void render() {
-		engine.update(Gdx.graphics.getDeltaTime());		
+		engine.update(Gdx.graphics.getDeltaTime());
 	}
 
 	public void initializePlayer() {
@@ -193,13 +191,13 @@ public class GladiatorBrawler extends ApplicationAdapter {
 			@Override
 			public void pressed(int x, int y, int mouseButton) {
 				Log.info("I should never be pressed against my will!");
-				
+
 			}
 
 			@Override
 			public void released(int x, int y, int mouseButton) {
-				Log.info("And now I was even released! Blasphemy!");			
-				
+				Log.info("And now I was even released! Blasphemy!");
+
 			}
 		};
 		button.setPosition(0.12f, 0.5f);
@@ -213,7 +211,7 @@ public class GladiatorBrawler extends ApplicationAdapter {
 		RenderingSystem.screenWidth = width;
 		RenderingSystem rs = engine.getSystem(RenderingSystem.class);
 		float aspectratio = ((float) width) / ((float) height);
-		rs.aspectratio = aspectratio;
+		RenderingSystem.aspectratio = aspectratio;
 		rs.setViewport((int) (AppUtil.VPHEIGHT_CONST * aspectratio), AppUtil.VPHEIGHT_CONST);
 	}
 }
