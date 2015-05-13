@@ -11,10 +11,6 @@ import com.saltosion.gladiator.components.CCombat;
 import com.saltosion.gladiator.components.CPhysics;
 import java.util.ArrayList;
 
-/**
- *
- * @author Jens "Jeasonfire" Pitkänen <jeasonfire@gmail.com>
- */
 public class AISystem extends EntitySystem {
 
 	private static final ComponentMapper<CPhysics> pm = ComponentMapper.getFor(CPhysics.class);

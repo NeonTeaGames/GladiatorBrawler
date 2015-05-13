@@ -8,10 +8,6 @@ import com.saltosion.gladiator.listeners.AIListener;
 import com.saltosion.gladiator.util.Direction;
 import java.util.ArrayList;
 
-/**
- *
- * @author Jens "Jeasonfire" Pitkänen <jeasonfire@gmail.com>
- */
 public class DummyAI implements AIListener {
 
 	private static final ComponentMapper<CPhysics> pm = ComponentMapper.getFor(CPhysics.class);

@@ -3,10 +3,6 @@ package com.saltosion.gladiator.components;
 import com.badlogic.ashley.core.Component;
 import com.saltosion.gladiator.listeners.AIListener;
 
-/**
- *
- * @author Jens "Jeasonfire" Pitkänen <jeasonfire@gmail.com>
- */
 public class CAI extends Component {
 
 	private AIListener listener;

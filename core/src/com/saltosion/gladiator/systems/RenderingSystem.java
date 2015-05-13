@@ -21,8 +21,11 @@ import com.saltosion.gladiator.components.CPhysics;
 import com.saltosion.gladiator.components.CRenderedObject;
 import com.saltosion.gladiator.gui.GUINode;
 import com.saltosion.gladiator.gui.ImageNode;
+import com.saltosion.gladiator.gui.TextNode;
+import com.saltosion.gladiator.gui.TextProperty;
 import com.saltosion.gladiator.util.AppUtil;
 import com.saltosion.gladiator.util.Global;
+import com.saltosion.gladiator.util.Log;
 import com.saltosion.gladiator.util.SpriteSequence;
 import java.util.ArrayList;
 import java.util.List;
@@ -54,7 +57,7 @@ public class RenderingSystem extends EntitySystem {
 		batch = new SpriteBatch();
 
 		font = new BitmapFont(Gdx.files.internal("fonts/roman.fnt"));
-		font.setUseIntegerPositions(true);
+		font.setUseIntegerPositions(false);
 
 		debugRenderer = new ShapeRenderer();
 
@@ -77,20 +80,20 @@ public class RenderingSystem extends EntitySystem {
 		CPhysics phys = pm.get(AppUtil.player);
 		camera.position.set(phys.getPosition().x, phys.getPosition().y, 0);
 		camera.update();
-		fontCamera.position.set(phys.getPosition().x * Global.FONT_SCALE, phys.getPosition().y * Global.FONT_SCALE, 0);
+		fontCamera.position.set(camera.position.x * Global.FONT_SCALE, camera.position.y * Global.FONT_SCALE, 0);
 		fontCamera.update();
 
 		Gdx.gl.glClearColor(0, 0, 0, 0);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		batch.setProjectionMatrix(camera.combined);
 
 		renderEntities(deltaTime);
-		renderGUI(Vector2.Zero);
+		renderGUI(new Vector2(0, 0));
 		renderDebug(camera);
 		renderFont(fontCamera);
 	}
 
 	private void renderEntities(float deltaTime) {
+		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
 		for (int i = 0; i < entities.size(); i++) {
 			CRenderedObject renderedObject = rom.get(entities.get(i));
@@ -114,6 +117,7 @@ public class RenderingSystem extends EntitySystem {
 	}
 
 	private void renderGUI(Vector2 rootPosition) {
+		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
 		renderGUINode(AppUtil.guiManager.getRootNode(), rootPosition);
 		batch.end();
@@ -127,8 +131,14 @@ public class RenderingSystem extends EntitySystem {
 					position.y * AppUtil.VPHEIGHT_CONST - s.getHeight() / 2 + camera.position.y);
 			s.draw(batch);
 		}
+		if (node instanceof TextNode) {
+			Log.info("X: " + position.x);
+			Log.info("Y: " + position.y);
+			drawString(((TextProperty) node).getText(), new Vector2(position.x * AppUtil.VPHEIGHT_CONST * aspectratio + camera.position.x,
+					position.y * AppUtil.VPHEIGHT_CONST + camera.position.y));
+		}
 		for (GUINode child : node.getChildren()) {
-			renderGUINode(child, position);
+			renderGUINode(child, new Vector2(position));
 		}
 	}
 
@@ -164,7 +174,7 @@ public class RenderingSystem extends EntitySystem {
 		batch.setProjectionMatrix(fontCamera.combined);
 		batch.begin();
 		for (TextObject obj : drawableText) {
-			font.draw(batch, obj.text, obj.position.x / Global.FONT_SCALE, obj.position.y / Global.FONT_SCALE);
+			font.draw(batch, obj.text, obj.position.x * Global.FONT_SCALE, obj.position.y * Global.FONT_SCALE);
 		}
 		drawableText.clear();
 		batch.end();

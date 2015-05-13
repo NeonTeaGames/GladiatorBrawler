@@ -10,10 +10,6 @@ import com.saltosion.gladiator.components.CCombat;
 import com.saltosion.gladiator.components.CPhysics;
 import com.saltosion.gladiator.util.Direction;
 
-/**
- *
- * @author Jens "Jeasonfire" Pitkänen <jeasonfire@gmail.com>
- */
 public class PhysicsSystem extends EntitySystem {
 
 	private static final float MAX_VEL = 0.5f;

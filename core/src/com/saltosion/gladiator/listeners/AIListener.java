@@ -3,10 +3,6 @@ package com.saltosion.gladiator.listeners;
 import com.badlogic.ashley.core.Entity;
 import java.util.ArrayList;
 
-/**
- *
- * @author Jens "Jeasonfire" Pitkänen <jeasonfire@gmail.com>
- */
 public interface AIListener {
 
 	/**

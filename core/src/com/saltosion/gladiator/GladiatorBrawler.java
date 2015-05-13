@@ -13,6 +13,9 @@ import com.saltosion.gladiator.components.CPhysics;
 import com.saltosion.gladiator.components.CRenderedObject;
 import com.saltosion.gladiator.gui.ButtonNode;
 import com.saltosion.gladiator.gui.GUIManager;
+import com.saltosion.gladiator.gui.GUINode;
+import com.saltosion.gladiator.gui.TextNode;
+import com.saltosion.gladiator.gui.TextProperty;
 import com.saltosion.gladiator.input.InputHandler;
 import com.saltosion.gladiator.listeners.CombatListener;
 import com.saltosion.gladiator.listeners.ai.DummyAI;
@@ -202,6 +205,10 @@ public class GladiatorBrawler extends ApplicationAdapter {
 		};
 		button.setPosition(0.12f, 0.5f);
 		guiManager.getRootNode().addChild(button);
+
+		TextNode text = new TextNode("test-text", "Test!");
+		text.setPosition(0.01f, 0.99f);
+		guiManager.getRootNode().addChild(text);
 	}
 
 	@Override
