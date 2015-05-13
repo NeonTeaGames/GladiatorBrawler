@@ -207,7 +207,7 @@ public class GladiatorBrawler extends ApplicationAdapter {
 		guiManager.getRootNode().addChild(button);
 
 		TextNode text = new TextNode("test-text", "Test!");
-		text.setPosition(0.01f, 0.99f);
+		text.setPosition(0.8f, 0.5f);
 		guiManager.getRootNode().addChild(text);
 	}
 

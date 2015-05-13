@@ -89,6 +89,8 @@ public class RenderingSystem extends EntitySystem {
 		renderEntities(deltaTime);
 		renderGUI(new Vector2(0, 0));
 		renderDebug(camera);
+
+		drawString("FPS: " + Gdx.graphics.getFramesPerSecond(), new Vector2(camera.position.x - 12, camera.position.y + 8));
 		renderFont(fontCamera);
 	}
 
@@ -132,8 +134,6 @@ public class RenderingSystem extends EntitySystem {
 			s.draw(batch);
 		}
 		if (node instanceof TextNode) {
-			Log.info("X: " + position.x);
-			Log.info("Y: " + position.y);
 			drawString(((TextProperty) node).getText(), new Vector2(position.x * AppUtil.VPHEIGHT_CONST * aspectratio + camera.position.x,
 					position.y * AppUtil.VPHEIGHT_CONST + camera.position.y));
 		}
