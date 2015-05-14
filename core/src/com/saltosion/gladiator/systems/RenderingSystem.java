@@ -99,21 +99,23 @@ public class RenderingSystem extends EntitySystem {
 		batch.begin();
 		for (int i = 0; i < entities.size(); i++) {
 			CRenderedObject renderedObject = rom.get(entities.get(i));
-			SpriteSequence currSequence = renderedObject.getSequence(renderedObject.getCurrentSequence());
-			int currFrame = (int) Math.floor(renderedObject.getCurrentFrame());
-			Sprite currSprite = currSequence.getSprite(currFrame);
-
-			CPhysics physics = pm.get(entities.get(i));
-
-			int spriteHeight = currSprite.getRegionHeight();
-			int spriteWidth = currSprite.getRegionWidth();
-
-			currSprite.setPosition(physics.getPosition().x - spriteWidth / 2,
-					physics.getPosition().y - spriteHeight / 2);
-			currSprite.draw(batch);
-
-			float nextFrame = renderedObject.getCurrentFrame() + deltaTime * currSequence.getPlayspeed();
-			renderedObject.setCurrentFrame(nextFrame % currSequence.frameCount());
+			for (String channel : renderedObject.getChannels()) {
+				SpriteSequence currSequence = renderedObject.getSequence(renderedObject.getCurrentSequence(channel));
+				int currFrame = (int) Math.floor(renderedObject.getCurrentFrame(channel));
+				Sprite currSprite = currSequence.getSprite(currFrame);
+	
+				CPhysics physics = pm.get(entities.get(i));
+	
+				int spriteHeight = currSprite.getRegionHeight();
+				int spriteWidth = currSprite.getRegionWidth();
+	
+				currSprite.setPosition(physics.getPosition().x - spriteWidth / 2,
+						physics.getPosition().y - spriteHeight / 2);
+				currSprite.draw(batch);
+	
+				float nextFrame = renderedObject.getCurrentFrame() + deltaTime * currSequence.getPlayspeed();
+				renderedObject.setCurrentFrame(nextFrame % currSequence.frameCount());
+			}
 		}
 		batch.end();
 	}
