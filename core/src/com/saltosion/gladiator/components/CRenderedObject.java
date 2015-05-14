@@ -102,6 +102,15 @@ public class CRenderedObject extends Component {
 	public void playAnimation(String key, int startingframe) {
 		playAnimation("default", key, startingframe);
 	}
+
+	/**
+	 * Plays animation on "channelName" starting on frame 0
+	 * @param channelName channel name
+	 * @param key animation name
+	 */
+	public void playAnimation(String channelName, String key) {
+		playAnimation(channelName, key, 0);
+	}
 	
 	public void addChannel(String channelName) {
 		Set<String> sequences = spritesequences.keySet();	

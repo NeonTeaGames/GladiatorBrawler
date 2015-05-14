@@ -113,8 +113,8 @@ public class RenderingSystem extends EntitySystem {
 						physics.getPosition().y - spriteHeight / 2);
 				currSprite.draw(batch);
 	
-				float nextFrame = renderedObject.getCurrentFrame() + deltaTime * currSequence.getPlayspeed();
-				renderedObject.setCurrentFrame(nextFrame % currSequence.frameCount());
+				float nextFrame = renderedObject.getCurrentFrame(channel) + deltaTime * currSequence.getPlayspeed();
+				renderedObject.setCurrentFrame(channel, nextFrame % currSequence.frameCount());
 			}
 		}
 		batch.end();

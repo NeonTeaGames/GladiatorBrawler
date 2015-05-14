@@ -62,9 +62,9 @@ public class CombatSystem extends EntitySystem {
 				} else if (combat.getSwingDirection() == Direction.RIGHT) {
 					pos.add(combat.getSwingSize().x/2, 0);
 				} else if (combat.getSwingDirection() == Direction.UP) {
-					pos.add(0, combat.getSwingSize().y);
+					pos.add(0, combat.getSwingSize().y/3*2);
 				} else if (combat.getSwingDirection() == Direction.DOWN) {
-					pos.add(0, -combat.getSwingSize().y/3*2);	
+					pos.add(0, -combat.getSwingSize().y/3*2);
 				}
 				createSwingHitbox(e, pos);
 				

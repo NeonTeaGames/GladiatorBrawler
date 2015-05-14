@@ -109,11 +109,18 @@ public class GladiatorBrawler extends ApplicationAdapter {
 		player = new Entity();
 
 		CRenderedObject renderedObject = new CRenderedObject();
-		Sprite player1 = SpriteLoader.loadSprite(Name.PLAYERIMG, 0, 0, 64, 64);
-		Sprite player2 = SpriteLoader.loadSprite(Name.PLAYERIMG, 1, 0, 64, 64);
-		SpriteSequence sequence = new SpriteSequence(1).addSprite(player1).addSprite(player2);
-		renderedObject.addSequence("Idle", sequence);
-		renderedObject.playAnimation("Idle");
+		Sprite playertorso1 = SpriteLoader.loadSprite(Name.PLAYERIMG, 0, 0, 128, 112);
+		Sprite playertorso2 = SpriteLoader.loadSprite(Name.PLAYERIMG, 0, 1, 128, 112);
+		Sprite playerlegs1 = SpriteLoader.loadSprite(Name.PLAYERIMG, 1, 0, 128, 112);
+		Sprite playerlegs2 = SpriteLoader.loadSprite(Name.PLAYERIMG, 1, 1, 128, 112);
+		SpriteSequence torsosequence = new SpriteSequence(1).addSprite(playertorso1).addSprite(playertorso2);
+		SpriteSequence legsequence = new SpriteSequence(1).addSprite(playerlegs1).addSprite(playerlegs2);
+		renderedObject.setChannelName("default", "torso");
+		renderedObject.addChannel("legs");
+		renderedObject.addSequence("Torso-Idle", torsosequence);
+		renderedObject.addSequence("Legs-Idle", legsequence);
+		renderedObject.playAnimation("torso", "Torso-Idle");
+		renderedObject.playAnimation("legs", "Legs-Idle");
 		player.add(renderedObject);
 		player.add(new CPhysics().setSize(2, 4).setPosition(0, 5));
 		player.add(new CCombat().setBaseDamage(100).setHealth(1000));
@@ -125,11 +132,18 @@ public class GladiatorBrawler extends ApplicationAdapter {
 	public void initializeTestDummy() {
 		Entity dummy = new Entity();
 		CRenderedObject renderedObject = new CRenderedObject();
-		Sprite player1 = SpriteLoader.loadSprite(Name.PLAYERIMG, 0, 0, 64, 64);
-		Sprite player2 = SpriteLoader.loadSprite(Name.PLAYERIMG, 1, 0, 64, 64);
-		SpriteSequence sequence = new SpriteSequence(1).addSprite(player1).addSprite(player2);
-		renderedObject.addSequence("Idle", sequence);
-		renderedObject.playAnimation("Idle");
+		Sprite playertorso1 = SpriteLoader.loadSprite(Name.PLAYERIMG, 0, 0, 128, 112);
+		Sprite playertorso2 = SpriteLoader.loadSprite(Name.PLAYERIMG, 0, 1, 128, 112);
+		Sprite playerlegs1 = SpriteLoader.loadSprite(Name.PLAYERIMG, 1, 0, 128, 112);
+		Sprite playerlegs2 = SpriteLoader.loadSprite(Name.PLAYERIMG, 1, 1, 128, 112);
+		SpriteSequence torsosequence = new SpriteSequence(1).addSprite(playertorso1).addSprite(playertorso2);
+		SpriteSequence legsequence = new SpriteSequence(1).addSprite(playerlegs1).addSprite(playerlegs2);
+		renderedObject.setChannelName("default", "torso");
+		renderedObject.addChannel("legs");
+		renderedObject.addSequence("Torso-Idle", torsosequence);
+		renderedObject.addSequence("Legs-Idle", legsequence);
+		renderedObject.playAnimation("torso", "Torso-Idle");
+		renderedObject.playAnimation("legs", "Legs-Idle");
 		dummy.add(renderedObject);
 		dummy.add(new CPhysics().setSize(2, 4).setPosition(-6, 5));
 		dummy.add(new CCombat().setBaseDamage(100).setHealth(1000).setSwingCD(.5f).setCombatListener(
