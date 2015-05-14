@@ -68,3 +68,6 @@ build/
 
 ## Logging
 *.log
+
+## Drawing
+*.xcf
