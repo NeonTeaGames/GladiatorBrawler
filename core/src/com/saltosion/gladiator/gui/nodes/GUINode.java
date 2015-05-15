@@ -1,4 +1,4 @@
-package com.saltosion.gladiator.gui;
+package com.saltosion.gladiator.gui.nodes;
 
 import com.badlogic.gdx.math.Vector2;
 import java.util.ArrayList;

@@ -19,12 +19,13 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
 import com.saltosion.gladiator.components.CPhysics;
 import com.saltosion.gladiator.components.CRenderedObject;
-import com.saltosion.gladiator.gui.GUINode;
-import com.saltosion.gladiator.gui.ImageNode;
-import com.saltosion.gladiator.gui.TextNode;
-import com.saltosion.gladiator.gui.TextProperty;
+import com.saltosion.gladiator.gui.nodes.GUINode;
+import com.saltosion.gladiator.gui.properties.ImageProperty;
+import com.saltosion.gladiator.gui.nodes.TextNode;
+import com.saltosion.gladiator.gui.properties.TextProperty;
 import com.saltosion.gladiator.util.AppUtil;
 import com.saltosion.gladiator.util.Global;
+import com.saltosion.gladiator.util.SpriteLoader;
 import com.saltosion.gladiator.util.SpriteSequence;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,9 +41,9 @@ public class RenderingSystem extends EntitySystem {
 	private ShapeRenderer debugRenderer;
 	private OrthographicCamera camera, fontCamera;
 
-	public static float aspectratio;
-	public static int screenHeight = 0;
-	public static int screenWidth = 0;
+	public float aspectratio;
+	public int screenHeight = 0;
+	public int screenWidth = 0;
 
 	private boolean debug = true;
 	private final Color debugColor = new Color(0, 1, 0, 1);
@@ -156,8 +157,8 @@ public class RenderingSystem extends EntitySystem {
 
 	private void renderGUINode(GUINode node, Vector2 position) {
 		position.add(node.getPosition());
-		if (node instanceof ImageNode) {
-			Sprite s = ((ImageNode) node).getImage();
+		if (node instanceof ImageProperty) {
+			Sprite s = ((ImageProperty) node).getImage();
 			s.setPosition(position.x * AppUtil.VPHEIGHT_CONST * aspectratio - s.getWidth() / 2 + camera.position.x,
 					position.y * AppUtil.VPHEIGHT_CONST - s.getHeight() / 2 + camera.position.y);
 			s.draw(batch);
@@ -227,6 +228,13 @@ public class RenderingSystem extends EntitySystem {
 
 	public Vector2 getCameraLocation() {
 		return new Vector2(this.camera.position.x, this.camera.position.y);
+	}
+
+	public void dispose() {
+		batch.dispose();
+		debugRenderer.dispose();
+		font.dispose();
+		SpriteLoader.dispose();
 	}
 
 	private class TextObject {

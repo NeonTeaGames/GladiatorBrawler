@@ -5,40 +5,27 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntityListener;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.math.Vector2;
-import com.saltosion.gladiator.components.CAI;
-import com.saltosion.gladiator.components.CCombat;
-import com.saltosion.gladiator.components.CPhysics;
-import com.saltosion.gladiator.components.CRenderedObject;
-import com.saltosion.gladiator.gui.ButtonNode;
 import com.saltosion.gladiator.gui.GUIManager;
-import com.saltosion.gladiator.gui.GUINode;
-import com.saltosion.gladiator.gui.TextNode;
-import com.saltosion.gladiator.gui.TextProperty;
 import com.saltosion.gladiator.input.InputHandler;
-import com.saltosion.gladiator.listeners.CombatListener;
-import com.saltosion.gladiator.listeners.ai.DummyAI;
+import com.saltosion.gladiator.level.EntityFactory;
+import com.saltosion.gladiator.state.BaseState;
+import com.saltosion.gladiator.state.InGameState;
 import com.saltosion.gladiator.systems.AISystem;
 import com.saltosion.gladiator.systems.CombatSystem;
 import com.saltosion.gladiator.systems.MiscManagerSystem;
 import com.saltosion.gladiator.systems.PhysicsSystem;
 import com.saltosion.gladiator.systems.RenderingSystem;
 import com.saltosion.gladiator.util.AppUtil;
-import com.saltosion.gladiator.util.Direction;
-import com.saltosion.gladiator.util.Global;
 import com.saltosion.gladiator.util.Log;
-import com.saltosion.gladiator.util.Name;
-import com.saltosion.gladiator.util.SpriteLoader;
-import com.saltosion.gladiator.util.SpriteSequence;
 
 public class GladiatorBrawler extends ApplicationAdapter {
 
 	private Engine engine;
+	private EntityFactory entityFactory;
 	private GUIManager guiManager;
 	private InputHandler inputHandler;
 
-	private Entity player;
+	private BaseState currentState;
 
 	@Override
 	public void create() {
@@ -47,7 +34,28 @@ public class GladiatorBrawler extends ApplicationAdapter {
 		// Initialize the Engine
 		engine = new Engine();
 		AppUtil.engine = engine;
+		setupSystems();
 
+		// Initialize the EntityFactory
+		entityFactory = new EntityFactory();
+		AppUtil.entityFactory = entityFactory;
+
+		// Initialize GUI
+		guiManager = new GUIManager();
+		AppUtil.guiManager = this.guiManager;
+
+		// Initialize input
+		inputHandler = new InputHandler();
+		Gdx.input.setInputProcessor(inputHandler);
+
+		// Initialize states
+		BaseState.setMainClass(this);
+		setState(new InGameState());
+
+		Log.info("Successfully started the game.");
+	}
+
+	private void setupSystems() {
 		engine.addSystem(new PhysicsSystem());
 		engine.addSystem(new RenderingSystem());
 		engine.addSystem(new CombatSystem());
@@ -82,157 +90,43 @@ public class GladiatorBrawler extends ApplicationAdapter {
 				ais.updateEntities(engine);
 			}
 		});
-
-		// Initialize GUI
-		guiManager = new GUIManager();
-		AppUtil.guiManager = this.guiManager;
-		initializeTestGUI();
-
-		// Initialize stuff in the world
-		initializePlayer();
-		initializeTestDummy();
-		initializeLevel();
-
-		// Initialize input
-		inputHandler = new InputHandler();
-		Gdx.input.setInputProcessor(inputHandler);
-
-		Log.info("Successfully started the game.");
 	}
 
 	@Override
 	public void render() {
 		engine.update(Gdx.graphics.getDeltaTime());
+		currentState.update(Gdx.graphics.getDeltaTime());
 	}
 
-	public void initializePlayer() {
-		player = new Entity();
-
-		CRenderedObject renderedObject = new CRenderedObject();
-		Sprite playertorso1 = SpriteLoader.loadSprite(Name.PLAYERIMG, 0, 0, 128, 112);
-		Sprite playertorso2 = SpriteLoader.loadSprite(Name.PLAYERIMG, 0, 1, 128, 112);
-		Sprite playerlegs1 = SpriteLoader.loadSprite(Name.PLAYERIMG, 1, 0, 128, 112);
-		Sprite playerlegs2 = SpriteLoader.loadSprite(Name.PLAYERIMG, 1, 1, 128, 112);
-		SpriteSequence torsosequence = new SpriteSequence(1).addSprite(playertorso1).addSprite(playertorso2);
-		SpriteSequence legsequence = new SpriteSequence(1).addSprite(playerlegs1).addSprite(playerlegs2);
-		renderedObject.setChannelName("default", "torso");
-		renderedObject.addChannel("legs");
-		renderedObject.addSequence("Torso-Idle", torsosequence);
-		renderedObject.addSequence("Legs-Idle", legsequence);
-		renderedObject.playAnimation("torso", "Torso-Idle");
-		renderedObject.playAnimation("legs", "Legs-Idle");
-		player.add(renderedObject);
-		player.add(new CPhysics().setSize(2, 4).setPosition(0, 5));
-		player.add(new CCombat().setBaseDamage(100).setHealth(1000));
-		engine.addEntity(player);
-
-		AppUtil.player = player;
-	}
-
-	public void initializeTestDummy() {
-		Entity dummy = new Entity();
-		CRenderedObject renderedObject = new CRenderedObject();
-		Sprite playertorso1 = SpriteLoader.loadSprite(Name.PLAYERIMG, 0, 0, 128, 112);
-		Sprite playertorso2 = SpriteLoader.loadSprite(Name.PLAYERIMG, 0, 1, 128, 112);
-		Sprite playerlegs1 = SpriteLoader.loadSprite(Name.PLAYERIMG, 1, 0, 128, 112);
-		Sprite playerlegs2 = SpriteLoader.loadSprite(Name.PLAYERIMG, 1, 1, 128, 112);
-		SpriteSequence torsosequence = new SpriteSequence(1).addSprite(playertorso1).addSprite(playertorso2);
-		SpriteSequence legsequence = new SpriteSequence(1).addSprite(playerlegs1).addSprite(playerlegs2);
-		renderedObject.setChannelName("default", "torso");
-		renderedObject.addChannel("legs");
-		renderedObject.addSequence("Torso-Idle", torsosequence);
-		renderedObject.addSequence("Legs-Idle", legsequence);
-		renderedObject.playAnimation("torso", "Torso-Idle");
-		renderedObject.playAnimation("legs", "Legs-Idle");
-		dummy.add(renderedObject);
-		dummy.add(new CPhysics().setSize(2, 4).setPosition(-6, 5));
-		dummy.add(new CCombat().setBaseDamage(100).setHealth(1000).setSwingCD(.5f).setCombatListener(
-				new CombatListener() {
-					@Override
-					public void died(Entity source, int damageTaken) {
-						System.out.println("Nooooo! I died! I will revenge this!");
-					}
-
-					@Override
-					public void damageTaken(Entity source, int damageTaken) {
-						System.out.println(String.format("I took %d damage! Damnit!", damageTaken));
-					}
-
-				}));
-		dummy.add(new CAI().setReactDistance(5).setAIListener(new DummyAI()));
-		engine.addEntity(dummy);
-		dummy.getComponent(CCombat.class).inputs.put(Direction.UP, true);
-	}
-
-	public void initializeLevel() {
-		Entity ground = new Entity();
-
-		Sprite groundSprite = SpriteLoader.loadSprite(Name.GROUNDIMG);
-		CRenderedObject renderedObject = new CRenderedObject(groundSprite);
-		ground.add(renderedObject);
-		CPhysics physics = new CPhysics().setMovable(false).setGravityApplied(false).setProcessCollisions(false)
-				.setSize(groundSprite.getRegionWidth() * Global.SPRITE_SCALE,
-						groundSprite.getRegionHeight() * Global.SPRITE_SCALE);
-		physics.getPosition().set(new Vector2(0, -4));
-		ground.add(physics);
-
-		Sprite wallSprite = SpriteLoader.loadSprite(Name.WALLIMG);
-
-		Entity wall0 = new Entity();
-		CRenderedObject wall0RenderedObject = new CRenderedObject(wallSprite);
-		CPhysics wall0Physics = new CPhysics().setMovable(false).setGravityApplied(false).setProcessCollisions(false)
-				.setSize(wallSprite.getRegionWidth() * Global.SPRITE_SCALE,
-						wallSprite.getRegionHeight() * Global.SPRITE_SCALE);
-		wall0Physics.getPosition().set(new Vector2(6, 0));
-		wall0.add(wall0RenderedObject);
-		wall0.add(wall0Physics);
-
-		Entity wall1 = new Entity();
-		CRenderedObject wall1RenderedObject = new CRenderedObject(wallSprite);
-		CPhysics wall1Physics = new CPhysics().setMovable(false).setGravityApplied(false).setProcessCollisions(false)
-				.setSize(wallSprite.getRegionWidth() * Global.SPRITE_SCALE,
-						wallSprite.getRegionHeight() * Global.SPRITE_SCALE);
-		wall1Physics.getPosition().set(new Vector2(-6, 0));
-		wall1.add(wall1RenderedObject);
-		wall1.add(wall1Physics);
-
-		engine.addEntity(ground);
-		engine.addEntity(wall0);
-		engine.addEntity(wall1);
-	}
-
-	public void initializeTestGUI() {
-		Sprite img1 = SpriteLoader.loadSprite(Name.WALLIMG, 0, 0, 32, 64);
-		Sprite img2 = SpriteLoader.loadSprite(Name.WALLIMG, 1, 0, 32, 64);
-		ButtonNode button = new ButtonNode("test-button", img1, img2) {
-			@Override
-			public void pressed(int x, int y, int mouseButton) {
-				Log.info("I should never be pressed against my will!");
-
+	public void setState(BaseState newState) {
+		if (newState != null) {
+			if (currentState != null) {
+				currentState.destroy();
 			}
-
-			@Override
-			public void released(int x, int y, int mouseButton) {
-				Log.info("And now I was even released! Blasphemy!");
-
-			}
-		};
-		button.setPosition(0.12f, 0.5f);
-		guiManager.getRootNode().addChild(button);
-
-		TextNode text = new TextNode("test-text", "Test!");
-		text.setPosition(0.8f, 0.5f);
-		guiManager.getRootNode().addChild(text);
+			newState.create();
+			currentState = newState;
+		} else {
+			Log.error("Tried to set state to null!");
+		}
 	}
 
 	@Override
 	public void resize(int width, int height) {
 		super.resize(width, height);
-		RenderingSystem.screenHeight = height;
-		RenderingSystem.screenWidth = width;
+
 		RenderingSystem rs = engine.getSystem(RenderingSystem.class);
+		rs.screenHeight = height;
+		rs.screenWidth = width;
 		float aspectratio = ((float) width) / ((float) height);
-		RenderingSystem.aspectratio = aspectratio;
+		rs.aspectratio = aspectratio;
 		rs.setViewport((int) (AppUtil.VPHEIGHT_CONST * aspectratio), AppUtil.VPHEIGHT_CONST);
+	}
+
+	@Override
+	public void dispose() {
+		if (currentState != null) {
+			currentState.destroy();
+		}
+		AppUtil.engine.getSystem(RenderingSystem.class).dispose();
 	}
 }

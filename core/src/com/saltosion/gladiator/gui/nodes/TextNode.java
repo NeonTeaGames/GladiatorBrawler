@@ -1,4 +1,6 @@
-package com.saltosion.gladiator.gui;
+package com.saltosion.gladiator.gui.nodes;
+
+import com.saltosion.gladiator.gui.properties.TextProperty;
 
 public class TextNode extends GUINode implements TextProperty {
 

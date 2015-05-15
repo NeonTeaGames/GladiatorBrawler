@@ -6,9 +6,9 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.utils.Array;
-import com.saltosion.gladiator.gui.GUINode;
-import com.saltosion.gladiator.gui.ImageNode;
-import com.saltosion.gladiator.gui.InteractiveNode;
+import com.saltosion.gladiator.gui.nodes.GUINode;
+import com.saltosion.gladiator.gui.properties.ImageProperty;
+import com.saltosion.gladiator.gui.properties.InteractiveProperty;
 import com.saltosion.gladiator.systems.RenderingSystem;
 import com.saltosion.gladiator.util.AppUtil;
 import com.saltosion.gladiator.util.Global;
@@ -18,8 +18,8 @@ import com.saltosion.gladiator.util.Name;
 public class InputHandler implements InputProcessor {
 
 	public HashMap<Integer, String> keys = new HashMap<Integer, String>();
-	
-	private Array<String> hoveredUIElements = new Array<String>();
+
+	private final Array<String> hoveredUIElements = new Array<String>();
 
 	public InputHandler() {
 		keys.put(Keys.A, Name.MOVE_LEFT);
@@ -59,10 +59,12 @@ public class InputHandler implements InputProcessor {
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 		for (String id : hoveredUIElements) {
 			GUINode node = AppUtil.guiManager.getNode(id);
-			
-			if (node instanceof InteractiveNode) {
-				((InteractiveNode) node).pressed(screenX, screenY, button);
-			} else { Log.error("Attempted to call 'pressed' on a non-interactive node!"); }
+
+			if (node instanceof InteractiveProperty) {
+				((InteractiveProperty) node).pressed(screenX, screenY, button);
+			} else {
+				Log.error("Attempted to call 'pressed' on a non-interactive node!");
+			}
 		}
 		return true;
 	}
@@ -71,10 +73,12 @@ public class InputHandler implements InputProcessor {
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
 		for (String id : hoveredUIElements) {
 			GUINode node = AppUtil.guiManager.getNode(id);
-			
-			if (node instanceof InteractiveNode) {
-				((InteractiveNode) node).released(screenX, screenY, button);
-			} else { Log.error("Attempted to call 'released' on a non-interactive node!"); }
+
+			if (node instanceof InteractiveProperty) {
+				((InteractiveProperty) node).released(screenX, screenY, button);
+			} else {
+				Log.error("Attempted to call 'released' on a non-interactive node!");
+			}
 		}
 		return true;
 	}
@@ -86,22 +90,24 @@ public class InputHandler implements InputProcessor {
 
 	@Override
 	public boolean mouseMoved(int screenX, int screenY) {
-		float x = (float)(screenX)/RenderingSystem.screenWidth;
-		float y = 1-(float)(screenY)/RenderingSystem.screenHeight;
-		
+		RenderingSystem rs = AppUtil.engine.getSystem(RenderingSystem.class);
+
+		float x = (float) (screenX) / rs.screenWidth;
+		float y = 1 - (float) (screenY) / rs.screenHeight;
+
 		for (GUINode node : AppUtil.guiManager.getAllRecursiveChildren(AppUtil.guiManager.getRootNode())) {
-			if (node instanceof ImageNode) {
-				Sprite s = ((ImageNode) node).getImage();
-				float height = (s.getHeight()*Global.SPRITE_SCALE)/AppUtil.VPHEIGHT_CONST;
-				float width = (s.getWidth()*Global.SPRITE_SCALE)/(AppUtil.VPHEIGHT_CONST*RenderingSystem.aspectratio);
-				float x0 = node.getPosition().x-width/2;
-				float x1 = node.getPosition().x+width/2;
-				float y0 = node.getPosition().y-height/2;
-				float y1 = node.getPosition().y+height/2;
+			if (node instanceof ImageProperty) {
+				Sprite s = ((ImageProperty) node).getImage();
+				float height = (s.getHeight() * Global.SPRITE_SCALE) / AppUtil.VPHEIGHT_CONST;
+				float width = (s.getWidth() * Global.SPRITE_SCALE) / (AppUtil.VPHEIGHT_CONST * rs.aspectratio);
+				float x0 = node.getPosition().x - width / 2;
+				float x1 = node.getPosition().x + width / 2;
+				float y0 = node.getPosition().y - height / 2;
+				float y1 = node.getPosition().y + height / 2;
 				x += 0.01f;
-				if (node instanceof InteractiveNode) {
-					InteractiveNode interactiveNode = (InteractiveNode) node;
-					
+				if (node instanceof InteractiveProperty) {
+					InteractiveProperty interactiveNode = (InteractiveProperty) node;
+
 					if (x >= x0 && x <= x1 && y >= y0 && y <= y1) {
 						if (hoveredUIElements.contains(node.getID(), false)) {
 							continue;

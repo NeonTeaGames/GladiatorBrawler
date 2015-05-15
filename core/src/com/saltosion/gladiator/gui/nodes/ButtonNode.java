@@ -1,8 +1,11 @@
-package com.saltosion.gladiator.gui;
+package com.saltosion.gladiator.gui.nodes;
 
+import com.saltosion.gladiator.gui.properties.ImageProperty;
+import com.saltosion.gladiator.gui.properties.InteractiveProperty;
+import com.saltosion.gladiator.gui.nodes.GUINode;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
-public abstract class ButtonNode extends GUINode implements InteractiveNode, ImageNode {
+public abstract class ButtonNode extends GUINode implements InteractiveProperty, ImageProperty {
 	private final Sprite onHover;
 	private final Sprite normal;
 	private boolean hovered = false;
