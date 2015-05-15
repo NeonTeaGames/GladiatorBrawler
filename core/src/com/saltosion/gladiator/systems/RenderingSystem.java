@@ -25,7 +25,6 @@ import com.saltosion.gladiator.gui.TextNode;
 import com.saltosion.gladiator.gui.TextProperty;
 import com.saltosion.gladiator.util.AppUtil;
 import com.saltosion.gladiator.util.Global;
-import com.saltosion.gladiator.util.Log;
 import com.saltosion.gladiator.util.SpriteSequence;
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +46,11 @@ public class RenderingSystem extends EntitySystem {
 
 	private boolean debug = true;
 	private final Color debugColor = new Color(0, 1, 0, 1);
+
+	private float deltaDelay = 0;
+	private double deltaAvgSum;
+	private long deltaAvgTimes;
+	private String deltaString = "0";
 
 	private List<TextObject> drawableText;
 
@@ -90,8 +94,31 @@ public class RenderingSystem extends EntitySystem {
 		renderGUI(new Vector2(0, 0));
 		renderDebug(camera);
 
-		drawString("FPS: " + Gdx.graphics.getFramesPerSecond(), new Vector2(camera.position.x - 12, camera.position.y + 8));
+		if (debug) {
+			drawString("FPS: " + Gdx.graphics.getFramesPerSecond(), new Vector2(camera.position.x - 12, camera.position.y + 8));
+			drawString("Delta (ms): " + getDeltaWithDelay(deltaTime, 0.1f), new Vector2(camera.position.x - 12, camera.position.y + 7));
+		}
 		renderFont(fontCamera);
+	}
+
+	/**
+	 * A debugging function for easier performance logging.
+	 *
+	 * @param deltaTime The delta of the current frame
+	 * @param delay The delay between deltaString updates
+	 * @return A string that has the delta formatted
+	 */
+	private String getDeltaWithDelay(float deltaTime, float delay) {
+		this.deltaDelay += deltaTime;
+		this.deltaAvgSum += Gdx.graphics.getDeltaTime() * 1000;
+		this.deltaAvgTimes++;
+		if (this.deltaDelay >= delay) {
+			this.deltaDelay = 0;
+			this.deltaString = String.format("%.2f", this.deltaAvgSum / this.deltaAvgTimes);
+			this.deltaAvgSum = 0;
+			this.deltaAvgTimes = 0;
+		}
+		return deltaString;
 	}
 
 	private void renderEntities(float deltaTime) {
@@ -103,16 +130,16 @@ public class RenderingSystem extends EntitySystem {
 				SpriteSequence currSequence = renderedObject.getSequence(renderedObject.getCurrentSequence(channel));
 				int currFrame = (int) Math.floor(renderedObject.getCurrentFrame(channel));
 				Sprite currSprite = currSequence.getSprite(currFrame);
-	
+
 				CPhysics physics = pm.get(entities.get(i));
-	
+
 				int spriteHeight = currSprite.getRegionHeight();
 				int spriteWidth = currSprite.getRegionWidth();
-	
+
 				currSprite.setPosition(physics.getPosition().x - spriteWidth / 2,
 						physics.getPosition().y - spriteHeight / 2);
 				currSprite.draw(batch);
-	
+
 				float nextFrame = renderedObject.getCurrentFrame(channel) + deltaTime * currSequence.getPlayspeed();
 				renderedObject.setCurrentFrame(channel, nextFrame % currSequence.frameCount());
 			}
