@@ -45,7 +45,7 @@ public class RenderingSystem extends EntitySystem {
 	public int screenHeight = 0;
 	public int screenWidth = 0;
 
-	private boolean debug = true;
+	private boolean debug = false;
 	private final Color debugColor = new Color(0, 1, 0, 1);
 
 	private float deltaDelay = 0;
@@ -82,10 +82,12 @@ public class RenderingSystem extends EntitySystem {
 
 	@Override
 	public void update(float deltaTime) {
-		CPhysics phys = pm.get(AppUtil.player);
-		camera.position.set(phys.getPosition().x, phys.getPosition().y, 0);
+		if (AppUtil.player != null) {
+			CPhysics phys = pm.get(AppUtil.player);
+			camera.position.set(phys.getPosition().x, phys.getPosition().y, 0);
+			fontCamera.position.set(camera.position.x * Global.FONT_SCALE, camera.position.y * Global.FONT_SCALE, 0);
+		}
 		camera.update();
-		fontCamera.position.set(camera.position.x * Global.FONT_SCALE, camera.position.y * Global.FONT_SCALE, 0);
 		fontCamera.update();
 
 		Gdx.gl.glClearColor(0, 0, 0, 0);

@@ -9,7 +9,7 @@ import com.saltosion.gladiator.gui.GUIManager;
 import com.saltosion.gladiator.input.InputHandler;
 import com.saltosion.gladiator.level.EntityFactory;
 import com.saltosion.gladiator.state.BaseState;
-import com.saltosion.gladiator.state.InGameState;
+import com.saltosion.gladiator.state.MainMenuState;
 import com.saltosion.gladiator.systems.AISystem;
 import com.saltosion.gladiator.systems.CombatSystem;
 import com.saltosion.gladiator.systems.MiscManagerSystem;
@@ -50,7 +50,7 @@ public class GladiatorBrawler extends ApplicationAdapter {
 
 		// Initialize states
 		BaseState.setMainClass(this);
-		setState(new InGameState());
+		setState(new MainMenuState());
 
 		Log.info("Successfully started the game.");
 	}

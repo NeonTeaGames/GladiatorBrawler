@@ -4,12 +4,15 @@ public class Name {
 
 	public static final String GAME_NAME = "Gladiator Brawl";
 	public static final String DEBUG = "DEBUG";
-	
+
 	public static final String STATICPLAYER = "STATICPLAYER";
 	public static final String PLAYERIMG = "PLAYERIMG";
 	public static final String GROUNDIMG = "GROUNDIMG";
 	public static final String WALLIMG = "WALLIMG";
-    public static final String SWINGHITBOXIMG = "SWINGHITBOXIMG";
+	public static final String SWINGHITBOXIMG = "SWINGHITBOXIMG";
+
+	public static final String BUTTON_PLAY = "BUTTON_PLAY";
+	public static final String BUTTON_PLAY_HOVER = "BUTTON_PLAY_HOVER";
 
 	public static final String MOVE_LEFT = "MOVE_LEFT";
 	public static final String MOVE_RIGHT = "MOVE_RIGHT";

@@ -2,6 +2,7 @@ package com.saltosion.gladiator.state;
 
 import com.saltosion.gladiator.gui.creators.GUICreator;
 import com.saltosion.gladiator.gui.creators.TestGUICreator;
+import com.saltosion.gladiator.gui.nodes.ButtonNode;
 import com.saltosion.gladiator.level.Level;
 import com.saltosion.gladiator.level.TestLevel;
 import com.saltosion.gladiator.util.AppUtil;
