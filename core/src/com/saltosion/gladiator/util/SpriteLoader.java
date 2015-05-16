@@ -17,8 +17,12 @@ public class SpriteLoader {
 		loadTexture(Name.GROUNDIMG, "sprites/ground.png");
 		loadTexture(Name.WALLIMG, "sprites/wall.png");
 		loadTexture(Name.SWINGHITBOXIMG, "sprites/swinghitbox.png");
-		loadTexture(Name.BUTTON_PLAY, "sprites/buttons/play.png");
-		loadTexture(Name.BUTTON_PLAY_HOVER, "sprites/buttons/playHover.png");
+		loadTexture(Name.BUTTON_HUGE, "sprites/buttons/Button_Huge.png");
+		loadTexture(Name.BUTTON_HUGE_HOVER, "sprites/buttons/Button_Huge_Hover.png");
+		loadTexture(Name.BUTTON_BIG, "sprites/buttons/Button_Big.png");
+		loadTexture(Name.BUTTON_BIG_HOVER, "sprites/buttons/Button_Big_Hover.png");
+		loadTexture(Name.BUTTON_SMALL, "sprites/buttons/Button_Small.png");
+		loadTexture(Name.BUTTON_SMALL_HOVER, "sprites/buttons/Button_Small_Hover.png");
 	}
 
 	/**

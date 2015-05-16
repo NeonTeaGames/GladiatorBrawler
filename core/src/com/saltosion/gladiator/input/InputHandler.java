@@ -104,7 +104,7 @@ public class InputHandler implements InputProcessor {
 				float x1 = node.getPosition().x + width / 2;
 				float y0 = node.getPosition().y - height / 2;
 				float y1 = node.getPosition().y + height / 2;
-				x += 0.01f;
+				x += 0.0065f;
 				if (node instanceof InteractiveProperty) {
 					InteractiveProperty interactiveNode = (InteractiveProperty) node;
 
