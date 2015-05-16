@@ -42,9 +42,11 @@ public class PhysicsSystem extends EntitySystem {
 					float move = 0;
 					if (obj.movingLeft) {
 						move--;
+						obj.movedLeftLast = true;
 					}
 					if (obj.movingRight) {
 						move++;
+						obj.movedLeftLast = false;
 					}
 					obj.getVelocity().x = move * obj.getMovespeed();
 					if (combat != null) {

@@ -9,7 +9,7 @@ public class CPhysics extends Component {
 	private final Vector2 position = new Vector2();
 	private final Vector2 velocity = new Vector2();
 	private final Vector2 size = new Vector2();
-	private float movespeed = 7.5f, jumpForce = 35f, gravity = 100f;
+	private float movespeed = 15f, jumpForce = 35f, gravity = 100f;
 	private CollisionListener collisionListener = null;
 
 	private boolean movable = true;
@@ -22,6 +22,9 @@ public class CPhysics extends Component {
 	public boolean movingLeft = false;
 	public boolean movingRight = false;
 	public boolean jumping = false;
+
+	// Stores information about the direction last time moved in
+	public boolean movedLeftLast = false;
 
 	/**
 	 * @param movable Toggles if the entity can move by itself
