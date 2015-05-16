@@ -30,29 +30,7 @@ public class TestLevel implements Level {
 		physics.getPosition().set(new Vector2(0, -4));
 		ground.add(physics);
 
-		Sprite wallSprite = SpriteLoader.loadSprite(Name.WALLIMG);
-
-		Entity wall0 = new Entity();
-		CRenderedObject wall0RenderedObject = new CRenderedObject(wallSprite);
-		CPhysics wall0Physics = new CPhysics().setMovable(false).setGravityApplied(false).setProcessCollisions(false)
-				.setSize(wallSprite.getRegionWidth() * Global.SPRITE_SCALE,
-						wallSprite.getRegionHeight() * Global.SPRITE_SCALE);
-		wall0Physics.getPosition().set(new Vector2(6, 0));
-		wall0.add(wall0RenderedObject);
-		wall0.add(wall0Physics);
-
-		Entity wall1 = new Entity();
-		CRenderedObject wall1RenderedObject = new CRenderedObject(wallSprite);
-		CPhysics wall1Physics = new CPhysics().setMovable(false).setGravityApplied(false).setProcessCollisions(false)
-				.setSize(wallSprite.getRegionWidth() * Global.SPRITE_SCALE,
-						wallSprite.getRegionHeight() * Global.SPRITE_SCALE);
-		wall1Physics.getPosition().set(new Vector2(-6, 0));
-		wall1.add(wall1RenderedObject);
-		wall1.add(wall1Physics);
-
 		AppUtil.engine.addEntity(ground);
-		AppUtil.engine.addEntity(wall0);
-		AppUtil.engine.addEntity(wall1);
 	}
 
 }

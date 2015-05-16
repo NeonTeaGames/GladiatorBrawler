@@ -9,10 +9,11 @@ import com.badlogic.ashley.utils.ImmutableArray;
 import com.saltosion.gladiator.components.CCombat;
 import com.saltosion.gladiator.components.CPhysics;
 import com.saltosion.gladiator.util.Direction;
+import com.saltosion.gladiator.util.Log;
 
 public class PhysicsSystem extends EntitySystem {
 
-	private static final float MAX_VEL = 1.75f, COLLISION_PRECISION = 18f, UPDATES_PER_SECOND = 120f;
+	private static final float MAX_VEL = 1.75f, COLLISION_PRECISION = 12f, UPDATES_PER_SECOND = 120f;
 
 	private static final ComponentMapper<CPhysics> pm = ComponentMapper.getFor(CPhysics.class);
 	private static final ComponentMapper<CCombat> cm = ComponentMapper.getFor(CCombat.class);
@@ -98,8 +99,10 @@ public class PhysicsSystem extends EntitySystem {
 		}
 
 		boolean collidedAlready = false;
+		float precisionX = COLLISION_PRECISION * (cp0.getSize().x > cp1.getSize().x ? cp0.getSize().x : cp1.getSize().x);
+		float precisionY = COLLISION_PRECISION * (cp0.getSize().y > cp1.getSize().y ? cp0.getSize().y : cp1.getSize().y);
 
-		if (x00 <= x11 && Math.abs(x00 - x11) < (cp0.getSize().x + cp1.getSize().x) / COLLISION_PRECISION) {
+		if (x00 <= x11 && Math.abs(x00 - x11) < (cp0.getSize().x + cp1.getSize().x) / precisionX) {
 			// cp0's left side is colliding with cp1's right side
 			if (!cp0.isGhost() && !cp1.isGhost()) {
 				if (cp0.getVelocity().x < 0) {
@@ -114,7 +117,7 @@ public class PhysicsSystem extends EntitySystem {
 			}
 			collidedAlready = true;
 		}
-		if (x01 > x10 && Math.abs(x01 - x10) < (cp0.getSize().x + cp1.getSize().x) / COLLISION_PRECISION) {
+		if (x01 > x10 && Math.abs(x01 - x10) < (cp0.getSize().x + cp1.getSize().x) / precisionX) {
 			// cp0's right side is colliding with cp1's left side
 			if (!cp0.isGhost() && !cp1.isGhost()) {
 				if (cp0.getVelocity().x > 0) {
@@ -129,7 +132,7 @@ public class PhysicsSystem extends EntitySystem {
 			}
 			collidedAlready = true;
 		}
-		if (y00 <= y11 && Math.abs(y00 - y11) < (cp0.getSize().y + cp1.getSize().y) / COLLISION_PRECISION) {
+		if (y00 <= y11 && Math.abs(y00 - y11) < (cp0.getSize().y + cp1.getSize().y) / precisionY) {
 			// cp0's bottom side is colliding with cp1's top side
 			if (!cp0.isGhost() && !cp1.isGhost()) {
 				if (cp0.getVelocity().y < 0) {
@@ -145,7 +148,7 @@ public class PhysicsSystem extends EntitySystem {
 			}
 			collidedAlready = true;
 		}
-		if (y01 > y10 && Math.abs(y01 - y10) < (cp0.getSize().y + cp1.getSize().y) / COLLISION_PRECISION) {
+		if (y01 > y10 && Math.abs(y01 - y10) < (cp0.getSize().y + cp1.getSize().y) / precisionY) {
 			// cp0's top side is colliding with cp1's bottom side
 			if (!cp0.isGhost() && !cp1.isGhost()) {
 				if (cp0.getVelocity().y > 0) {
