@@ -16,4 +16,9 @@ public class TextNode extends GUINode implements TextProperty {
 		return text;
 	}
 
+	public TextNode setText(String text) {
+		this.text = text;
+		return this;
+	}
+
 }

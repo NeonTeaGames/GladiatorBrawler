@@ -8,7 +8,9 @@ import com.saltosion.gladiator.util.Log;
 import com.saltosion.gladiator.util.Name;
 import com.saltosion.gladiator.util.SpriteLoader;
 
-public class TestGUICreator implements GUICreator {
+public class InGameGUICreator implements GUICreator {
+
+	private TextNode levelChangeText;
 
 	@Override
 	public void create() {
@@ -33,6 +35,14 @@ public class TestGUICreator implements GUICreator {
 		TextNode text = new TextNode("test-text", "Test!");
 		text.setPosition(0.8f, 0.5f);
 		AppUtil.guiManager.getRootNode().addChild(text);
+
+		levelChangeText = new TextNode("Level-Change-Text", "Level change");
+		levelChangeText.setPosition(0.4f, 0.5f);
+		AppUtil.guiManager.getRootNode().addChild(levelChangeText);
+	}
+
+	public TextNode getLevelChangeText() {
+		return this.levelChangeText;
 	}
 
 }

@@ -232,6 +232,9 @@ public class RenderingSystem extends EntitySystem {
 	}
 
 	private void renderGUINode(GUINode node, Vector2 position) {
+		if (!node.isVisible()) {
+			return;
+		}
 		position.add(node.getPosition());
 		if (node instanceof ImageProperty) {
 			Sprite s = ((ImageProperty) node).getImage();

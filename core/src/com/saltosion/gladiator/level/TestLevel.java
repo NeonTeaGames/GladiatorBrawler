@@ -15,6 +15,11 @@ import com.saltosion.gladiator.util.SpriteSequence;
 public class TestLevel implements Level {
 
 	@Override
+	public String getLevelName() {
+		return "Test level";
+	}
+
+	@Override
 	public void generate() {
 		// Audience
 		Entity audience = new Entity();
