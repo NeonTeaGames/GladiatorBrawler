@@ -12,11 +12,11 @@ public class MainMenuGUICreator implements GUICreator {
 
 	@Override
 	public void create() {
-		TextNode titleText = new TextNode("Game Title", "Gladiator Brawler Game Thing!");
+		TextNode titleText = new TextNode("game_title", "Gladiator Brawler Game Thing!");
 		titleText.setPosition(0.23f, 0.8f);
 		AppUtil.guiManager.getRootNode().addChild(titleText);
 
-		ButtonNode playButton = new ButtonNode("Play Button", SpriteLoader.loadSprite(Name.BUTTON_BIG),
+		ButtonNode playButton = new ButtonNode("play_button", SpriteLoader.loadSprite(Name.BUTTON_BIG),
 				SpriteLoader.loadSprite(Name.BUTTON_BIG_HOVER)) {
 					@Override
 					public void pressed(int x, int y, int mouseButton) {
@@ -28,7 +28,7 @@ public class MainMenuGUICreator implements GUICreator {
 					}
 				};
 		playButton.setPosition(0.5f, 0.5f);
-		TextNode playButtonText = new TextNode("Play Button Text", "Play");
+		TextNode playButtonText = new TextNode("play_button_text", "Play");
 		playButtonText.setPosition(-0.0325f, 0.0175f);
 		playButton.addChild(playButtonText);
 		AppUtil.guiManager.getRootNode().addChild(playButton);

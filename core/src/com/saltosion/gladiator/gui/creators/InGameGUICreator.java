@@ -9,7 +9,7 @@ public class InGameGUICreator implements GUICreator {
 
 	@Override
 	public void create() {
-		levelChangeText = new TextNode("Level-Change-Text", "Round X");
+		levelChangeText = new TextNode("level_change_text", "Round X");
 		levelChangeText.setPosition(0.435f, 0.5f);
 		AppUtil.guiManager.getRootNode().addChild(levelChangeText);
 	}
