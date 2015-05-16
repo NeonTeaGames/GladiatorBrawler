@@ -1,16 +1,18 @@
 package com.saltosion.gladiator.state;
 
-import com.saltosion.gladiator.gui.creators.GUICreator;
 import com.saltosion.gladiator.gui.creators.InGameGUICreator;
 import com.saltosion.gladiator.level.Level;
-import com.saltosion.gladiator.level.TestLevel;
+import com.saltosion.gladiator.level.premade.Round1Level;
 import com.saltosion.gladiator.util.AppUtil;
 
 public class InGameState extends BaseState {
 
+	private static final Level[] levels = {new Round1Level()};
+
 	private Level level;
 	private InGameGUICreator guiCreator;
 
+	private int currentLevel = 0;
 	private float timeSinceLevelChange;
 	private final float levelChangeTextDelay = 2;
 	private boolean levelChangeTextChanged = false;
@@ -21,7 +23,7 @@ public class InGameState extends BaseState {
 		AppUtil.engine.removeAllEntities();
 		AppUtil.guiManager.clearGUI();
 
-		level = new TestLevel();
+		level = levels[currentLevel];
 		level.generate();
 		timeSinceLevelChange = 0;
 
@@ -41,6 +43,19 @@ public class InGameState extends BaseState {
 		} else {
 			guiCreator.getLevelChangeText().setVisible(false);
 			levelChangeTextChanged = false;
+		}
+
+		if (level.levelCleared()) {
+			currentLevel++;
+			if (currentLevel >= levels.length) {
+				setState(new WinState());
+			} else {
+				changeLevel(levels[currentLevel]);
+			}
+		}
+
+		if (level.levelFailed()) {
+			setState(new GameOverState());
 		}
 	}
 

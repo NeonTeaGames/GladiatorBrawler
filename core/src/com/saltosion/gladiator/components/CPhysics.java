@@ -3,6 +3,7 @@ package com.saltosion.gladiator.components;
 import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.math.Vector2;
 import com.saltosion.gladiator.listeners.CollisionListener;
+import com.saltosion.gladiator.util.Direction;
 
 public class CPhysics extends Component {
 
@@ -117,6 +118,16 @@ public class CPhysics extends Component {
 
 	public CPhysics setGrounded(boolean grounded) {
 		this.grounded = grounded;
+		return this;
+	}
+
+	public CPhysics setDirection(Direction dir) {
+		if (dir == Direction.RIGHT) {
+			this.movedLeftLast = false;
+		}
+		if (dir == Direction.LEFT) {
+			this.movedLeftLast = true;
+		}
 		return this;
 	}
 

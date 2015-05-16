@@ -1,25 +1,25 @@
 package com.saltosion.gladiator.state;
 
-import com.saltosion.gladiator.gui.creators.MainMenuGUICreator;
+import com.saltosion.gladiator.gui.creators.WinGUICreator;
 import com.saltosion.gladiator.util.AppUtil;
 
-public class MainMenuState extends BaseState {
+public class WinState extends BaseState {
 
-	private MainMenuGUICreator guiCreator;
+	private WinGUICreator guiCreator;
 
 	@Override
 	public void create() {
 		// Start from a clean slate
 		AppUtil.guiManager.clearGUI();
 
-		guiCreator = new MainMenuGUICreator();
+		guiCreator = new WinGUICreator();
 		guiCreator.create();
 	}
 
 	@Override
 	public void update(float deltaTime) {
-		if (guiCreator.shouldPlay()) {
-			setState(new InGameState());
+		if (guiCreator.shouldReturn()) {
+			setState(new MainMenuState());
 		}
 	}
 

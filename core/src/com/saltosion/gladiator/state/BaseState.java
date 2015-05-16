@@ -16,7 +16,7 @@ public abstract class BaseState {
 
 	public abstract void destroy();
 
-	public void changeState(BaseState newState) {
+	public void setState(BaseState newState) {
 		mainClass.setState(newState);
 	}
 

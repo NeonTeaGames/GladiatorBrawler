@@ -8,6 +8,7 @@ import com.badlogic.gdx.Gdx;
 import com.saltosion.gladiator.gui.GUIManager;
 import com.saltosion.gladiator.input.InputHandler;
 import com.saltosion.gladiator.level.EntityFactory;
+import com.saltosion.gladiator.level.LevelFactory;
 import com.saltosion.gladiator.state.BaseState;
 import com.saltosion.gladiator.state.MainMenuState;
 import com.saltosion.gladiator.systems.AISystem;
@@ -22,6 +23,7 @@ public class GladiatorBrawler extends ApplicationAdapter {
 
 	private Engine engine;
 	private EntityFactory entityFactory;
+	private LevelFactory levelFactory;
 	private GUIManager guiManager;
 	private InputHandler inputHandler;
 
@@ -39,6 +41,10 @@ public class GladiatorBrawler extends ApplicationAdapter {
 		// Initialize the EntityFactory
 		entityFactory = new EntityFactory();
 		AppUtil.entityFactory = entityFactory;
+
+		// Initialize the LevelFactory
+		levelFactory = new LevelFactory();
+		AppUtil.levelFactory = levelFactory;
 
 		// Initialize GUI
 		guiManager = new GUIManager();

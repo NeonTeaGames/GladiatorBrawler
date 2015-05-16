@@ -7,10 +7,11 @@ import com.saltosion.gladiator.components.CAI;
 import com.saltosion.gladiator.components.CCombat;
 import com.saltosion.gladiator.components.CPhysics;
 import com.saltosion.gladiator.components.CRenderedObject;
-import com.saltosion.gladiator.listeners.CombatListener;
+import com.saltosion.gladiator.listeners.BasicDeathListener;
 import com.saltosion.gladiator.listeners.ai.DummyAI;
 import com.saltosion.gladiator.util.AppUtil;
 import com.saltosion.gladiator.util.Direction;
+import com.saltosion.gladiator.util.Global;
 import com.saltosion.gladiator.util.Name;
 import com.saltosion.gladiator.util.SpriteLoader;
 import com.saltosion.gladiator.util.SpriteSequence;
@@ -19,48 +20,52 @@ public class EntityFactory {
 
 	private final static int IDLE_ANIMATION_SPEED = 1, RUN_ANIMATION_SPEED = 15, SWING_ANIMATION_SPEED = 10;
 
-	public void createPlayer(Vector2 pos) {
+	public Entity createPlayer(Vector2 pos) {
+		return createPlayer(pos, Direction.RIGHT);
+	}
+
+	public Entity createPlayer(Vector2 pos, Direction initialDirection) {
 		Entity player = new Entity();
+		player.flags |= Global.FLAG_ALIVE;
 
 		// Graphics
 		player.add(createPlayerRenderedObject());
 
 		// Physics
-		player.add(new CPhysics().setSize(1.5f, 3.299f).setPosition(pos.x, pos.y));
+		player.add(new CPhysics().setSize(1.5f, 3.299f).setPosition(pos.x, pos.y).setDirection(initialDirection));
 
 		// Combat
-		player.add(new CCombat().setBaseDamage(100).setHealth(1000));
+		player.add(new CCombat().setBaseDamage(100).setHealth(1000)
+				.setCombatListener(new BasicDeathListener()));
 
 		AppUtil.engine.addEntity(player);
 		AppUtil.player = player;
+
+		return player;
 	}
 
-	public void createDummy(Vector2 pos) {
+	public Entity createDummy(Vector2 pos) {
+		return createDummy(pos, Direction.RIGHT);
+	}
+
+	public Entity createDummy(Vector2 pos, Direction initialDirection) {
 		Entity dummy = new Entity();
+		dummy.flags |= Global.FLAG_ALIVE;
 
 		// Graphics
 		dummy.add(createPlayerRenderedObject());
 
 		// Physics
-		dummy.add(new CPhysics().setSize(1.5f, 3.299f).setPosition(pos.x, pos.y));
+		dummy.add(new CPhysics().setSize(1.5f, 3.299f).setPosition(pos.x, pos.y).setDirection(initialDirection));
 
 		// Combat
-		dummy.add(new CCombat().setBaseDamage(100).setHealth(1000).setSwingCD(.5f).setCombatListener(
-				new CombatListener() {
-					@Override
-					public void died(Entity source, int damageTaken) {
-						System.out.println("Nooooo! I died! I will revenge this!");
-					}
-
-					@Override
-					public void damageTaken(Entity source, int damageTaken) {
-						System.out.println(String.format("I took %d damage! Damnit!", damageTaken));
-					}
-
-				}));
+		dummy.add(new CCombat().setBaseDamage(100).setHealth(1000).setSwingCD(.5f)
+				.setCombatListener(new BasicDeathListener()));
 		dummy.add(new CAI().setReactDistance(5).setAIListener(new DummyAI()));
 
 		AppUtil.engine.addEntity(dummy);
+
+		return dummy;
 	}
 
 	private CRenderedObject createPlayerRenderedObject() {

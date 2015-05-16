@@ -9,6 +9,8 @@ public class Global {
 
 	public static final float SPRITE_SCALE = 1 / 16f;
 
+	public static final int FLAG_ALIVE = 1;
+
 	/**
 	 * Higher font scale = smaller text
 	 */

@@ -1,5 +1,6 @@
 package com.saltosion.gladiator.level;
 
+import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
@@ -12,16 +13,18 @@ import com.saltosion.gladiator.util.Name;
 import com.saltosion.gladiator.util.SpriteLoader;
 import com.saltosion.gladiator.util.SpriteSequence;
 
-public class TestLevel implements Level {
+public class LevelFactory {
 
-	@Override
-	public String getLevelName() {
-		return "Test level";
+	private static final ComponentMapper<CPhysics> pm = ComponentMapper.getFor(CPhysics.class);
+
+	public void createLevelBase() {
+		createAudience();
+		createWall();
+		CPhysics groundPO = pm.get(createGround());
+		createBorders(groundPO);
 	}
 
-	@Override
-	public void generate() {
-		// Audience
+	public Entity createAudience() {
 		Entity audience = new Entity();
 		Sprite audienceSprite0 = SpriteLoader.loadSprite(Name.AUDIENCEIMG, 0, 0, 768, 576);
 		Sprite audienceSprite1 = SpriteLoader.loadSprite(Name.AUDIENCEIMG, 1, 0, 768, 576);
@@ -37,7 +40,10 @@ public class TestLevel implements Level {
 		audience.add(audiencePO);
 		AppUtil.engine.addEntity(audience);
 
-		// Wall
+		return audience;
+	}
+
+	public Entity createWall() {
 		Entity wall = new Entity();
 		Sprite wallSprite = SpriteLoader.loadSprite(Name.WALLIMG);
 		CRenderedObject wallRO = new CRenderedObject(wallSprite);
@@ -49,7 +55,10 @@ public class TestLevel implements Level {
 		wall.add(wallPO);
 		AppUtil.engine.addEntity(wall);
 
-		// Ground
+		return wall;
+	}
+
+	public Entity createGround() {
 		Entity ground = new Entity();
 		Sprite groundSprite = SpriteLoader.loadSprite(Name.GROUNDIMG);
 		CRenderedObject groundRO = new CRenderedObject(groundSprite);
@@ -61,8 +70,11 @@ public class TestLevel implements Level {
 		ground.add(groundPO);
 		AppUtil.engine.addEntity(ground);
 
-		// Level borders
-		float xClamp = groundPO.getSize().x / 2f;
+		return ground;
+	}
+
+	public void createBorders(CPhysics ground) {
+		float xClamp = ground.getSize().x / 2f;
 		AppUtil.engine.getSystem(RenderingSystem.class).setXMin(-xClamp).setXMax(xClamp);
 
 		Entity borderLeft = new Entity();
@@ -77,10 +89,6 @@ public class TestLevel implements Level {
 		borderRightPhysics.setPosition(xClamp + borderRightPhysics.getSize().x, 0);
 		borderRight.add(borderRightPhysics);
 		AppUtil.engine.addEntity(borderRight);
-
-		// Generate entities
-		AppUtil.entityFactory.createPlayer(new Vector2(0, 5));
-		AppUtil.entityFactory.createDummy(new Vector2(-6, 5));
 	}
 
 }
