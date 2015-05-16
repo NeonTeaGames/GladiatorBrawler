@@ -17,6 +17,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
+import com.saltosion.gladiator.components.CCombat;
 import com.saltosion.gladiator.components.CPhysics;
 import com.saltosion.gladiator.components.CRenderedObject;
 import com.saltosion.gladiator.gui.nodes.GUINode;
@@ -25,6 +26,7 @@ import com.saltosion.gladiator.gui.nodes.TextNode;
 import com.saltosion.gladiator.gui.properties.TextProperty;
 import com.saltosion.gladiator.util.AppUtil;
 import com.saltosion.gladiator.util.Global;
+import com.saltosion.gladiator.util.Log;
 import com.saltosion.gladiator.util.SpriteLoader;
 import com.saltosion.gladiator.util.SpriteSequence;
 import java.util.ArrayList;
@@ -34,6 +36,7 @@ public class RenderingSystem extends EntitySystem {
 
 	private final ComponentMapper<CRenderedObject> rom = ComponentMapper.getFor(CRenderedObject.class);
 	private final ComponentMapper<CPhysics> pm = ComponentMapper.getFor(CPhysics.class);
+	private final ComponentMapper<CCombat> cm = ComponentMapper.getFor(CCombat.class);
 	private ImmutableArray<Entity> entities;
 
 	private SpriteBatch batch;
@@ -93,6 +96,7 @@ public class RenderingSystem extends EntitySystem {
 		Gdx.gl.glClearColor(0, 0, 0, 0);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+		updateEntityAnimations();
 		renderEntities(deltaTime);
 		renderGUI(new Vector2(0, 0));
 		renderDebug(camera);
@@ -122,6 +126,71 @@ public class RenderingSystem extends EntitySystem {
 			this.deltaAvgTimes = 0;
 		}
 		return deltaString;
+	}
+
+	private void updateEntityAnimations() {
+		for (int i = 0; i < entities.size(); i++) {
+			updateEntityAnimation(entities.get(i));
+		}
+	}
+
+	private void updateEntityAnimation(Entity entity) {
+		CRenderedObject ro = rom.get(entity);
+		CPhysics po = pm.get(entity);
+		CCombat co = cm.get(entity);
+		if (ro == null || po == null || co == null) {
+			return;
+		}
+
+		boolean moving = false, combat = false;
+		String dirMove = po.movedLeftLast ? "Left" : "Right";
+		String dirSwing = "";
+
+		if (po.movingLeft || po.movingRight) {
+			moving = true;
+		}
+		if (co.swingCdCounter > 0) {
+			combat = true;
+			switch (co.getSwingDirection()) {
+				default:
+				case RIGHT:
+					dirSwing += "Right";
+					break;
+				case LEFT:
+					dirSwing += "Left";
+					break;
+				case UP:
+					if (dirMove.equals("Left")) {
+						dirSwing = "Left-";
+					} else {
+						dirSwing = "Right-";
+					}
+					dirSwing += "Up";
+					break;
+				case DOWN:
+					if (dirMove.equals("Left")) {
+						dirSwing = "Left-";
+					} else {
+						dirSwing = "Right-";
+					}
+					dirSwing += "Down";
+					break;
+			}
+		}
+
+		// Play animations
+		if (moving && combat) {
+			ro.playAnimation("torso", "Torso-Combat-" + dirSwing);
+			ro.playAnimation("legs", "Legs-Run-" + dirMove);
+		} else if (combat) {
+			ro.playAnimation("torso", "Torso-Combat-" + dirSwing);
+		} else if (moving) {
+			ro.playAnimation("torso", "Torso-Run-" + dirMove);
+			ro.playAnimation("legs", "Legs-Run-" + dirMove);
+		} else {
+			ro.playAnimation("torso", "Torso-Idle-" + dirMove);
+			ro.playAnimation("legs", "Legs-Idle-" + dirMove);
+		}
 	}
 
 	private void renderEntities(float deltaTime) {
@@ -216,8 +285,10 @@ public class RenderingSystem extends EntitySystem {
 		drawableText.add(new TextObject(text, position));
 	}
 
-	public void updateEntities(Engine engine) {
-		entities = engine.getEntitiesFor(Family.getFor(CRenderedObject.class, CPhysics.class));
+	public
+			void updateEntities(Engine engine) {
+		entities = engine.getEntitiesFor(Family.getFor(CRenderedObject.class, CPhysics.class
+		));
 	}
 
 	public boolean getDebug() {
