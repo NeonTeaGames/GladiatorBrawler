@@ -10,6 +10,7 @@ public class Name {
 	public static final String GROUNDIMG = "GROUNDIMG";
 	public static final String WALLIMG = "WALLIMG";
 	public static final String SWINGHITBOXIMG = "SWINGHITBOXIMG";
+	public static final String AUDIENCEIMG = "AUDIENCEIMG";
 
 	public static final String BUTTON_HUGE = "BUTTON_HUGE";
 	public static final String BUTTON_HUGE_HOVER = "BUTTON_HUGE_HOVER";

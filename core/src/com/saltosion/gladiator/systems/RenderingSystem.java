@@ -26,7 +26,6 @@ import com.saltosion.gladiator.gui.nodes.TextNode;
 import com.saltosion.gladiator.gui.properties.TextProperty;
 import com.saltosion.gladiator.util.AppUtil;
 import com.saltosion.gladiator.util.Global;
-import com.saltosion.gladiator.util.Log;
 import com.saltosion.gladiator.util.SpriteLoader;
 import com.saltosion.gladiator.util.SpriteSequence;
 import java.util.ArrayList;
@@ -87,8 +86,8 @@ public class RenderingSystem extends EntitySystem {
 	public void update(float deltaTime) {
 		if (AppUtil.player != null) {
 			CPhysics phys = pm.get(AppUtil.player);
-			camera.position.set(phys.getPosition().x, phys.getPosition().y, 0);
-			fontCamera.position.set(camera.position.x * Global.FONT_SCALE, camera.position.y * Global.FONT_SCALE, 0);
+			//camera.position.set(phys.getPosition().x, phys.getPosition().y, 0);
+			//fontCamera.position.set(camera.position.x * Global.FONT_SCALE, camera.position.y * Global.FONT_SCALE, 0);
 		}
 		camera.update();
 		fontCamera.update();
@@ -194,6 +193,10 @@ public class RenderingSystem extends EntitySystem {
 	}
 
 	private void renderEntities(float deltaTime) {
+		if (AppUtil.player == null) {
+			return;
+		}
+		CPhysics playerPhys = pm.get(AppUtil.player);
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
 		for (int i = 0; i < entities.size(); i++) {
@@ -208,8 +211,8 @@ public class RenderingSystem extends EntitySystem {
 				int spriteHeight = currSprite.getRegionHeight();
 				int spriteWidth = currSprite.getRegionWidth();
 
-				currSprite.setPosition(physics.getPosition().x - spriteWidth / 2,
-						physics.getPosition().y - spriteHeight / 2);
+				currSprite.setPosition(((physics.getPosition().x - spriteWidth / 2) - playerPhys.getPosition().x / physics.getZParallax() + camera.viewportWidth / 2),
+						(physics.getPosition().y - spriteHeight / 2) - playerPhys.getPosition().y / physics.getZParallax() + camera.viewportHeight / 3);
 				currSprite.draw(batch);
 
 				float nextFrame = renderedObject.getCurrentFrame(channel) + deltaTime * currSequence.getPlayspeed();
@@ -245,14 +248,18 @@ public class RenderingSystem extends EntitySystem {
 
 	private void renderDebug(Camera camera) {
 		if (debug) {
+			if (AppUtil.player == null) {
+				return;
+			}
+			CPhysics playerPhys = pm.get(AppUtil.player);
 			debugRenderer.setProjectionMatrix(camera.combined);
 			debugRenderer.begin(ShapeType.Line);
 			for (int i = 0; i < entities.size(); i++) {
 				CPhysics physics = pm.get(entities.get(i));
-				float x0 = physics.getPosition().x - physics.getSize().x / 2;
-				float x1 = physics.getPosition().x + physics.getSize().x / 2;
-				float y0 = physics.getPosition().y - physics.getSize().y / 2;
-				float y1 = physics.getPosition().y + physics.getSize().y / 2;
+				float x0 = physics.getPosition().x - physics.getSize().x / 2 - playerPhys.getPosition().x / physics.getZParallax() + camera.viewportWidth / 2;
+				float x1 = physics.getPosition().x + physics.getSize().x / 2 - playerPhys.getPosition().x / physics.getZParallax() + camera.viewportWidth / 2;
+				float y0 = physics.getPosition().y - physics.getSize().y / 2 - playerPhys.getPosition().y / physics.getZParallax() + camera.viewportHeight / 3;
+				float y1 = physics.getPosition().y + physics.getSize().y / 2 - playerPhys.getPosition().y / physics.getZParallax() + camera.viewportHeight / 3;
 
 				debugRenderer.setColor(debugColor);
 				debugRenderer.line(x0, y0, x1, y0);

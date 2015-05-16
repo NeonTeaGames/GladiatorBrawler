@@ -9,7 +9,6 @@ import com.badlogic.ashley.utils.ImmutableArray;
 import com.saltosion.gladiator.components.CCombat;
 import com.saltosion.gladiator.components.CPhysics;
 import com.saltosion.gladiator.util.Direction;
-import com.saltosion.gladiator.util.Log;
 
 public class PhysicsSystem extends EntitySystem {
 
@@ -99,8 +98,8 @@ public class PhysicsSystem extends EntitySystem {
 		}
 
 		boolean collidedAlready = false;
-		float precisionX = COLLISION_PRECISION * (cp0.getSize().x > cp1.getSize().x ? cp0.getSize().x : cp1.getSize().x);
-		float precisionY = COLLISION_PRECISION * (cp0.getSize().y > cp1.getSize().y ? cp0.getSize().y : cp1.getSize().y);
+		float precisionX = COLLISION_PRECISION * (float) Math.sqrt(cp0.getSize().x > cp1.getSize().x ? cp0.getSize().x : cp1.getSize().x);
+		float precisionY = COLLISION_PRECISION * (float) Math.sqrt(cp0.getSize().y > cp1.getSize().y ? cp0.getSize().y : cp1.getSize().y);
 
 		if (x00 <= x11 && Math.abs(x00 - x11) < (cp0.getSize().x + cp1.getSize().x) / precisionX) {
 			// cp0's left side is colliding with cp1's right side

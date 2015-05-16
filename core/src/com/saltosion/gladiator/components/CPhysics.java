@@ -11,6 +11,7 @@ public class CPhysics extends Component {
 	private final Vector2 size = new Vector2();
 	private float movespeed = 15f, jumpForce = 35f, gravity = 100f;
 	private CollisionListener collisionListener = null;
+	private float zParallax = 1;
 
 	private boolean movable = true;
 	private boolean gravityApplied = true;
@@ -165,6 +166,15 @@ public class CPhysics extends Component {
 
 	public boolean isGrounded() {
 		return this.grounded;
+	}
+
+	public CPhysics setZParallax(float zParallax) {
+		this.zParallax = zParallax;
+		return this;
+	}
+
+	public float getZParallax() {
+		return this.zParallax;
 	}
 
 }
