@@ -39,14 +39,16 @@ public class SwingHitboxListener implements CollisionListener {
 		CPhysics otherPhysics = pm.get(other);
 		if (otherPhysics != null && otherPhysics.getCollisionListener() != null
 				&& otherPhysics.getCollisionListener() instanceof SwingHitboxListener) {
-			Log.info("Clash!");
-			float x = 0;
+			float x = 0, y = 0;
 			if (direction == Direction.LEFT) {
-				x = -1;
-			}
-			if (direction == Direction.RIGHT) {
 				x = 1;
+			} else if (direction == Direction.RIGHT) {
+				x = -1;
+			} else if (direction == Direction.DOWN) {
+				y = 1;
 			}
+			float force = cm.get(source).getSwingForce();
+			pm.get(source).setSimVelocity(x * force, y * force / 8f);
 		}
 	}
 

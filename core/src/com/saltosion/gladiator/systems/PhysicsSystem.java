@@ -58,6 +58,12 @@ public class PhysicsSystem extends EntitySystem {
 						obj.setGrounded(false);
 						obj.getVelocity().y = obj.getJumpForce();
 					}
+
+					obj.getVelocity().x += obj.getSimVelocity().x;
+					obj.getVelocity().y += obj.getSimVelocity().y;
+
+					obj.getSimVelocity().x -= obj.getDrag() * deltaTime * Math.signum(obj.getSimVelocity().x);
+					obj.getSimVelocity().y -= obj.getDrag() * deltaTime * Math.signum(obj.getSimVelocity().y);
 				}
 
 				// Gravity

@@ -9,8 +9,9 @@ public class CPhysics extends Component {
 
 	private final Vector2 position = new Vector2();
 	private final Vector2 velocity = new Vector2();
+	private final Vector2 simVelocity = new Vector2();
 	private final Vector2 size = new Vector2();
-	private float movespeed = 15f, jumpForce = 35f, gravity = 100f;
+	private float movespeed = 15f, jumpForce = 35f, gravity = 100f, drag = 30f;
 	private CollisionListener collisionListener = null;
 	private float zParallax = 1;
 
@@ -90,8 +91,33 @@ public class CPhysics extends Component {
 		return this;
 	}
 
-	public CPhysics setVelocity(Vector2 pos) {
-		this.velocity.set(pos);
+	public CPhysics setVelocity(Vector2 vel) {
+		this.velocity.set(vel);
+		return this;
+	}
+
+	/**
+	 * This velocity can be set externally and will always end up being 0 after
+	 * some time that depends on the value of the drag variable
+	 *
+	 * @param x The x part of the new sim velocity
+	 * @param y The y part of the new sim velocity
+	 * @return The host component
+	 */
+	public CPhysics setSimVelocity(float x, float y) {
+		this.simVelocity.set(x, y);
+		return this;
+	}
+
+	/**
+	 * This velocity can be set externally and will always end up being 0 after
+	 * some time that depends on the value of the drag variable
+	 *
+	 * @param simVel The new sim velocity
+	 * @return The host component
+	 */
+	public CPhysics setSimVelocity(Vector2 simVel) {
+		this.simVelocity.set(simVel);
 		return this;
 	}
 
@@ -108,7 +134,11 @@ public class CPhysics extends Component {
 	public CPhysics setGravity(float gravity) {
 		this.gravity = gravity;
 		return this;
+	}
 
+	public CPhysics setDrag(float drag) {
+		this.drag = drag;
+		return this;
 	}
 
 	public CPhysics setCollisionListener(CollisionListener collisionListener) {
@@ -139,6 +169,10 @@ public class CPhysics extends Component {
 		return this.velocity;
 	}
 
+	public Vector2 getSimVelocity() {
+		return this.simVelocity;
+	}
+
 	public Vector2 getSize() {
 		return this.size;
 	}
@@ -153,6 +187,10 @@ public class CPhysics extends Component {
 
 	public float getGravity() {
 		return this.gravity;
+	}
+
+	public float getDrag() {
+		return this.drag;
 	}
 
 	public CollisionListener getCollisionListener() {

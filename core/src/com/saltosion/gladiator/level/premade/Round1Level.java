@@ -6,6 +6,7 @@ import com.saltosion.gladiator.level.Level;
 import com.saltosion.gladiator.util.AppUtil;
 import com.saltosion.gladiator.util.Direction;
 import com.saltosion.gladiator.util.Global;
+import com.saltosion.gladiator.util.Log;
 import java.util.ArrayList;
 
 public class Round1Level implements Level {
