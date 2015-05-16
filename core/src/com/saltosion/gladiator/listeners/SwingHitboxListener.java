@@ -8,7 +8,6 @@ import com.saltosion.gladiator.components.CCombat;
 import com.saltosion.gladiator.components.CPhysics;
 import com.saltosion.gladiator.systems.CombatSystem;
 import com.saltosion.gladiator.util.Direction;
-import com.saltosion.gladiator.util.Log;
 
 public class SwingHitboxListener implements CollisionListener {
 

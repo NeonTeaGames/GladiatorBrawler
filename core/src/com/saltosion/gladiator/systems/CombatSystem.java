@@ -81,14 +81,11 @@ public class CombatSystem extends EntitySystem {
 	public void createSwingHitbox(Entity source, Direction direction, Vector2 position) {
 		Entity e = new Entity();
 		CCombat combat = cm.get(source);
-		Sprite s = SpriteLoader.loadSprite(Name.SWINGHITBOXIMG);
-		e.add(new CRenderedObject(s));
 		e.add(new CPhysics().setGhost(true).setGravityApplied(false).setMovable(false)
-				.setSize(combat.getSwingSize()));
-		e.getComponent(CPhysics.class).setPosition(position).setCollisionListener(new SwingHitboxListener(source, direction));
+				.setSize(combat.getSwingSize()).setPosition(position)
+				.setCollisionListener(new SwingHitboxListener(source, direction)));
 		e.add(new CDestructive(combat.getSwingDuration() / 2));
 		AppUtil.engine.addEntity(e);
-
 	}
 
 	public void updateEntities(Engine engine) {
