@@ -203,6 +203,9 @@ public class RenderingSystem extends EntitySystem {
 		batch.begin();
 		for (int i = 0; i < entities.size(); i++) {
 			CRenderedObject renderedObject = rom.get(entities.get(i));
+			if (renderedObject == null) {
+				continue;
+			}
 			for (String channel : renderedObject.getChannels()) {
 				SpriteSequence currSequence = renderedObject.getSequence(renderedObject.getCurrentSequence(channel));
 				int currFrame = (int) Math.floor(renderedObject.getCurrentFrame(channel));
@@ -298,7 +301,7 @@ public class RenderingSystem extends EntitySystem {
 	}
 
 	public void updateEntities(Engine engine) {
-		entities = engine.getEntitiesFor(Family.getFor(CRenderedObject.class, CPhysics.class));
+		entities = engine.getEntitiesFor(Family.getFor(CPhysics.class));
 	}
 
 	public boolean getDebug() {
