@@ -71,21 +71,21 @@ public class CombatSystem extends EntitySystem {
 				} else if (combat.getSwingDirection() == Direction.DOWN) {
 					pos.add(0, -combat.getSwingSize().y / 3 * 2);
 				}
-				createSwingHitbox(e, pos);
+				createSwingHitbox(e, combat.getSwingDirection(), pos);
 
 				combat.swingCdCounter = combat.getSwingDuration();
 			}
 		}
 	}
 
-	public void createSwingHitbox(Entity source, Vector2 position) {
+	public void createSwingHitbox(Entity source, Direction direction, Vector2 position) {
 		Entity e = new Entity();
 		CCombat combat = cm.get(source);
 		Sprite s = SpriteLoader.loadSprite(Name.SWINGHITBOXIMG);
 		e.add(new CRenderedObject(s));
 		e.add(new CPhysics().setGhost(true).setGravityApplied(false).setMovable(false)
 				.setSize(combat.getSwingSize()));
-		e.getComponent(CPhysics.class).setPosition(position).setCollisionListener(new SwingHitboxListener(source));
+		e.getComponent(CPhysics.class).setPosition(position).setCollisionListener(new SwingHitboxListener(source, direction));
 		e.add(new CDestructive(combat.getSwingDuration() / 2));
 		AppUtil.engine.addEntity(e);
 
