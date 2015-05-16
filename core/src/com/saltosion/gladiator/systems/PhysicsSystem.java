@@ -12,7 +12,7 @@ import com.saltosion.gladiator.util.Direction;
 
 public class PhysicsSystem extends EntitySystem {
 
-	private static final float MAX_VEL = 1.75f, COLLISION_PRECISION = 12f, UPDATES_PER_SECOND = 120f;
+	private static final float MAX_VEL = 1.75f, COLLISION_PRECISION = 12f, UPDATES_PER_SECOND = 240f;
 
 	private static final ComponentMapper<CPhysics> pm = ComponentMapper.getFor(CPhysics.class);
 	private static final ComponentMapper<CCombat> cm = ComponentMapper.getFor(CCombat.class);

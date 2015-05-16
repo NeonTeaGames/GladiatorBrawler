@@ -17,7 +17,6 @@ public class TestLevel implements Level {
 	public void generate() {
 		// Audience
 		Entity audience = new Entity();
-
 		Sprite audienceSprite0 = SpriteLoader.loadSprite(Name.AUDIENCEIMG, 0, 0, 768, 576);
 		Sprite audienceSprite1 = SpriteLoader.loadSprite(Name.AUDIENCEIMG, 1, 0, 768, 576);
 		CRenderedObject audienceRO = new CRenderedObject();
@@ -26,9 +25,18 @@ public class TestLevel implements Level {
 		audienceRO.playAnimation("Default-Animation");
 		audience.add(audienceRO);
 		CPhysics audiencePO = new CPhysics().setMovable(false).setGravityApplied(false)
-				.setProcessCollisions(false).setPosition(0, 10).setZParallax(9);
+				.setProcessCollisions(false).setGhost(true).setPosition(0, 10).setZParallax(9);
 		audience.add(audiencePO);
 		AppUtil.engine.addEntity(audience);
+
+		// Wall
+		Entity wall = new Entity();
+		CRenderedObject wallRO = new CRenderedObject(SpriteLoader.loadSprite(Name.WALLIMG));
+		wall.add(wallRO);
+		CPhysics wallPO = new CPhysics().setMovable(false).setGravityApplied(false)
+				.setProcessCollisions(false).setGhost(true).setPosition(0, 2).setZParallax(1.5f);
+		wall.add(wallPO);
+		AppUtil.engine.addEntity(wall);
 
 		// Ground
 		Entity ground = new Entity();
