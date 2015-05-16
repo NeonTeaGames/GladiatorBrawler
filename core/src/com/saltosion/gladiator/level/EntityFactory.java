@@ -61,7 +61,6 @@ public class EntityFactory {
 		dummy.add(new CAI().setReactDistance(5).setAIListener(new DummyAI()));
 
 		AppUtil.engine.addEntity(dummy);
-		dummy.getComponent(CCombat.class).inputs.put(Direction.UP, true);
 	}
 
 	private CRenderedObject createPlayerRenderedObject() {

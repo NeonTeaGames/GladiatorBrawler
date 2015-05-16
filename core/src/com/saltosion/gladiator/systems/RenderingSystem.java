@@ -57,6 +57,8 @@ public class RenderingSystem extends EntitySystem {
 
 	private List<TextObject> drawableText;
 
+	private float xMin = -15, xMax = 15;
+
 	@Override
 	public void addedToEngine(Engine engine) {
 		updateEntities(engine);
@@ -211,8 +213,8 @@ public class RenderingSystem extends EntitySystem {
 				int spriteHeight = currSprite.getRegionHeight();
 				int spriteWidth = currSprite.getRegionWidth();
 
-				currSprite.setPosition(((physics.getPosition().x - spriteWidth / 2) - playerPhys.getPosition().x / physics.getZParallax() + camera.viewportWidth / 2),
-						(physics.getPosition().y - spriteHeight / 2) - playerPhys.getPosition().y / physics.getZParallax() + camera.viewportHeight / 3);
+				currSprite.setPosition(((physics.getPosition().x - spriteWidth / 2) + getCameraOffset(playerPhys, physics).x),
+						(physics.getPosition().y - spriteHeight / 2) + getCameraOffset(playerPhys, physics).y);
 				currSprite.draw(batch);
 
 				float nextFrame = renderedObject.getCurrentFrame(channel) + deltaTime * currSequence.getPlayspeed();
@@ -256,10 +258,10 @@ public class RenderingSystem extends EntitySystem {
 			debugRenderer.begin(ShapeType.Line);
 			for (int i = 0; i < entities.size(); i++) {
 				CPhysics physics = pm.get(entities.get(i));
-				float x0 = physics.getPosition().x - physics.getSize().x / 2 - playerPhys.getPosition().x / physics.getZParallax() + camera.viewportWidth / 2;
-				float x1 = physics.getPosition().x + physics.getSize().x / 2 - playerPhys.getPosition().x / physics.getZParallax() + camera.viewportWidth / 2;
-				float y0 = physics.getPosition().y - physics.getSize().y / 2 - playerPhys.getPosition().y / physics.getZParallax() + camera.viewportHeight / 3;
-				float y1 = physics.getPosition().y + physics.getSize().y / 2 - playerPhys.getPosition().y / physics.getZParallax() + camera.viewportHeight / 3;
+				float x0 = physics.getPosition().x - physics.getSize().x / 2 + getCameraOffset(playerPhys, physics).x;
+				float x1 = physics.getPosition().x + physics.getSize().x / 2 + getCameraOffset(playerPhys, physics).x;
+				float y0 = physics.getPosition().y - physics.getSize().y / 2 + getCameraOffset(playerPhys, physics).y;
+				float y1 = physics.getPosition().y + physics.getSize().y / 2 + getCameraOffset(playerPhys, physics).y;
 
 				debugRenderer.setColor(debugColor);
 				debugRenderer.line(x0, y0, x1, y0);
@@ -292,10 +294,8 @@ public class RenderingSystem extends EntitySystem {
 		drawableText.add(new TextObject(text, position));
 	}
 
-	public
-			void updateEntities(Engine engine) {
-		entities = engine.getEntitiesFor(Family.getFor(CRenderedObject.class, CPhysics.class
-		));
+	public void updateEntities(Engine engine) {
+		entities = engine.getEntitiesFor(Family.getFor(CRenderedObject.class, CPhysics.class));
 	}
 
 	public boolean getDebug() {
@@ -308,6 +308,31 @@ public class RenderingSystem extends EntitySystem {
 
 	public Vector2 getCameraLocation() {
 		return new Vector2(this.camera.position.x, this.camera.position.y);
+	}
+
+	private Vector2 getCameraOffset(CPhysics playerPhys, CPhysics currPhys) {
+		Vector2 offset = new Vector2(Math.max(xMin + camera.viewportWidth / 2, Math.min(xMax - camera.viewportWidth / 2,
+				-playerPhys.getPosition().x)) / currPhys.getZParallax() + camera.viewportWidth / 2,
+				-playerPhys.getPosition().y / currPhys.getZParallax() + camera.viewportHeight / 3);
+		return offset;
+	}
+
+	public float getXMin() {
+		return xMin;
+	}
+
+	public RenderingSystem setXMin(float xMin) {
+		this.xMin = xMin;
+		return this;
+	}
+
+	public float getXMax() {
+		return xMax;
+	}
+
+	public RenderingSystem setXMax(float xMax) {
+		this.xMax = xMax;
+		return this;
 	}
 
 	public void dispose() {
