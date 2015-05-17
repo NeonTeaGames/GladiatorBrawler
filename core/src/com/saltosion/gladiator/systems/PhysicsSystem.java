@@ -9,6 +9,7 @@ import com.badlogic.ashley.utils.ImmutableArray;
 import com.saltosion.gladiator.components.CCombat;
 import com.saltosion.gladiator.components.CPhysics;
 import com.saltosion.gladiator.util.Direction;
+import com.saltosion.gladiator.util.Log;
 
 public class PhysicsSystem extends EntitySystem {
 
@@ -77,7 +78,11 @@ public class PhysicsSystem extends EntitySystem {
 						if (i == j) {
 							continue;
 						}
-						collision(entities.get(i), entities.get(j));
+						try {
+							collision(entities.get(i), entities.get(j));
+						} catch (IndexOutOfBoundsException ex) {
+							Log.error("Tried to process collisions for a removed entity!");
+						}
 					}
 				}
 			}

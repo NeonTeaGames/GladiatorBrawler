@@ -13,12 +13,12 @@ public class MainMenuGUICreator implements GUICreator {
 	private boolean shouldPlay = false;
 
 	@Override
-	public void create() {		
+	public void create() {
 		ImageNode backgroundImg = new ImageNode("background_image",
 				SpriteLoader.loadSprite(Name.MENU_BACKGROUND));
 		backgroundImg.setPosition(.5f, .5f);
 		AppUtil.guiManager.getRootNode().addChild(backgroundImg);
-		
+
 		GUINode menuNode = new GUINode("menu-node");
 		menuNode.setPosition(-.5f, -.5f);
 		backgroundImg.addChild(menuNode);
@@ -36,21 +36,21 @@ public class MainMenuGUICreator implements GUICreator {
 				};
 		playButton.setPosition(0.4f, 0.5f);
 		TextNode playButtonText = new TextNode("play_button_text", "Play");
-		playButtonText.setPosition(-0.0325f, 0.0175f);
+		playButtonText.setPosition(-0.039f, 0.0175f);
 		playButton.addChild(playButtonText);
 		menuNode.addChild(playButton);
-		
-		ImageNode titleImage = new ImageNode("title_image", 
+
+		ImageNode titleImage = new ImageNode("title_image",
 				SpriteLoader.loadSprite(Name.TITLE_LOGO));
 		titleImage.setPosition(0.4f, 0.8f);
 		menuNode.addChild(titleImage);
-		
+
 		ImageNode gplLogo = new ImageNode("gpl_logo",
 				SpriteLoader.loadSprite(Name.GPLV3_LOGO));
 		gplLogo.setPosition(0.3f, 0.15f);
 		menuNode.addChild(gplLogo);
-		
-		ImageNode osiLogo = new ImageNode("osi_logo", 
+
+		ImageNode osiLogo = new ImageNode("osi_logo",
 				SpriteLoader.loadSprite(Name.OSI_LOGO));
 		osiLogo.setPosition(0.5f, 0.15f);
 		menuNode.addChild(osiLogo);

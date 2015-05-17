@@ -28,7 +28,6 @@ import com.saltosion.gladiator.gui.nodes.TextNode;
 import com.saltosion.gladiator.gui.properties.TextProperty;
 import com.saltosion.gladiator.util.AppUtil;
 import com.saltosion.gladiator.util.Global;
-import com.saltosion.gladiator.util.Log;
 import com.saltosion.gladiator.util.SpriteLoader;
 import com.saltosion.gladiator.util.SpriteSequence;
 import java.util.ArrayList;
@@ -69,7 +68,7 @@ public class RenderingSystem extends EntitySystem {
 
 		batch = new SpriteBatch();
 
-		font = new BitmapFont(Gdx.files.internal("fonts/roman.fnt"));
+		font = new BitmapFont(Gdx.files.internal("fonts/font.fnt"));
 		font.setUseIntegerPositions(false);
 
 		debugRenderer = new ShapeRenderer();
