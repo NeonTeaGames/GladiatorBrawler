@@ -48,6 +48,15 @@ public class InGameState extends BaseState {
 
 		guiCreator = new InGameGUICreator();
 		guiCreator.create();
+		
+		// Activate inputs
+		AppUtil.inputHandler.setInputEnabled(Name.JUMP, true);
+		AppUtil.inputHandler.setInputEnabled(Name.MOVE_LEFT, true);
+		AppUtil.inputHandler.setInputEnabled(Name.MOVE_RIGHT, true);
+		AppUtil.inputHandler.setInputEnabled(Name.SWING_DOWN, true);
+		AppUtil.inputHandler.setInputEnabled(Name.SWING_LEFT, true);
+		AppUtil.inputHandler.setInputEnabled(Name.SWING_RIGHT, true);
+		AppUtil.inputHandler.setInputEnabled(Name.SWING_UP, true);
 	}
 
 	@Override
@@ -94,6 +103,16 @@ public class InGameState extends BaseState {
 
 	@Override
 	public void destroy() {
+		
+		// Deactivate inputs
+		AppUtil.inputHandler.setInputEnabled(Name.JUMP, false);
+		AppUtil.inputHandler.setInputEnabled(Name.MOVE_LEFT, false);
+		AppUtil.inputHandler.setInputEnabled(Name.MOVE_RIGHT, false);
+		AppUtil.inputHandler.setInputEnabled(Name.SWING_DOWN, false);
+		AppUtil.inputHandler.setInputEnabled(Name.SWING_LEFT, false);
+		AppUtil.inputHandler.setInputEnabled(Name.SWING_RIGHT, false);
+		AppUtil.inputHandler.setInputEnabled(Name.SWING_UP, false);
+		
 		// Clear all entities that are left as they are no longer needed
 		AppUtil.engine.removeAllEntities();
 		// Clear GUI so there's nothing leftover for the next state

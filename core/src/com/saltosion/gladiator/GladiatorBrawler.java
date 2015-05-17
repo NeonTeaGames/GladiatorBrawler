@@ -61,6 +61,7 @@ public class GladiatorBrawler extends ApplicationAdapter {
 
 		// Initialize input
 		inputHandler = new InputHandler();
+		AppUtil.inputHandler = inputHandler;
 		Gdx.input.setInputProcessor(inputHandler);
 
 		// Initialize states
