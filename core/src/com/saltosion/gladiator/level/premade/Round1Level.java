@@ -37,7 +37,7 @@ public class Round1Level implements Level {
 	public void generate() {
 		AppUtil.levelFactory.createLevelBase();
 		player = AppUtil.entityFactory.createPlayer(new Vector2(-10, 2), Direction.RIGHT);
-		enemies.add(AppUtil.entityFactory.createDummy(new Vector2(10, 2), Direction.LEFT));
+		enemies.add(AppUtil.entityFactory.createEnemy(new Vector2(10, 2), Direction.LEFT));
 	}
 
 }

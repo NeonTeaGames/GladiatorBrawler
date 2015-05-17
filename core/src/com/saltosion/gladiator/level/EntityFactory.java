@@ -44,11 +44,15 @@ public class EntityFactory {
 		return player;
 	}
 
-	public Entity createDummy(Vector2 pos) {
-		return createDummy(pos, Direction.RIGHT);
+	public Entity createEnemy(Vector2 pos) {
+		return createEnemy(pos, Direction.RIGHT);
 	}
 
-	public Entity createDummy(Vector2 pos, Direction initialDirection) {
+	public Entity createEnemy(Vector2 pos, Direction initialDirection) {
+		return createEnemy(pos, initialDirection, new CAI().setReactDistance(5).setAIListener(new DummyAI()));
+	}
+
+	public Entity createEnemy(Vector2 pos, Direction initialDirection, CAI cai) {
 		Entity dummy = new Entity();
 		dummy.flags |= Global.FLAG_ALIVE;
 
@@ -61,7 +65,7 @@ public class EntityFactory {
 		// Combat
 		dummy.add(new CCombat().setBaseDamage(100).setHealth(1000).setSwingCD(.5f)
 				.setCombatListener(new BasicDeathListener()));
-		dummy.add(new CAI().setReactDistance(5).setAIListener(new DummyAI()));
+		dummy.add(cai);
 
 		AppUtil.engine.addEntity(dummy);
 
