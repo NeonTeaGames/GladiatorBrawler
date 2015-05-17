@@ -6,7 +6,7 @@ import com.saltosion.gladiator.util.SpriteLoader;
 
 public class IntroState extends BaseState {
 
-	private static final float SPLASH_DELAY = 5;
+	private static final float SPLASH_DELAY = 2f;
 	private IntroGUICreator guiCreator;
 	private float currentTime;
 
