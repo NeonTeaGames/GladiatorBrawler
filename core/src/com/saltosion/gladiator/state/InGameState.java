@@ -55,7 +55,7 @@ public class InGameState extends BaseState {
 		}
 
 		if (level.levelFailed()) {
-			setState(new GameOverState());
+			//setState(new GameOverState());
 		}
 	}
 

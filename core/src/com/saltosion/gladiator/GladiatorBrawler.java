@@ -14,6 +14,7 @@ import com.saltosion.gladiator.state.MainMenuState;
 import com.saltosion.gladiator.systems.AISystem;
 import com.saltosion.gladiator.systems.CombatSystem;
 import com.saltosion.gladiator.systems.MiscManagerSystem;
+import com.saltosion.gladiator.systems.ParticleSystem;
 import com.saltosion.gladiator.systems.PhysicsSystem;
 import com.saltosion.gladiator.systems.RenderingSystem;
 import com.saltosion.gladiator.util.AppUtil;
@@ -67,6 +68,7 @@ public class GladiatorBrawler extends ApplicationAdapter {
 		engine.addSystem(new CombatSystem());
 		engine.addSystem(new MiscManagerSystem());
 		engine.addSystem(new AISystem());
+		engine.addSystem(new ParticleSystem());
 		engine.addEntityListener(new EntityListener() {
 			@Override
 			public void entityAdded(Entity entity) {

@@ -1,6 +1,7 @@
 package com.saltosion.gladiator.systems;
 
 import com.badlogic.ashley.core.ComponentMapper;
+import com.badlogic.ashley.core.ComponentType;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntitySystem;
@@ -18,6 +19,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
 import com.saltosion.gladiator.components.CCombat;
+import com.saltosion.gladiator.components.CParticle;
 import com.saltosion.gladiator.components.CPhysics;
 import com.saltosion.gladiator.components.CRenderedObject;
 import com.saltosion.gladiator.gui.nodes.GUINode;
@@ -26,6 +28,7 @@ import com.saltosion.gladiator.gui.nodes.TextNode;
 import com.saltosion.gladiator.gui.properties.TextProperty;
 import com.saltosion.gladiator.util.AppUtil;
 import com.saltosion.gladiator.util.Global;
+import com.saltosion.gladiator.util.Log;
 import com.saltosion.gladiator.util.SpriteLoader;
 import com.saltosion.gladiator.util.SpriteSequence;
 import java.util.ArrayList;
@@ -36,11 +39,12 @@ public class RenderingSystem extends EntitySystem {
 	private final ComponentMapper<CRenderedObject> rom = ComponentMapper.getFor(CRenderedObject.class);
 	private final ComponentMapper<CPhysics> pm = ComponentMapper.getFor(CPhysics.class);
 	private final ComponentMapper<CCombat> cm = ComponentMapper.getFor(CCombat.class);
+	private final ComponentMapper<CParticle> pam = ComponentMapper.getFor(CParticle.class);
 	private ImmutableArray<Entity> entities;
 
 	private SpriteBatch batch;
 	private BitmapFont font;
-	private ShapeRenderer debugRenderer;
+	private ShapeRenderer debugRenderer, particleRenderer;
 	private OrthographicCamera camera, fontCamera;
 
 	public float aspectratio;
@@ -69,6 +73,7 @@ public class RenderingSystem extends EntitySystem {
 		font.setUseIntegerPositions(false);
 
 		debugRenderer = new ShapeRenderer();
+		particleRenderer = new ShapeRenderer();
 
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, 1, 1);
@@ -99,8 +104,9 @@ public class RenderingSystem extends EntitySystem {
 
 		updateEntityAnimations();
 		renderEntities(deltaTime);
+		renderParticles();
+		renderDebug();
 		renderGUI(new Vector2(0, 0));
-		renderDebug(camera);
 
 		if (debug) {
 			drawString("FPS: " + Gdx.graphics.getFramesPerSecond(), new Vector2(camera.position.x - 12, camera.position.y + 8));
@@ -254,7 +260,28 @@ public class RenderingSystem extends EntitySystem {
 		}
 	}
 
-	private void renderDebug(Camera camera) {
+	private void renderParticles() {
+		if (AppUtil.player == null) {
+			return;
+		}
+		CPhysics playerPhys = pm.get(AppUtil.player);
+		particleRenderer.setProjectionMatrix(camera.combined);
+		particleRenderer.begin(ShapeType.Filled);
+		for (int i = 0; i < entities.size(); i++) {
+			CParticle particle = pam.get(entities.get(i));
+			if (particle == null) {
+				continue;
+			}
+
+			particleRenderer.setColor(particle.getColor());
+			particleRenderer.rect(particle.getPosition().x - particle.getSize().x / 2 + getCameraOffset(playerPhys).x,
+					particle.getPosition().y - particle.getSize().y / 2 + getCameraOffset(playerPhys).y,
+					particle.getSize().x, particle.getSize().y);
+		}
+		particleRenderer.end();
+	}
+
+	private void renderDebug() {
 		if (debug) {
 			if (AppUtil.player == null) {
 				return;
@@ -264,6 +291,10 @@ public class RenderingSystem extends EntitySystem {
 			debugRenderer.begin(ShapeType.Line);
 			for (int i = 0; i < entities.size(); i++) {
 				CPhysics physics = pm.get(entities.get(i));
+				if (physics == null) {
+					continue;
+				}
+
 				float x0 = physics.getPosition().x - physics.getSize().x / 2 + getCameraOffset(playerPhys, physics).x;
 				float x1 = physics.getPosition().x + physics.getSize().x / 2 + getCameraOffset(playerPhys, physics).x;
 				float y0 = physics.getPosition().y - physics.getSize().y / 2 + getCameraOffset(playerPhys, physics).y;
@@ -301,7 +332,8 @@ public class RenderingSystem extends EntitySystem {
 	}
 
 	public void updateEntities(Engine engine) {
-		entities = engine.getEntitiesFor(Family.getFor(CPhysics.class));
+		entities = engine.getEntitiesFor(Family.getFor(ComponentType.getBitsFor(),
+				ComponentType.getBitsFor(CPhysics.class, CParticle.class), ComponentType.getBitsFor()));
 	}
 
 	public boolean getDebug() {
@@ -314,6 +346,13 @@ public class RenderingSystem extends EntitySystem {
 
 	public Vector2 getCameraLocation() {
 		return new Vector2(this.camera.position.x, this.camera.position.y);
+	}
+
+	private Vector2 getCameraOffset(CPhysics playerPhys) {
+		Vector2 offset = new Vector2(Math.max(xMin + camera.viewportWidth / 2, Math.min(xMax - camera.viewportWidth / 2,
+				-playerPhys.getPosition().x)) + camera.viewportWidth / 2,
+				-playerPhys.getPosition().y + camera.viewportHeight / 3);
+		return offset;
 	}
 
 	private Vector2 getCameraOffset(CPhysics playerPhys, CPhysics currPhys) {
@@ -344,6 +383,7 @@ public class RenderingSystem extends EntitySystem {
 	public void dispose() {
 		batch.dispose();
 		debugRenderer.dispose();
+		particleRenderer.dispose();
 		font.dispose();
 		SpriteLoader.dispose();
 	}
