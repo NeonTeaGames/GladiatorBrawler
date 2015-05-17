@@ -5,6 +5,7 @@ import com.saltosion.gladiator.components.CCombat;
 import com.saltosion.gladiator.components.CPhysics;
 import com.saltosion.gladiator.listeners.AIListener;
 import com.saltosion.gladiator.util.Direction;
+import com.saltosion.gladiator.util.Log;
 import java.util.ArrayList;
 
 public class BerserkerAI implements AIListener {
@@ -41,8 +42,8 @@ public class BerserkerAI implements AIListener {
 		c0.inputs.put(Direction.LEFT, false);
 		c0.inputs.put(Direction.UP, false);
 		c0.inputs.put(Direction.DOWN, false);
-		if (dist < c0.getSwingSize().x) {
-			if (Math.random() < 0.5) {
+		if (dist < c0.getSwingSize().x + c0.getSwingSize().y) {
+			if (Math.random() < 0.8) {
 				switch ((int) Math.ceil(Math.random() * 4)) {
 					default:
 					case 1:
@@ -58,14 +59,19 @@ public class BerserkerAI implements AIListener {
 						c0.inputs.put(Direction.DOWN, true);
 						break;
 				}
-			} else if (p0.getPosition().x + p0.getSize().x / 3 < p1.getPosition().x - p1.getSize().x / 3) {
-				c0.inputs.put(Direction.RIGHT, true);
-			} else if (p0.getPosition().x - p0.getSize().x / 3 > p1.getPosition().x + p1.getSize().x / 3) {
-				c0.inputs.put(Direction.LEFT, true);
-			} else if (p0.getPosition().y < p0.getPosition().y) {
-				c0.inputs.put(Direction.UP, true);
-			} else if (p0.getPosition().y > p0.getPosition().y) {
-				c0.inputs.put(Direction.DOWN, true);
+			} else {
+				if (p0.getPosition().x + p0.getSize().x / 3 < p1.getPosition().x - p1.getSize().x / 3) {
+					c0.inputs.put(Direction.RIGHT, true);
+				} else if (p0.getPosition().x - p0.getSize().x / 3 > p1.getPosition().x + p1.getSize().x / 3) {
+					c0.inputs.put(Direction.LEFT, true);
+				}
+				if (p0.getPosition().y < p1.getPosition().y) {
+					Log.info("asd");
+					c0.inputs.put(Direction.UP, true);
+				} else if (p0.getPosition().y > p1.getPosition().y) {
+					Log.info("asd");
+					c0.inputs.put(Direction.DOWN, true);
+				}
 			}
 		}
 	}
