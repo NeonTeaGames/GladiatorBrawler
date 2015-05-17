@@ -80,6 +80,10 @@ public class CCombat extends Component {
 		return this.maxHealth;
 	}
 
+	public int getHealth() {
+		return this.health;
+	}
+
 	public int getDamage() {
 		float minDmg = damage * 0.9f;
 		float maxDmg = damage * 1.1f;

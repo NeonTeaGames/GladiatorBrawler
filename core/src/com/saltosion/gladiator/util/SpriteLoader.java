@@ -17,6 +17,7 @@ public class SpriteLoader {
 		loadTexture(Name.GROUNDIMG, "sprites/ground.png");
 		loadTexture(Name.WALLIMG, "sprites/wall.png");
 		loadTexture(Name.AUDIENCEIMG, "sprites/audience.png");
+		loadTexture(Name.HEALTHBARIMG, "sprites/player/healthbar.png");
 
 		loadTexture(Name.BUTTON_HUGE, "sprites/buttons/button_huge.png");
 		loadTexture(Name.BUTTON_HUGE_HOVER, "sprites/buttons/button_huge_hover.png");
@@ -24,7 +25,7 @@ public class SpriteLoader {
 		loadTexture(Name.BUTTON_BIG_HOVER, "sprites/buttons/button_big_hover.png");
 		loadTexture(Name.BUTTON_SMALL, "sprites/buttons/button_small.png");
 		loadTexture(Name.BUTTON_SMALL_HOVER, "sprites/buttons/button_small_hover.png");
-		
+
 		loadTexture(Name.TITLE_LOGO, "sprites/title_logo.png");
 		loadTexture(Name.MENU_BACKGROUND, "sprites/menu_background.png");
 		loadTexture(Name.GPLV3_LOGO, "sprites/gplv3_logo.png");

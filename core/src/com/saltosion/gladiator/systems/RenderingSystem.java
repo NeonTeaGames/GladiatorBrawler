@@ -28,6 +28,8 @@ import com.saltosion.gladiator.gui.nodes.TextNode;
 import com.saltosion.gladiator.gui.properties.TextProperty;
 import com.saltosion.gladiator.util.AppUtil;
 import com.saltosion.gladiator.util.Global;
+import com.saltosion.gladiator.util.Log;
+import com.saltosion.gladiator.util.Name;
 import com.saltosion.gladiator.util.SpriteLoader;
 import com.saltosion.gladiator.util.SpriteSequence;
 import java.util.ArrayList;
@@ -60,6 +62,7 @@ public class RenderingSystem extends EntitySystem {
 
 	private List<TextObject> drawableText;
 
+	private Sprite[] healthbar;
 	private float xMin = -15, xMax = 15;
 
 	@Override
@@ -81,6 +84,11 @@ public class RenderingSystem extends EntitySystem {
 		fontCamera.setToOrtho(false, Global.FONT_SCALE, Global.FONT_SCALE);
 
 		drawableText = new ArrayList<TextObject>();
+
+		healthbar = new Sprite[3];
+		healthbar[0] = SpriteLoader.loadSprite(Name.HEALTHBARIMG, 0, 0, 32, 8);
+		healthbar[1] = SpriteLoader.loadSprite(Name.HEALTHBARIMG, 0, 1, 32, 8);
+		healthbar[2] = SpriteLoader.loadSprite(Name.HEALTHBARIMG, 0, 2, 32, 8);
 	}
 
 	public void setViewport(int width, int height) {
@@ -90,11 +98,6 @@ public class RenderingSystem extends EntitySystem {
 
 	@Override
 	public void update(float deltaTime) {
-		if (AppUtil.player != null) {
-			CPhysics phys = pm.get(AppUtil.player);
-			//camera.position.set(phys.getPosition().x, phys.getPosition().y, 0);
-			//fontCamera.position.set(camera.position.x * Global.FONT_SCALE, camera.position.y * Global.FONT_SCALE, 0);
-		}
 		camera.update();
 		fontCamera.update();
 
@@ -190,6 +193,7 @@ public class RenderingSystem extends EntitySystem {
 			ro.playAnimation("legs", "Legs-Run-" + dirMove);
 		} else if (combat) {
 			ro.playAnimation("torso", "Torso-Combat-" + dirSwing);
+			ro.playAnimation("legs", "Legs-Idle-" + dirMove);
 		} else if (moving) {
 			ro.playAnimation("torso", "Torso-Run-" + dirMove);
 			ro.playAnimation("legs", "Legs-Run-" + dirMove);
@@ -207,16 +211,16 @@ public class RenderingSystem extends EntitySystem {
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
 		for (int i = 0; i < entities.size(); i++) {
+			CPhysics physics = pm.get(entities.get(i));
 			CRenderedObject renderedObject = rom.get(entities.get(i));
 			if (renderedObject == null) {
 				continue;
 			}
+			// Draw entity
 			for (String channel : renderedObject.getChannels()) {
 				SpriteSequence currSequence = renderedObject.getSequence(renderedObject.getCurrentSequence(channel));
 				int currFrame = (int) Math.floor(renderedObject.getCurrentFrame(channel));
 				Sprite currSprite = currSequence.getSprite(currFrame);
-
-				CPhysics physics = pm.get(entities.get(i));
 
 				int spriteHeight = currSprite.getRegionHeight();
 				int spriteWidth = currSprite.getRegionWidth();
@@ -227,6 +231,25 @@ public class RenderingSystem extends EntitySystem {
 
 				float nextFrame = renderedObject.getCurrentFrame(channel) + deltaTime * currSequence.getPlayspeed();
 				renderedObject.setCurrentFrame(channel, nextFrame % currSequence.frameCount());
+			}
+
+			// Draw healthbars
+			CCombat combat = cm.get(entities.get(i));
+			if (combat != null) {
+				float spriteWidth = healthbar[0].getWidth();
+				float spriteHeight = healthbar[0].getHeight();
+				float hp = (float) combat.getHealth() / (float) combat.getMaxHealth();
+
+				healthbar[0].setPosition(((physics.getPosition().x - spriteWidth / 2) + getCameraOffset(playerPhys, physics).x),
+						(physics.getPosition().y - spriteHeight / 2 + 2.5f) + getCameraOffset(playerPhys, physics).y);
+				healthbar[0].draw(batch);
+				healthbar[1].setPosition(((physics.getPosition().x - spriteWidth / 2) + getCameraOffset(playerPhys, physics).x),
+						(physics.getPosition().y - spriteHeight / 2 + 2.5f) + getCameraOffset(playerPhys, physics).y);
+				healthbar[1].setSize(spriteWidth * hp, spriteHeight);
+				healthbar[1].draw(batch);
+				healthbar[2].setPosition(((physics.getPosition().x - spriteWidth / 2) + getCameraOffset(playerPhys, physics).x),
+						(physics.getPosition().y - spriteHeight / 2 + 2.5f) + getCameraOffset(playerPhys, physics).y);
+				healthbar[2].draw(batch);
 			}
 		}
 		batch.end();
