@@ -8,14 +8,14 @@ import com.saltosion.gladiator.util.Direction;
 import com.saltosion.gladiator.util.Global;
 import java.util.ArrayList;
 
-public class Round1Level implements Level {
+public class Round2Level implements Level {
 
 	public Entity player;
 	public ArrayList<Entity> enemies = new ArrayList<Entity>();
 
 	@Override
 	public String getLevelName() {
-		return "Round 1";
+		return "Round 2";
 	}
 
 	@Override
@@ -36,8 +36,9 @@ public class Round1Level implements Level {
 	@Override
 	public void generate() {
 		AppUtil.levelFactory.createLevelBase();
-		player = AppUtil.entityFactory.createPlayer(new Vector2(-10, 2), Direction.RIGHT);
+		player = AppUtil.entityFactory.createPlayer(new Vector2(0, 2), Direction.RIGHT);
 		enemies.add(AppUtil.entityFactory.createDummy(new Vector2(10, 2), Direction.LEFT));
+		enemies.add(AppUtil.entityFactory.createDummy(new Vector2(-10, 2), Direction.RIGHT));
 	}
 
 }
