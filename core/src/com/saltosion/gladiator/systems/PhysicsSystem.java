@@ -8,12 +8,15 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.saltosion.gladiator.components.CCombat;
 import com.saltosion.gladiator.components.CPhysics;
+import com.saltosion.gladiator.util.AppUtil;
+import com.saltosion.gladiator.util.AudioLoader;
 import com.saltosion.gladiator.util.Direction;
 import com.saltosion.gladiator.util.Log;
+import com.saltosion.gladiator.util.Name;
 
 public class PhysicsSystem extends EntitySystem {
 
-	private static final float MAX_VEL = 1.75f, COLLISION_PRECISION = 12f, UPDATES_PER_SECOND = 240f;
+	private static final float MAX_VEL = 1.75f, COLLISION_PRECISION = 12f, UPDATES_PER_SECOND = 300f;
 
 	private static final ComponentMapper<CPhysics> pm = ComponentMapper.getFor(CPhysics.class);
 	private static final ComponentMapper<CCombat> cm = ComponentMapper.getFor(CCombat.class);
@@ -58,6 +61,9 @@ public class PhysicsSystem extends EntitySystem {
 					if (obj.jumping && obj.isGrounded()) {
 						obj.setGrounded(false);
 						obj.getVelocity().y = obj.getJumpForce();
+						
+						// Sound effect!
+						AppUtil.jukebox.playSound(AudioLoader.getSound(Name.SOUND_STEP), AppUtil.sfxVolume);
 					}
 
 					obj.getVelocity().x += obj.getSimVelocity().x;

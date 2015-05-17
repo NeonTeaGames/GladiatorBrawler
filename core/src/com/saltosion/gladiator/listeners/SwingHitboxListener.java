@@ -4,10 +4,14 @@ import java.util.ArrayList;
 
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.gdx.audio.Sound;
 import com.saltosion.gladiator.components.CCombat;
 import com.saltosion.gladiator.components.CPhysics;
 import com.saltosion.gladiator.systems.CombatSystem;
+import com.saltosion.gladiator.util.AppUtil;
+import com.saltosion.gladiator.util.AudioLoader;
 import com.saltosion.gladiator.util.Direction;
+import com.saltosion.gladiator.util.Name;
 
 public class SwingHitboxListener implements CollisionListener {
 
@@ -46,6 +50,12 @@ public class SwingHitboxListener implements CollisionListener {
 			}
 			float force = cm.get(source).getSwingForce();
 			pm.get(source).setSimVelocity(x * force, 0);
+			
+			Sound s = AppUtil.jukebox.returnRandomSound(AudioLoader.getSound(Name.SOUND_CLANG01),
+					AudioLoader.getSound(Name.SOUND_CLANG02),
+					AudioLoader.getSound(Name.SOUND_CLANG03),
+					AudioLoader.getSound(Name.SOUND_CLANG04));
+			s.play(AppUtil.sfxVolume);
 		}
 	}
 

@@ -79,14 +79,14 @@ public class LevelFactory {
 
 		Entity borderLeft = new Entity();
 		CPhysics borderLeftPhysics = new CPhysics().setMovable(false).setGravityApplied(false)
-				.setProcessCollisions(false).setSize(0.1f, 20);
-		borderLeftPhysics.setPosition(-xClamp - borderLeftPhysics.getSize().x, 0);
+				.setProcessCollisions(false).setSize(1f, 20);
+		borderLeftPhysics.setPosition(-xClamp - borderLeftPhysics.getSize().x / 2, 0);
 		borderLeft.add(borderLeftPhysics);
 		AppUtil.engine.addEntity(borderLeft);
 		Entity borderRight = new Entity();
 		CPhysics borderRightPhysics = new CPhysics().setMovable(false).setGravityApplied(false)
-				.setProcessCollisions(false).setSize(0.1f, 20);
-		borderRightPhysics.setPosition(xClamp + borderRightPhysics.getSize().x, 0);
+				.setProcessCollisions(false).setSize(1f, 20);
+		borderRightPhysics.setPosition(xClamp + borderRightPhysics.getSize().x / 2, 0);
 		borderRight.add(borderRightPhysics);
 		AppUtil.engine.addEntity(borderRight);
 	}

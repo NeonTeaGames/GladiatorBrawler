@@ -6,6 +6,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.utils.ImmutableArray;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Vector2;
 import com.saltosion.gladiator.components.CCombat;
 import com.saltosion.gladiator.components.CDestructive;
@@ -13,7 +14,9 @@ import com.saltosion.gladiator.components.CPhysics;
 import com.saltosion.gladiator.listeners.CombatListener;
 import com.saltosion.gladiator.listeners.SwingHitboxListener;
 import com.saltosion.gladiator.util.AppUtil;
+import com.saltosion.gladiator.util.AudioLoader;
 import com.saltosion.gladiator.util.Direction;
+import com.saltosion.gladiator.util.Name;
 
 public class CombatSystem extends EntitySystem {
 
@@ -54,6 +57,8 @@ public class CombatSystem extends EntitySystem {
 			}
 
 			if (!combat.getSwing().isZero() && combat.swingCdCounter <= 0) {
+
+				// Swinging
 				Vector2 pos = obj.getPosition().cpy();
 
 				if (combat.getSwingDirection() == Direction.LEFT) {
@@ -67,6 +72,13 @@ public class CombatSystem extends EntitySystem {
 				}
 				createSwingHitbox(e, combat.getSwingDirection(), pos);
 
+				// SFX
+				Sound s = AppUtil.jukebox.returnRandomSound(AudioLoader.getSound(Name.SOUND_SWING01),
+						AudioLoader.getSound(Name.SOUND_SWING02),
+						AudioLoader.getSound(Name.SOUND_SWING03));
+				s.play(AppUtil.sfxVolume);
+
+				// After-swing
 				combat.swingCdCounter = combat.getSwingDuration();
 			}
 		}

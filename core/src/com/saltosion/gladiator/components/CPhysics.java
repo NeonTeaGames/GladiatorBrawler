@@ -28,6 +28,9 @@ public class CPhysics extends Component {
 
 	// Stores information about the direction last time moved in
 	public boolean movedLeftLast = false;
+	
+	// Stores a float that tells how long the physics object must wait until it can play sounds with it's walking again.
+	public float stepCD = 0;
 
 	/**
 	 * @param movable Toggles if the entity can move by itself

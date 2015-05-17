@@ -20,23 +20,33 @@ public class InputHandler implements InputProcessor {
 	public HashMap<Integer, String> keys = new HashMap<Integer, String>();
 
 	private final Array<String> hoveredUIElements = new Array<String>();
+	private final HashMap<String, Boolean> activatedInputs = new HashMap<String, Boolean>();
 
 	public InputHandler() {
-		keys.put(Keys.A, Name.MOVE_LEFT);
-		keys.put(Keys.D, Name.MOVE_RIGHT);
-		keys.put(Keys.SPACE, Name.JUMP);
-		keys.put(Keys.LEFT, Name.SWING_LEFT);
-		keys.put(Keys.RIGHT, Name.SWING_RIGHT);
-		keys.put(Keys.UP, Name.SWING_UP);
-		keys.put(Keys.DOWN, Name.SWING_DOWN);
-		keys.put(Keys.F2, Name.DEBUG);
+		addInput(Keys.A, Name.MOVE_LEFT, false);
+		addInput(Keys.D, Name.MOVE_RIGHT, false);
+		addInput(Keys.SPACE, Name.JUMP, false);
+		addInput(Keys.LEFT, Name.SWING_LEFT, false);
+		addInput(Keys.RIGHT, Name.SWING_RIGHT, false);
+		addInput(Keys.UP, Name.SWING_UP, false);
+		addInput(Keys.DOWN, Name.SWING_DOWN, false);
+		addInput(Keys.F2, Name.DEBUG, false);
+	}
+	
+	private void addInput(int key, String action, boolean activated) {
+		keys.put(key, action);
+		activatedInputs.put(action, activated);
+	}
+	
+	public void setInputEnabled(String action, boolean enabled) {
+		activatedInputs.put(action, enabled);
 	}
 
 	@Override
 	public boolean keyDown(int keycode) {
 		if (!keys.containsKey(keycode)) {
 			return false;
-		}
+		} if (!activatedInputs.get(keys.get(keycode))) { return false; }
 		String actionName = keys.get(keycode);
 		return InputReceivers.getReceiver(actionName).pressed();
 	}
@@ -45,7 +55,7 @@ public class InputHandler implements InputProcessor {
 	public boolean keyUp(int keycode) {
 		if (!keys.containsKey(keycode)) {
 			return false;
-		}
+		} if (!activatedInputs.get(keys.get(keycode))) { return false; }
 		String actionName = keys.get(keycode);
 		return InputReceivers.getReceiver(actionName).released();
 	}

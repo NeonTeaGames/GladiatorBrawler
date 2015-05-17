@@ -35,4 +35,22 @@ public class Name {
 	public static final String SWING_UP = "SWING_UP";
 	public static final String SWING_DOWN = "SWING_DOWN";
 
+	public static final String MUSIC_THEME = "MUSIC_THEME";
+	public static final String MUSIC_BATTLE = "MUSIC_BATTLE";
+	public static final String SOUND_SWING01 = "SOUND_SWING01";
+	public static final String SOUND_SWING02 = "SOUND_SWING02";
+	public static final String SOUND_SWING03 = "SOUND_SWING03";
+	public static final String SOUND_HIT01 = "SOUND_HIT01";
+	public static final String SOUND_HIT02 = "SOUND_HIT02";
+	public static final String SOUND_HIT03 = "SOUND_HIT03";
+	public static final String SOUND_HIT04 = "SOUND_HIT04";
+	public static final String SOUND_HIT05 = "SOUND_HIT05";
+	public static final String SOUND_CLANG01 = "SOUND_CLANG01";
+	public static final String SOUND_CLANG02 = "SOUND_CLANG02";
+	public static final String SOUND_CLANG03 = "SOUND_CLANG03";
+	public static final String SOUND_CLANG04 = "SOUND_CLANG04";
+	public static final String SOUND_STEP = "SOUND_STEP";
+	public static final String SOUND_BUTTON_PRESS = "SOUND_BUTTON_PRESS";
+	public static final String SOUND_BUTTON_RELEASE = "SOUND_BUTTON_RELEASE";
+
 }

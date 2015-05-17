@@ -7,6 +7,8 @@ import com.saltosion.gladiator.level.premade.Round2Level;
 import com.saltosion.gladiator.level.premade.Round3Level;
 import com.saltosion.gladiator.level.premade.Round4Level;
 import com.saltosion.gladiator.util.AppUtil;
+import com.saltosion.gladiator.util.AudioLoader;
+import com.saltosion.gladiator.util.Name;
 
 public class InGameState extends BaseState {
 
@@ -32,6 +34,10 @@ public class InGameState extends BaseState {
 
 	@Override
 	public void create() {
+		// Play music
+		AppUtil.jukebox.playMusic(AudioLoader.getMusic(Name.MUSIC_BATTLE));
+		AppUtil.jukebox.setMusicVolume(AppUtil.musicVolume/2);
+		
 		// Start from a clean slate
 		AppUtil.engine.removeAllEntities();
 		AppUtil.guiManager.clearGUI();
@@ -42,6 +48,15 @@ public class InGameState extends BaseState {
 
 		guiCreator = new InGameGUICreator();
 		guiCreator.create();
+		
+		// Activate inputs
+		AppUtil.inputHandler.setInputEnabled(Name.JUMP, true);
+		AppUtil.inputHandler.setInputEnabled(Name.MOVE_LEFT, true);
+		AppUtil.inputHandler.setInputEnabled(Name.MOVE_RIGHT, true);
+		AppUtil.inputHandler.setInputEnabled(Name.SWING_DOWN, true);
+		AppUtil.inputHandler.setInputEnabled(Name.SWING_LEFT, true);
+		AppUtil.inputHandler.setInputEnabled(Name.SWING_RIGHT, true);
+		AppUtil.inputHandler.setInputEnabled(Name.SWING_UP, true);
 	}
 
 	@Override
@@ -88,6 +103,16 @@ public class InGameState extends BaseState {
 
 	@Override
 	public void destroy() {
+		
+		// Deactivate inputs
+		AppUtil.inputHandler.setInputEnabled(Name.JUMP, false);
+		AppUtil.inputHandler.setInputEnabled(Name.MOVE_LEFT, false);
+		AppUtil.inputHandler.setInputEnabled(Name.MOVE_RIGHT, false);
+		AppUtil.inputHandler.setInputEnabled(Name.SWING_DOWN, false);
+		AppUtil.inputHandler.setInputEnabled(Name.SWING_LEFT, false);
+		AppUtil.inputHandler.setInputEnabled(Name.SWING_RIGHT, false);
+		AppUtil.inputHandler.setInputEnabled(Name.SWING_UP, false);
+		
 		// Clear all entities that are left as they are no longer needed
 		AppUtil.engine.removeAllEntities();
 		// Clear GUI so there's nothing leftover for the next state
