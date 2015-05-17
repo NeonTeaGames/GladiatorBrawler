@@ -34,6 +34,7 @@ public class Name {
 	public static final String SWING_RIGHT = "SWING_RIGHT";
 	public static final String SWING_UP = "SWING_UP";
 	public static final String SWING_DOWN = "SWING_DOWN";
+	public static final String SKIP_INTRO = "SKIP_INTRO";
 
 	public static final String MUSIC_THEME = "MUSIC_THEME";
 	public static final String MUSIC_BATTLE = "MUSIC_BATTLE";

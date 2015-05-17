@@ -18,6 +18,7 @@ public class InputReceivers {
 		inputreceivers.put(Name.SWING_UP, new IRSwing(Direction.UP));
 		inputreceivers.put(Name.SWING_DOWN, new IRSwing(Direction.DOWN));
 		inputreceivers.put(Name.DEBUG, new IRDebugToggle());
+		inputreceivers.put(Name.SKIP_INTRO, new IRSkipIntros());
 	}
 
 	public static InputReceiver getReceiver(String key) {

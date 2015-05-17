@@ -32,7 +32,7 @@ public class GladiatorBrawler extends ApplicationAdapter {
 	private InputHandler inputHandler;
 	private Jukebox jukebox;
 
-	private BaseState currentState;
+	public static BaseState currentState;
 
 	@Override
 	public void create() {

@@ -11,6 +11,11 @@ public class Global {
 
 	public static final int FLAG_ALIVE = 1;
 
+	public static final int HIGH_GORE = 5;
+	public static final int LOW_GORE = 1;
+	public static final int NO_GORE = 0;
+	public static final int GORE_LEVEL = HIGH_GORE;
+
 	/**
 	 * Higher font scale = smaller text
 	 */
