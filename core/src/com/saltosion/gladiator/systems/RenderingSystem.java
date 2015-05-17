@@ -18,6 +18,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
+import com.saltosion.gladiator.components.CAI;
 import com.saltosion.gladiator.components.CCombat;
 import com.saltosion.gladiator.components.CParticle;
 import com.saltosion.gladiator.components.CPhysics;
@@ -28,7 +29,6 @@ import com.saltosion.gladiator.gui.nodes.TextNode;
 import com.saltosion.gladiator.gui.properties.TextProperty;
 import com.saltosion.gladiator.util.AppUtil;
 import com.saltosion.gladiator.util.Global;
-import com.saltosion.gladiator.util.Log;
 import com.saltosion.gladiator.util.Name;
 import com.saltosion.gladiator.util.SpriteLoader;
 import com.saltosion.gladiator.util.SpriteSequence;
@@ -40,6 +40,7 @@ public class RenderingSystem extends EntitySystem {
 	private final ComponentMapper<CRenderedObject> rom = ComponentMapper.getFor(CRenderedObject.class);
 	private final ComponentMapper<CPhysics> pm = ComponentMapper.getFor(CPhysics.class);
 	private final ComponentMapper<CCombat> cm = ComponentMapper.getFor(CCombat.class);
+	private final ComponentMapper<CAI> aim = ComponentMapper.getFor(CAI.class);
 	private final ComponentMapper<CParticle> pam = ComponentMapper.getFor(CParticle.class);
 	private ImmutableArray<Entity> entities;
 
@@ -53,7 +54,7 @@ public class RenderingSystem extends EntitySystem {
 	public int screenWidth = 0;
 
 	private boolean debug = false;
-	private final Color debugColor = new Color(0, 1, 0, 1);
+	private final Color debugColor = new Color(0, 1, 0, 1), debugAIColor = new Color(1, 0, 0, 1);
 
 	private float deltaDelay = 0;
 	private double deltaAvgSum;
@@ -326,6 +327,16 @@ public class RenderingSystem extends EntitySystem {
 				debugRenderer.line(x1, y0, x1, y1);
 				debugRenderer.line(x1, y1, x0, y1);
 				debugRenderer.line(x0, y1, x0, y0);
+
+				CAI ai = aim.get(entities.get(i));
+				if (ai == null) {
+					continue;
+				}
+				float x = physics.getPosition().x + getCameraOffset(playerPhys, physics).x;
+				float y = physics.getPosition().y + getCameraOffset(playerPhys, physics).y;
+
+				debugRenderer.setColor(debugAIColor);
+				debugRenderer.circle(x, y, ai.getReactDistance());
 			}
 			debugRenderer.end();
 		}

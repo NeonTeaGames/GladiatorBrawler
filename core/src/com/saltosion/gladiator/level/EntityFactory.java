@@ -32,7 +32,8 @@ public class EntityFactory {
 		player.add(createPlayerRenderedObject());
 
 		// Physics
-		player.add(new CPhysics().setSize(1.5f, 3.299f).setPosition(pos.x, pos.y).setDirection(initialDirection));
+		player.add(new CPhysics().setSize(1.5f, 3.299f).setPosition(pos.x, pos.y)
+				.setDirection(initialDirection).setMoveSpeed(15f));
 
 		// Combat
 		player.add(new CCombat().setBaseDamage(100).setHealth(1000)
@@ -44,28 +45,33 @@ public class EntityFactory {
 		return player;
 	}
 
-	public Entity createDummy(Vector2 pos) {
-		return createDummy(pos, Direction.RIGHT);
+	public Entity createEnemy(Vector2 pos) {
+		return createEnemy(pos, Direction.RIGHT);
 	}
 
-	public Entity createDummy(Vector2 pos, Direction initialDirection) {
-		Entity dummy = new Entity();
-		dummy.flags |= Global.FLAG_ALIVE;
+	public Entity createEnemy(Vector2 pos, Direction initialDirection) {
+		return createEnemy(pos, initialDirection, new CAI().setReactDistance(5).setAIListener(new DummyAI()));
+	}
+
+	public Entity createEnemy(Vector2 pos, Direction initialDirection, CAI cai) {
+		Entity enemy = new Entity();
+		enemy.flags |= Global.FLAG_ALIVE;
 
 		// Graphics
-		dummy.add(createPlayerRenderedObject());
+		enemy.add(createPlayerRenderedObject());
 
 		// Physics
-		dummy.add(new CPhysics().setSize(1.5f, 3.299f).setPosition(pos.x, pos.y).setDirection(initialDirection));
+		enemy.add(new CPhysics().setSize(1.5f, 3.299f).setPosition(pos.x, pos.y)
+				.setDirection(initialDirection).setMoveSpeed(14f));
 
 		// Combat
-		dummy.add(new CCombat().setBaseDamage(100).setHealth(1000).setSwingCD(.5f)
+		enemy.add(new CCombat().setBaseDamage(100).setHealth(1000).setSwingCD(.5f)
 				.setCombatListener(new BasicDeathListener()));
-		dummy.add(new CAI().setReactDistance(5).setAIListener(new DummyAI()));
+		enemy.add(cai);
 
-		AppUtil.engine.addEntity(dummy);
+		AppUtil.engine.addEntity(enemy);
 
-		return dummy;
+		return enemy;
 	}
 
 	private CRenderedObject createPlayerRenderedObject() {
@@ -87,11 +93,11 @@ public class EntityFactory {
 		renderedObject.addChannel("torso");
 
 		// Idle animations
-		SpriteSequence torsoIdleRightSequence = new SpriteSequence(IDLE_ANIMATION_SPEED).addSprite(playerSprites[0][1][0]);
+		SpriteSequence torsoIdleRightSequence = new SpriteSequence(IDLE_ANIMATION_SPEED).addSprite(playerSprites[0][0][0]).addSprite(playerSprites[0][1][0]);
 		renderedObject.addSequence("Torso-Idle-Right", torsoIdleRightSequence);
 		SpriteSequence legsIdleRightSquence = new SpriteSequence(IDLE_ANIMATION_SPEED).addSprite(playerSprites[1][0][0]).addSprite(playerSprites[1][1][0]);
 		renderedObject.addSequence("Legs-Idle-Right", legsIdleRightSquence);
-		SpriteSequence torsoIdleLeftSequence = new SpriteSequence(IDLE_ANIMATION_SPEED).addSprite(playerSprites[0][1][1]);
+		SpriteSequence torsoIdleLeftSequence = new SpriteSequence(IDLE_ANIMATION_SPEED).addSprite(playerSprites[0][0][1]).addSprite(playerSprites[0][1][1]);
 		renderedObject.addSequence("Torso-Idle-Left", torsoIdleLeftSequence);
 		SpriteSequence legsIdleLeftSquence = new SpriteSequence(IDLE_ANIMATION_SPEED).addSprite(playerSprites[1][0][1]).addSprite(playerSprites[1][1][1]);
 		renderedObject.addSequence("Legs-Idle-Left", legsIdleLeftSquence);
