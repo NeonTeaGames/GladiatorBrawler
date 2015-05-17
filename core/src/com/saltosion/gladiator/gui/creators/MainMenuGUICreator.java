@@ -1,5 +1,6 @@
 package com.saltosion.gladiator.gui.creators;
 
+import com.badlogic.gdx.Gdx;
 import com.saltosion.gladiator.gui.nodes.ButtonNode;
 import com.saltosion.gladiator.gui.nodes.GUINode;
 import com.saltosion.gladiator.gui.nodes.ImageNode;
@@ -41,6 +42,25 @@ public class MainMenuGUICreator implements GUICreator {
 		playButtonText.setPosition(-0.039f, 0.0175f);
 		playButton.addChild(playButtonText);
 		menuNode.addChild(playButton);
+		
+		ButtonNode quitButton = new ButtonNode("quit_button", SpriteLoader.loadSprite(Name.BUTTON_BIG),
+				SpriteLoader.loadSprite(Name.BUTTON_BIG_HOVER)) {
+					@Override
+					public void pressed(int x, int y, int mouseButton) {
+						playButtonPressSound();
+					}
+
+					@Override
+					public void released(int x, int y, int mouseButton) {
+						playButtonReleaseSound();
+						Gdx.app.exit();
+					}
+				};
+		quitButton.setPosition(0.4f, 0.35f);
+		TextNode quitButtonText = new TextNode("quit_button_text", "Quit");
+		quitButtonText.setPosition(-0.039f, 0.0175f);
+		quitButton.addChild(quitButtonText);
+		menuNode.addChild(quitButton);
 
 		ImageNode titleImage = new ImageNode("title_image",
 				SpriteLoader.loadSprite(Name.TITLE_LOGO));
