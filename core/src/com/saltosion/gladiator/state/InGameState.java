@@ -36,8 +36,8 @@ public class InGameState extends BaseState {
 	public void create() {
 		// Play music
 		AppUtil.jukebox.playMusic(AudioLoader.getMusic(Name.MUSIC_BATTLE));
-		AppUtil.jukebox.setMusicVolume(AppUtil.musicVolume/2);
-		
+		AppUtil.jukebox.setMusicVolume(AppUtil.musicVolume / 2);
+
 		// Start from a clean slate
 		AppUtil.engine.removeAllEntities();
 		AppUtil.guiManager.clearGUI();
@@ -48,7 +48,7 @@ public class InGameState extends BaseState {
 
 		guiCreator = new InGameGUICreator();
 		guiCreator.create();
-		
+
 		// Activate inputs
 		AppUtil.inputHandler.setInputEnabled(Name.JUMP, true);
 		AppUtil.inputHandler.setInputEnabled(Name.MOVE_LEFT, true);
@@ -103,7 +103,7 @@ public class InGameState extends BaseState {
 
 	@Override
 	public void destroy() {
-		
+
 		// Deactivate inputs
 		AppUtil.inputHandler.setInputEnabled(Name.JUMP, false);
 		AppUtil.inputHandler.setInputEnabled(Name.MOVE_LEFT, false);
@@ -112,7 +112,7 @@ public class InGameState extends BaseState {
 		AppUtil.inputHandler.setInputEnabled(Name.SWING_LEFT, false);
 		AppUtil.inputHandler.setInputEnabled(Name.SWING_RIGHT, false);
 		AppUtil.inputHandler.setInputEnabled(Name.SWING_UP, false);
-		
+
 		// Clear all entities that are left as they are no longer needed
 		AppUtil.engine.removeAllEntities();
 		// Clear GUI so there's nothing leftover for the next state

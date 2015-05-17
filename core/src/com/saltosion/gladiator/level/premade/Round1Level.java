@@ -43,7 +43,7 @@ public class Round1Level implements Level {
 		enemies.add(AppUtil.entityFactory.createEnemy(new Vector2(10, 2), Direction.LEFT,
 				new CAI().setReactDistance(12f).setAIListener(new HeavenWorshiperAI())));
 		enemies.add(AppUtil.entityFactory.createEnemy(new Vector2(-10, 2), Direction.RIGHT,
-				new CAI().setReactDistance(12f).setAIListener(new BerserkerAI())));
+				new CAI().setReactDistance(12f).setAIListener(new HeavenWorshiperAI())));
 	}
 
 }

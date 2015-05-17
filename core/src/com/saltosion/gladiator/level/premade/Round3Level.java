@@ -17,7 +17,7 @@ public class Round3Level implements Level {
 
 	@Override
 	public String getLevelName() {
-		return "Round 1";
+		return "Round 3";
 	}
 
 	@Override
