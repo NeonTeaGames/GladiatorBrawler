@@ -72,4 +72,8 @@ public class Jukebox {
 		sound.setPan(id, pan, volume);
 		return id;
 	}
+	
+	public Sound returnRandomSound(Sound ... args) {
+		return args[(int) Math.floor(Math.random()*args.length)];
+	}
 }

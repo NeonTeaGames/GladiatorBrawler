@@ -1,10 +1,13 @@
 package com.saltosion.gladiator.listeners;
 
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.gdx.audio.Sound;
 import com.saltosion.gladiator.components.CParticle;
 import com.saltosion.gladiator.components.CPhysics;
 import com.saltosion.gladiator.util.AppUtil;
+import com.saltosion.gladiator.util.AudioLoader;
 import com.saltosion.gladiator.util.Global;
+import com.saltosion.gladiator.util.Name;
 
 public class BasicDeathListener implements CombatListener {
 
@@ -16,6 +19,14 @@ public class BasicDeathListener implements CombatListener {
 		target.flags &= ~Global.FLAG_ALIVE;
 
 		CPhysics cp = target.getComponent(CPhysics.class);
+		
+		Sound s = AppUtil.jukebox.returnRandomSound(AudioLoader.getSound(Name.SOUND_HIT01),
+				AudioLoader.getSound(Name.SOUND_HIT02),
+				AudioLoader.getSound(Name.SOUND_HIT03),
+				AudioLoader.getSound(Name.SOUND_HIT04),
+				AudioLoader.getSound(Name.SOUND_HIT05));
+		s.play(AppUtil.sfxVolume);
+		
 		for (int i = 0; i < FX_DEAD_AMT; i++) {
 			Entity fx = new Entity();
 			fx.add(new CParticle().setColor(1, 0, 0, 1).setDecayTime(2).setGravity(0, FX_GRAV)
@@ -31,6 +42,14 @@ public class BasicDeathListener implements CombatListener {
 	@Override
 	public void damageTaken(Entity source, Entity target, int damageTaken) {
 		CPhysics cp = target.getComponent(CPhysics.class);
+				
+		Sound s = AppUtil.jukebox.returnRandomSound(AudioLoader.getSound(Name.SOUND_HIT01),
+				AudioLoader.getSound(Name.SOUND_HIT02),
+				AudioLoader.getSound(Name.SOUND_HIT03),
+				AudioLoader.getSound(Name.SOUND_HIT04),
+				AudioLoader.getSound(Name.SOUND_HIT05));
+		s.play(AppUtil.sfxVolume);
+		
 		for (int i = 0; i < FX_HIT_AMT; i++) {
 			Entity fx = new Entity();
 			fx.add(new CParticle().setColor(1, 0, 0, 1).setDecayTime(2).setGravity(0, FX_GRAV)

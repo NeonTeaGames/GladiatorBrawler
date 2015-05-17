@@ -28,6 +28,7 @@ import com.saltosion.gladiator.gui.properties.ImageProperty;
 import com.saltosion.gladiator.gui.nodes.TextNode;
 import com.saltosion.gladiator.gui.properties.TextProperty;
 import com.saltosion.gladiator.util.AppUtil;
+import com.saltosion.gladiator.util.AudioLoader;
 import com.saltosion.gladiator.util.Global;
 import com.saltosion.gladiator.util.Name;
 import com.saltosion.gladiator.util.SpriteLoader;
@@ -101,7 +102,7 @@ public class RenderingSystem extends EntitySystem {
 		Gdx.gl.glClearColor(0, 0, 0, 0);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-		updateEntityAnimations();
+		updateEntityAnimations(deltaTime);
 		renderEntities(deltaTime);
 		renderParticles();
 		renderDebug();
@@ -134,13 +135,13 @@ public class RenderingSystem extends EntitySystem {
 		return deltaString;
 	}
 
-	private void updateEntityAnimations() {
+	private void updateEntityAnimations(float deltaTime) {
 		for (int i = 0; i < entities.size(); i++) {
-			updateEntityAnimation(entities.get(i));
+			updateEntityAnimation(entities.get(i), deltaTime);
 		}
 	}
 
-	private void updateEntityAnimation(Entity entity) {
+	private void updateEntityAnimation(Entity entity, float deltaTime) {
 		CRenderedObject ro = rom.get(entity);
 		CPhysics po = pm.get(entity);
 		CCombat co = cm.get(entity);
@@ -184,20 +185,34 @@ public class RenderingSystem extends EntitySystem {
 			}
 		}
 
-		// Play animations
+		// Play animations & play sounds
+		if (po.stepCD > 0) {
+			po.stepCD -= deltaTime;
+		}
+		
 		if (moving && combat) {
 			ro.playAnimation("torso", "Torso-Combat-" + dirSwing);
 			ro.playAnimation("legs", "Legs-Run-" + dirMove);
+			tryToMakeStepSound(po);
 		} else if (combat) {
 			ro.playAnimation("torso", "Torso-Combat-" + dirSwing);
 			ro.playAnimation("legs", "Legs-Idle-" + dirMove);
 		} else if (moving) {
 			ro.playAnimation("torso", "Torso-Run-" + dirMove);
 			ro.playAnimation("legs", "Legs-Run-" + dirMove);
+			tryToMakeStepSound(po);
 		} else {
 			ro.playAnimation("torso", "Torso-Idle-" + dirMove);
 			ro.playAnimation("legs", "Legs-Idle-" + dirMove);
 		}
+	}
+	
+	private void tryToMakeStepSound(CPhysics po) {
+		if (po.stepCD > 0 || !po.isGrounded()) {
+			return;
+		}
+		po.stepCD = 0.3f;
+		AppUtil.jukebox.playSound(AudioLoader.getSound(Name.SOUND_STEP), AppUtil.sfxVolume/3*2);
 	}
 
 	private void renderEntities(float deltaTime) {

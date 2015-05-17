@@ -5,6 +5,8 @@ import com.saltosion.gladiator.level.Level;
 import com.saltosion.gladiator.level.premade.Round1Level;
 import com.saltosion.gladiator.level.premade.Round2Level;
 import com.saltosion.gladiator.util.AppUtil;
+import com.saltosion.gladiator.util.AudioLoader;
+import com.saltosion.gladiator.util.Name;
 
 public class InGameState extends BaseState {
 
@@ -29,6 +31,10 @@ public class InGameState extends BaseState {
 
 	@Override
 	public void create() {
+		// Play music
+		AppUtil.jukebox.playMusic(AudioLoader.getMusic(Name.MUSIC_BATTLE));
+		AppUtil.jukebox.setMusicVolume(AppUtil.musicVolume/2);
+		
 		// Start from a clean slate
 		AppUtil.engine.removeAllEntities();
 		AppUtil.guiManager.clearGUI();

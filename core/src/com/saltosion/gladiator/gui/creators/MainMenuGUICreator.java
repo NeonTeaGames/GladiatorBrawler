@@ -27,10 +27,12 @@ public class MainMenuGUICreator implements GUICreator {
 				SpriteLoader.loadSprite(Name.BUTTON_BIG_HOVER)) {
 					@Override
 					public void pressed(int x, int y, int mouseButton) {
+						playButtonPressSound();
 					}
 
 					@Override
 					public void released(int x, int y, int mouseButton) {
+						playButtonReleaseSound();
 						shouldPlay = true;
 					}
 				};

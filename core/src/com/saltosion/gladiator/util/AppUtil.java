@@ -17,6 +17,9 @@ public class AppUtil {
 	public static GUIManager guiManager;
 
 	public static final int VPHEIGHT_CONST = 24;
+	
+	public static float sfxVolume = 0.3f;
+	public static float musicVolume = 0.7f;
 
 	public static final Vector2 JUMP_FORCE = new Vector2(0, 12000);
 }
