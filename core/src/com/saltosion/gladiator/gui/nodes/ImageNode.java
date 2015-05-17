@@ -13,9 +13,9 @@ import com.saltosion.gladiator.gui.properties.ImageProperty;
  * @author somersby
  */
 public class ImageNode extends GUINode implements ImageProperty {
-	
+
 	private Sprite image;
-	
+
 	public ImageNode(String ID, Sprite image) {
 		super(ID);
 		this.image = image;
@@ -25,5 +25,10 @@ public class ImageNode extends GUINode implements ImageProperty {
 	public Sprite getImage() {
 		return this.image;
 	}
-	
+
+	public ImageNode setImage(Sprite image) {
+		this.image = image;
+		return this;
+	}
+
 }

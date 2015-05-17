@@ -5,6 +5,9 @@ public class Name {
 	public static final String GAME_NAME = "Gladiator Brawl";
 	public static final String DEBUG = "DEBUG";
 
+	public static final String SPLASH_SALTOSION = "SPLASH_SALTOSION";
+	public static final String SPLASH_LIBGDX = "SPLASH_LIBGDX";
+
 	public static final String STATICPLAYER = "STATICPLAYER";
 	public static final String PLAYERIMG = "PLAYERIMG";
 	public static final String GROUNDIMG = "GROUNDIMG";

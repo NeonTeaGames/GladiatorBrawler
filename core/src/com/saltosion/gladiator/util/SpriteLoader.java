@@ -9,9 +9,15 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class SpriteLoader {
 
-	public static HashMap<String, Texture> textures = new HashMap<String, Texture>();
+	private static final HashMap<String, Texture> textures = new HashMap<String, Texture>();
+	public static boolean loadedAllSprites = false;
 
-	static {
+	public static void preload() {
+		loadTexture(Name.SPLASH_SALTOSION, "splashscreens/saltosion.png");
+		loadTexture(Name.SPLASH_LIBGDX, "splashscreens/libgdx.png");
+	}
+
+	public static void loadAll() {
 		loadTexture(Name.STATICPLAYER, "sprites/staticplayer.png");
 		loadTexture(Name.PLAYERIMG, "sprites/player/player.png");
 		loadTexture(Name.GROUNDIMG, "sprites/ground.png");
@@ -30,6 +36,7 @@ public class SpriteLoader {
 		loadTexture(Name.MENU_BACKGROUND, "sprites/menu_background.png");
 		loadTexture(Name.GPLV3_LOGO, "sprites/gplv3_logo.png");
 		loadTexture(Name.OSI_LOGO, "sprites/osi_logo.png");
+		loadedAllSprites = true;
 	}
 
 	/**
@@ -62,7 +69,9 @@ public class SpriteLoader {
 	/**
 	 * Load texture from path.
 	 *
+	 * @param key
 	 * @param filePath
+	 * @return
 	 */
 	public static Texture loadTexture(String key, String filePath) {
 		Texture t = new Texture(Gdx.files.internal(filePath));

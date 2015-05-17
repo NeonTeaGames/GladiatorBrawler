@@ -34,7 +34,7 @@ public class LevelFactory {
 		audienceRO.playAnimation("Default-Animation");
 		audience.add(audienceRO);
 		CPhysics audiencePO = new CPhysics().setMovable(false).setGravityApplied(false)
-				.setProcessCollisions(false).setGhost(true).setPosition(0, 10).setZParallax(9)
+				.setProcessCollisions(false).setGhost(true).setPosition(0, 10).setZParallax(10)
 				.setSize(audienceSprite0.getRegionWidth() * Global.SPRITE_SCALE,
 						audienceSprite0.getRegionHeight() * Global.SPRITE_SCALE);
 		audience.add(audiencePO);
@@ -49,7 +49,7 @@ public class LevelFactory {
 		CRenderedObject wallRO = new CRenderedObject(wallSprite);
 		wall.add(wallRO);
 		CPhysics wallPO = new CPhysics().setMovable(false).setGravityApplied(false)
-				.setProcessCollisions(false).setGhost(true).setPosition(0, 2).setZParallax(1.5f)
+				.setProcessCollisions(false).setGhost(true).setPosition(0, 2).setZParallax(2)
 				.setSize(wallSprite.getRegionWidth() * Global.SPRITE_SCALE,
 						wallSprite.getRegionHeight() * Global.SPRITE_SCALE);
 		wall.add(wallPO);

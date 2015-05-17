@@ -63,6 +63,7 @@ public class RenderingSystem extends EntitySystem {
 	private List<TextObject> drawableText;
 
 	private Sprite[] healthbar;
+	private boolean healthbarLoaded = false;
 	private float xMin = -15, xMax = 15;
 
 	@Override
@@ -84,11 +85,6 @@ public class RenderingSystem extends EntitySystem {
 		fontCamera.setToOrtho(false, Global.FONT_SCALE, Global.FONT_SCALE);
 
 		drawableText = new ArrayList<TextObject>();
-
-		healthbar = new Sprite[3];
-		healthbar[0] = SpriteLoader.loadSprite(Name.HEALTHBARIMG, 0, 0, 32, 8);
-		healthbar[1] = SpriteLoader.loadSprite(Name.HEALTHBARIMG, 0, 1, 32, 8);
-		healthbar[2] = SpriteLoader.loadSprite(Name.HEALTHBARIMG, 0, 2, 32, 8);
 	}
 
 	public void setViewport(int width, int height) {
@@ -236,6 +232,9 @@ public class RenderingSystem extends EntitySystem {
 			// Draw healthbars
 			CCombat combat = cm.get(entities.get(i));
 			if (combat != null) {
+				if (!healthbarLoaded) {
+					loadHealthbarSprites();
+				}
 				float spriteWidth = healthbar[0].getWidth();
 				float spriteHeight = healthbar[0].getHeight();
 				float hp = (float) combat.getHealth() / (float) combat.getMaxHealth();
@@ -356,6 +355,14 @@ public class RenderingSystem extends EntitySystem {
 	public void updateEntities(Engine engine) {
 		entities = engine.getEntitiesFor(Family.getFor(ComponentType.getBitsFor(),
 				ComponentType.getBitsFor(CPhysics.class, CParticle.class), ComponentType.getBitsFor()));
+	}
+
+	public void loadHealthbarSprites() {
+		healthbarLoaded = true;
+		healthbar = new Sprite[3];
+		healthbar[0] = SpriteLoader.loadSprite(Name.HEALTHBARIMG, 0, 0, 32, 8);
+		healthbar[1] = SpriteLoader.loadSprite(Name.HEALTHBARIMG, 0, 1, 32, 8);
+		healthbar[2] = SpriteLoader.loadSprite(Name.HEALTHBARIMG, 0, 2, 32, 8);
 	}
 
 	public boolean getDebug() {
