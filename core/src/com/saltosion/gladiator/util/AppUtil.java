@@ -11,6 +11,7 @@ public class AppUtil {
 
 	public static Entity player;
 	public static Engine engine;
+	public static Jukebox jukebox;
 	public static EntityFactory entityFactory;
 	public static LevelFactory levelFactory;
 	public static GUIManager guiManager;

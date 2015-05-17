@@ -18,7 +18,10 @@ import com.saltosion.gladiator.systems.ParticleSystem;
 import com.saltosion.gladiator.systems.PhysicsSystem;
 import com.saltosion.gladiator.systems.RenderingSystem;
 import com.saltosion.gladiator.util.AppUtil;
+import com.saltosion.gladiator.util.AudioLoader;
+import com.saltosion.gladiator.util.Jukebox;
 import com.saltosion.gladiator.util.Log;
+import com.saltosion.gladiator.util.SpriteLoader;
 
 public class GladiatorBrawler extends ApplicationAdapter {
 
@@ -27,6 +30,7 @@ public class GladiatorBrawler extends ApplicationAdapter {
 	private LevelFactory levelFactory;
 	private GUIManager guiManager;
 	private InputHandler inputHandler;
+	private Jukebox jukebox;
 
 	private BaseState currentState;
 
@@ -50,6 +54,10 @@ public class GladiatorBrawler extends ApplicationAdapter {
 		// Initialize GUI
 		guiManager = new GUIManager();
 		AppUtil.guiManager = this.guiManager;
+		
+		// Initialize Jukebox
+		jukebox = new Jukebox();
+		AppUtil.jukebox = this.jukebox;
 
 		// Initialize input
 		inputHandler = new InputHandler();
@@ -136,5 +144,7 @@ public class GladiatorBrawler extends ApplicationAdapter {
 			currentState.destroy();
 		}
 		AppUtil.engine.getSystem(RenderingSystem.class).dispose();
+		SpriteLoader.dispose();
+		AudioLoader.dispose();
 	}
 }
