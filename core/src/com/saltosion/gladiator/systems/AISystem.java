@@ -9,6 +9,7 @@ import com.badlogic.ashley.utils.ImmutableArray;
 import com.saltosion.gladiator.components.CAI;
 import com.saltosion.gladiator.components.CCombat;
 import com.saltosion.gladiator.components.CPhysics;
+import com.saltosion.gladiator.listeners.AIListener;
 import java.util.ArrayList;
 
 public class AISystem extends EntitySystem {
@@ -49,7 +50,10 @@ public class AISystem extends EntitySystem {
 					reactEntities.add(entities.get(j));
 				}
 			}
-			cai.getAIListener().react(reactEntities, entities.get(i));
+			AIListener listener = cai.getAIListener();
+			if (listener != null) {
+				listener.react(reactEntities, entities.get(i));
+			}
 		}
 	}
 
