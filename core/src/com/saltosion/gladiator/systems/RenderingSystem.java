@@ -425,7 +425,6 @@ public class RenderingSystem extends EntitySystem {
 		debugRenderer.dispose();
 		particleRenderer.dispose();
 		font.dispose();
-		SpriteLoader.dispose();
 	}
 
 	private class TextObject {
