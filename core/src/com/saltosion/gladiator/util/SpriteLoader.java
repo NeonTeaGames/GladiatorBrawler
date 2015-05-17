@@ -24,6 +24,11 @@ public class SpriteLoader {
 		loadTexture(Name.BUTTON_BIG_HOVER, "sprites/buttons/button_big_hover.png");
 		loadTexture(Name.BUTTON_SMALL, "sprites/buttons/button_small.png");
 		loadTexture(Name.BUTTON_SMALL_HOVER, "sprites/buttons/button_small_hover.png");
+		
+		loadTexture(Name.TITLE_LOGO, "sprites/title_logo.png");
+		loadTexture(Name.MENU_BACKGROUND, "sprites/menu_background.png");
+		loadTexture(Name.GPLV3_LOGO, "sprites/gplv3_logo.png");
+		loadTexture(Name.OSI_LOGO, "sprites/osi_logo.png");
 	}
 
 	/**

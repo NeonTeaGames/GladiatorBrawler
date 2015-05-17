@@ -18,6 +18,10 @@ public class Name {
 	public static final String BUTTON_BIG_HOVER = "BUTTON_BIG_HOVER";
 	public static final String BUTTON_SMALL = "BUTTON_SMALL";
 	public static final String BUTTON_SMALL_HOVER = "BUTTON_SMALL_HOVER";
+	public static final String TITLE_LOGO = "TITLE_LOGO";
+	public static final String MENU_BACKGROUND = "MENU_BACKGROUND";
+	public static final String GPLV3_LOGO = "GPLV3_LOGO";
+	public static final String OSI_LOGO = "OSI_LOGO";
 
 	public static final String MOVE_LEFT = "MOVE_LEFT";
 	public static final String MOVE_RIGHT = "MOVE_RIGHT";
