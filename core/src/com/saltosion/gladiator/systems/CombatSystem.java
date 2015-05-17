@@ -38,8 +38,6 @@ public class CombatSystem extends EntitySystem {
 
 			if (combat.swingCdCounter > 0) {
 				combat.swingCdCounter -= deltaTime;
-			}
-			if (combat.swingCdCounter > 0) {
 				continue;
 			}
 
@@ -59,7 +57,7 @@ public class CombatSystem extends EntitySystem {
 			}
 
 			if (!combat.getSwing().isZero() && combat.swingCdCounter <= 0) {
-				
+
 				// Swinging
 				Vector2 pos = obj.getPosition().cpy();
 
@@ -73,16 +71,14 @@ public class CombatSystem extends EntitySystem {
 					pos.add(0, -combat.getSwingSize().y / 3 * 2);
 				}
 				createSwingHitbox(e, combat.getSwingDirection(), pos);
-				
-				// SFX
 
-				Sound s = AppUtil.jukebox.returnRandomSound(AudioLoader.getSound(Name.SOUND_SWING01), 
-						AudioLoader.getSound(Name.SOUND_SWING02), 
+				// SFX
+				Sound s = AppUtil.jukebox.returnRandomSound(AudioLoader.getSound(Name.SOUND_SWING01),
+						AudioLoader.getSound(Name.SOUND_SWING02),
 						AudioLoader.getSound(Name.SOUND_SWING03));
 				s.play(AppUtil.sfxVolume);
-				
+
 				// After-swing
-				
 				combat.swingCdCounter = combat.getSwingDuration();
 			}
 		}

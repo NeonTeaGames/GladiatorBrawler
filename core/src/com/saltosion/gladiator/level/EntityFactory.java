@@ -65,7 +65,7 @@ public class EntityFactory {
 				.setDirection(initialDirection).setMoveSpeed(14f));
 
 		// Combat
-		enemy.add(new CCombat().setBaseDamage(100).setHealth(1000).setSwingCD(.5f)
+		enemy.add(new CCombat().setBaseDamage(100).setHealth(1000)
 				.setCombatListener(new BasicDeathListener()));
 		enemy.add(cai);
 
