@@ -12,22 +12,21 @@ import com.saltosion.gladiator.util.Name;
 public class BasicDeathListener implements CombatListener {
 
 	private static final float FX_FORCE = 16f, FX_GRAV = -40f;
-	private static final int FX_HIT_AMT = 4, FX_DEAD_AMT = 96;
 
 	@Override
 	public void died(Entity source, Entity target, int damageTaken) {
 		target.flags &= ~Global.FLAG_ALIVE;
 
 		CPhysics cp = target.getComponent(CPhysics.class);
-		
+
 		Sound s = AppUtil.jukebox.returnRandomSound(AudioLoader.getSound(Name.SOUND_HIT01),
 				AudioLoader.getSound(Name.SOUND_HIT02),
 				AudioLoader.getSound(Name.SOUND_HIT03),
 				AudioLoader.getSound(Name.SOUND_HIT04),
 				AudioLoader.getSound(Name.SOUND_HIT05));
 		s.play(AppUtil.sfxVolume);
-		
-		for (int i = 0; i < FX_DEAD_AMT; i++) {
+
+		for (int i = 0; i < getGoreAmount(damageTaken) * 2; i++) {
 			Entity fx = new Entity();
 			fx.add(new CParticle().setColor(1, 0, 0, 1).setDecayTime(2).setGravity(0, FX_GRAV)
 					.setVelocity((float) Math.cos(Math.toRadians(Math.random() * 360)) * FX_FORCE,
@@ -42,15 +41,15 @@ public class BasicDeathListener implements CombatListener {
 	@Override
 	public void damageTaken(Entity source, Entity target, int damageTaken) {
 		CPhysics cp = target.getComponent(CPhysics.class);
-				
+
 		Sound s = AppUtil.jukebox.returnRandomSound(AudioLoader.getSound(Name.SOUND_HIT01),
 				AudioLoader.getSound(Name.SOUND_HIT02),
 				AudioLoader.getSound(Name.SOUND_HIT03),
 				AudioLoader.getSound(Name.SOUND_HIT04),
 				AudioLoader.getSound(Name.SOUND_HIT05));
 		s.play(AppUtil.sfxVolume);
-		
-		for (int i = 0; i < FX_HIT_AMT; i++) {
+
+		for (int i = 0; i < getGoreAmount(damageTaken); i++) {
 			Entity fx = new Entity();
 			fx.add(new CParticle().setColor(1, 0, 0, 1).setDecayTime(2).setGravity(0, FX_GRAV)
 					.setVelocity((float) Math.cos(Math.toRadians(Math.random() * 360)) * FX_FORCE,
@@ -60,6 +59,10 @@ public class BasicDeathListener implements CombatListener {
 					.setSize(0.2f, 0.2f));
 			AppUtil.engine.addEntity(fx);
 		}
+	}
+
+	public int getGoreAmount(int damage) {
+		return (damage - 89) / 8 * Global.GORE_LEVEL;
 	}
 
 }
