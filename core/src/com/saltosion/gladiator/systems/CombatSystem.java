@@ -6,18 +6,14 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.utils.ImmutableArray;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.saltosion.gladiator.components.CCombat;
 import com.saltosion.gladiator.components.CDestructive;
 import com.saltosion.gladiator.components.CPhysics;
-import com.saltosion.gladiator.components.CRenderedObject;
 import com.saltosion.gladiator.listeners.CombatListener;
 import com.saltosion.gladiator.listeners.SwingHitboxListener;
 import com.saltosion.gladiator.util.AppUtil;
 import com.saltosion.gladiator.util.Direction;
-import com.saltosion.gladiator.util.Name;
-import com.saltosion.gladiator.util.SpriteLoader;
 
 public class CombatSystem extends EntitySystem {
 
@@ -39,8 +35,6 @@ public class CombatSystem extends EntitySystem {
 
 			if (combat.swingCdCounter > 0) {
 				combat.swingCdCounter -= deltaTime;
-			}
-			if (combat.swingCdCounter > 0) {
 				continue;
 			}
 
