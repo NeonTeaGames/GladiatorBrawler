@@ -79,7 +79,7 @@ public class BasicDeathListener implements CombatListener {
 	}
 
 	public int getGoreAmount(int damage) {
-		return (damage - 89) / 8 * Global.GORE_LEVEL;
+		return (damage - 80) / 8 * Global.GORE_LEVEL;
 	}
 
 }
