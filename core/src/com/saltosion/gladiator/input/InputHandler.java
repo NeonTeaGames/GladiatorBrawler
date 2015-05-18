@@ -1,3 +1,20 @@
+/**
+ * GladiatorBrawler is a 2D swordfighting game.
+ * Copyright (C) 2015 Jeasonfire/Allexit
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
 package com.saltosion.gladiator.input;
 
 import java.util.HashMap;
@@ -33,12 +50,12 @@ public class InputHandler implements InputProcessor {
 		addInput(Keys.F2, Name.DEBUG, false);
 		addInput(Keys.ESCAPE, Name.SKIP_INTRO, false);
 	}
-	
+
 	private void addInput(int key, String action, boolean activated) {
 		keys.put(key, action);
 		activatedInputs.put(action, activated);
 	}
-	
+
 	public void setInputEnabled(String action, boolean enabled) {
 		activatedInputs.put(action, enabled);
 	}
@@ -47,7 +64,10 @@ public class InputHandler implements InputProcessor {
 	public boolean keyDown(int keycode) {
 		if (!keys.containsKey(keycode)) {
 			return false;
-		} if (!activatedInputs.get(keys.get(keycode))) { return false; }
+		}
+		if (!activatedInputs.get(keys.get(keycode))) {
+			return false;
+		}
 		String actionName = keys.get(keycode);
 		return InputReceivers.getReceiver(actionName).pressed();
 	}
@@ -56,7 +76,10 @@ public class InputHandler implements InputProcessor {
 	public boolean keyUp(int keycode) {
 		if (!keys.containsKey(keycode)) {
 			return false;
-		} if (!activatedInputs.get(keys.get(keycode))) { return false; }
+		}
+		if (!activatedInputs.get(keys.get(keycode))) {
+			return false;
+		}
 		String actionName = keys.get(keycode);
 		return InputReceivers.getReceiver(actionName).released();
 	}

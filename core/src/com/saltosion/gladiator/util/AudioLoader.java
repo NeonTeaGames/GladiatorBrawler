@@ -1,3 +1,20 @@
+/**
+ * GladiatorBrawler is a 2D swordfighting game.
+ * Copyright (C) 2015 Jeasonfire/Allexit
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
 package com.saltosion.gladiator.util;
 
 import com.badlogic.gdx.Gdx;
@@ -6,10 +23,10 @@ import com.badlogic.gdx.audio.Sound;
 import java.util.HashMap;
 
 public class AudioLoader {
-	
-	private static HashMap<String, Sound> sounds = new HashMap<String, Sound>();
-	private static HashMap<String, Music> musics = new HashMap<String, Music>();
-	
+
+	private static final HashMap<String, Sound> sounds = new HashMap<String, Sound>();
+	private static final HashMap<String, Music> musics = new HashMap<String, Music>();
+
 	static {
 		// Import all the sounds & musix
 		AudioLoader.musics.put(Name.MUSIC_THEME, loadMusic("audio/theme.ogg"));
@@ -30,23 +47,23 @@ public class AudioLoader {
 		AudioLoader.sounds.put(Name.SOUND_BUTTON_PRESS, loadSound("audio/button_press.ogg"));
 		AudioLoader.sounds.put(Name.SOUND_BUTTON_RELEASE, loadSound("audio/button_release.ogg"));
 	}
-	
+
 	private static Music loadMusic(String path) {
 		return Gdx.audio.newMusic(Gdx.files.internal(path));
 	}
-	
+
 	private static Sound loadSound(String path) {
 		return Gdx.audio.newSound(Gdx.files.internal(path));
 	}
-	
+
 	public static Sound getSound(String id) {
 		return sounds.get(id);
 	}
-	
+
 	public static Music getMusic(String id) {
 		return musics.get(id);
 	}
-	
+
 	public static void dispose() {
 		Log.info("Disposed sounds and musics!");
 		for (String s : sounds.keySet()) {
@@ -56,5 +73,5 @@ public class AudioLoader {
 			musics.get(s).dispose();
 		}
 	}
-	
+
 }
