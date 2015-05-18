@@ -1,7 +1,19 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * GladiatorBrawler is a 2D swordfighting game.
+ * Copyright (C) 2015 Jeasonfire/Allexit
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package com.saltosion.gladiator.level.premade;
 
@@ -15,10 +27,6 @@ import com.saltosion.gladiator.util.Direction;
 import com.saltosion.gladiator.util.Global;
 import java.util.ArrayList;
 
-/**
- *
- * @author Medvith
- */
 public class Round10Level implements Level {
 
 	public Entity player;
@@ -47,8 +55,9 @@ public class Round10Level implements Level {
 	@Override
 	public void generate() {
 		AppUtil.levelFactory.createLevelBase();
-		enemies.add(AppUtil.entityFactory.createEnemy(new Vector2(10, 2), Direction.LEFT,
+		player = AppUtil.entityFactory.createPlayer(new Vector2(-7.5f, 2), Direction.RIGHT);
+		enemies.add(AppUtil.entityFactory.createEnemy(new Vector2(7.5f, 2), Direction.LEFT,
 				new CAI().setReactDistance(15f).setAIListener(new RelentlessAI())));
 	}
-	
+
 }

@@ -39,7 +39,7 @@ public class InGameState extends BaseState {
 	 * Add new levels to this list
 	 */
 	private static final Level[] levels = {new Round1Level(), new Round2Level(),
-		new Round3Level(), new Round4Level(), new Round5Level(), new Round6Level(), 
+		new Round3Level(), new Round4Level(), new Round5Level(), new Round6Level(),
 		new Round7Level(), new Round8Level(), new Round9Level(), new Round10Level()};
 
 	private Level level;
