@@ -21,7 +21,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.Vector2;
 import com.saltosion.gladiator.components.CAI;
 import com.saltosion.gladiator.level.Level;
-import com.saltosion.gladiator.listeners.ai.ScaredAI;
+import com.saltosion.gladiator.listeners.ai.HunterAI;
 import com.saltosion.gladiator.util.AppUtil;
 import com.saltosion.gladiator.util.Direction;
 import com.saltosion.gladiator.util.Global;
@@ -57,9 +57,9 @@ public class Round3Level implements Level {
 		AppUtil.levelFactory.createLevelBase();
 		player = AppUtil.entityFactory.createPlayer(new Vector2(0, 2), Direction.RIGHT);
 		enemies.add(AppUtil.entityFactory.createEnemy(new Vector2(10, 2), Direction.LEFT,
-				new CAI().setReactDistance(12f).setAIListener(new ScaredAI())));
+				new CAI().setReactDistance(8f).setAIListener(new HunterAI())));
 		enemies.add(AppUtil.entityFactory.createEnemy(new Vector2(-10, 2), Direction.RIGHT,
-				new CAI().setReactDistance(12f).setAIListener(new ScaredAI())));
+				new CAI().setReactDistance(8f).setAIListener(new HunterAI())));
 	}
 
 }

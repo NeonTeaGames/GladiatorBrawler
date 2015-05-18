@@ -19,11 +19,16 @@ package com.saltosion.gladiator.state;
 
 import com.saltosion.gladiator.gui.creators.InGameGUICreator;
 import com.saltosion.gladiator.level.Level;
+import com.saltosion.gladiator.level.premade.Round10Level;
 import com.saltosion.gladiator.level.premade.Round1Level;
 import com.saltosion.gladiator.level.premade.Round2Level;
 import com.saltosion.gladiator.level.premade.Round3Level;
 import com.saltosion.gladiator.level.premade.Round4Level;
 import com.saltosion.gladiator.level.premade.Round5Level;
+import com.saltosion.gladiator.level.premade.Round6Level;
+import com.saltosion.gladiator.level.premade.Round7Level;
+import com.saltosion.gladiator.level.premade.Round8Level;
+import com.saltosion.gladiator.level.premade.Round9Level;
 import com.saltosion.gladiator.util.AppUtil;
 import com.saltosion.gladiator.util.AudioLoader;
 import com.saltosion.gladiator.util.Name;
@@ -34,7 +39,8 @@ public class InGameState extends BaseState {
 	 * Add new levels to this list
 	 */
 	private static final Level[] levels = {new Round1Level(), new Round2Level(),
-		new Round3Level(), new Round4Level(), new Round5Level()};
+		new Round3Level(), new Round4Level(), new Round5Level(), new Round6Level(), 
+		new Round7Level(), new Round8Level(), new Round9Level(), new Round10Level()};
 
 	private Level level;
 	private InGameGUICreator guiCreator;
