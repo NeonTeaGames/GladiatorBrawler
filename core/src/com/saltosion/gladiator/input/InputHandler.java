@@ -49,6 +49,7 @@ public class InputHandler implements InputProcessor {
 		addInput(Keys.DOWN, Name.SWING_DOWN, false);
 		addInput(Keys.F2, Name.DEBUG, true);
 		addInput(Keys.ESCAPE, Name.SKIP_INTRO, false);
+		addInput(Keys.F3, Name.NEXT_LEVEL, false);
 	}
 
 	private void addInput(int key, String action, boolean activated) {

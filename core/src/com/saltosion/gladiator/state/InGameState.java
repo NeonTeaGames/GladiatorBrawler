@@ -81,6 +81,7 @@ public class InGameState extends BaseState {
 		AppUtil.inputHandler.setInputEnabled(Name.SWING_LEFT, true);
 		AppUtil.inputHandler.setInputEnabled(Name.SWING_RIGHT, true);
 		AppUtil.inputHandler.setInputEnabled(Name.SWING_UP, true);
+		AppUtil.inputHandler.setInputEnabled(Name.NEXT_LEVEL, true);
 	}
 
 	@Override
@@ -100,13 +101,8 @@ public class InGameState extends BaseState {
 		if (level.levelCleared()) {
 			timeSinceLevelWon += deltaTime;
 			if (timeSinceLevelWon > levelWonDelay) {
-				currentLevel++;
 				timeSinceLevelWon = 0;
-				if (currentLevel >= levels.length) {
-					setState(new WinState());
-				} else {
-					changeLevel(levels[currentLevel]);
-				}
+				nextLevel();
 			}
 		}
 
@@ -115,6 +111,15 @@ public class InGameState extends BaseState {
 			if (timeSinceLevelFailed > levelFailedDelay) {
 				setState(new GameOverState());
 			}
+		}
+	}
+
+	public void nextLevel() {
+		currentLevel++;
+		if (currentLevel >= levels.length) {
+			setState(new WinState());
+		} else {
+			changeLevel(levels[currentLevel]);
 		}
 	}
 
@@ -136,6 +141,7 @@ public class InGameState extends BaseState {
 		AppUtil.inputHandler.setInputEnabled(Name.SWING_LEFT, false);
 		AppUtil.inputHandler.setInputEnabled(Name.SWING_RIGHT, false);
 		AppUtil.inputHandler.setInputEnabled(Name.SWING_UP, false);
+		AppUtil.inputHandler.setInputEnabled(Name.NEXT_LEVEL, false);
 
 		// Clear all entities that are left as they are no longer needed
 		AppUtil.engine.removeAllEntities();

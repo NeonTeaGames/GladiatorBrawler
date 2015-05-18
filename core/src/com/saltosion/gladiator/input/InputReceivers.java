@@ -36,6 +36,7 @@ public class InputReceivers {
 		inputreceivers.put(Name.SWING_DOWN, new IRSwing(Direction.DOWN));
 		inputreceivers.put(Name.DEBUG, new IRDebugToggle());
 		inputreceivers.put(Name.SKIP_INTRO, new IRSkipIntros());
+		inputreceivers.put(Name.NEXT_LEVEL, new IRNextLevel());
 	}
 
 	public static InputReceiver getReceiver(String key) {
