@@ -32,8 +32,6 @@ public class BasicDeathListener implements CombatListener {
 
 	@Override
 	public void died(Entity source, Entity target, int damageTaken) {
-		target.flags &= ~Global.FLAG_ALIVE;
-
 		CPhysics cp = target.getComponent(CPhysics.class);
 
 		Sound s = AppUtil.jukebox.returnRandomSound(AudioLoader.getSound(Name.SOUND_HIT01),

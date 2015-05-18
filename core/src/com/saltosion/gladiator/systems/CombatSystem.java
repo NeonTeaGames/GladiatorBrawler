@@ -33,6 +33,7 @@ import com.saltosion.gladiator.listeners.SwingHitboxListener;
 import com.saltosion.gladiator.util.AppUtil;
 import com.saltosion.gladiator.util.AudioLoader;
 import com.saltosion.gladiator.util.Direction;
+import com.saltosion.gladiator.util.Global;
 import com.saltosion.gladiator.util.Name;
 
 public class CombatSystem extends EntitySystem {
@@ -145,6 +146,7 @@ public class CombatSystem extends EntitySystem {
 	public static void killEntity(Entity source, Entity target, int damage) {
 		CCombat combat = target.getComponent(CCombat.class);
 		CombatListener listener = combat.getCombatListener();
+		target.flags &= ~Global.FLAG_ALIVE;
 		if (listener != null) {
 			listener.died(source, target, damage);
 		}
