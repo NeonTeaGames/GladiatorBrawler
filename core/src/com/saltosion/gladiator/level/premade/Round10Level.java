@@ -20,6 +20,7 @@ package com.saltosion.gladiator.level.premade;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.Vector2;
 import com.saltosion.gladiator.components.CAI;
+import com.saltosion.gladiator.components.CCombat;
 import com.saltosion.gladiator.level.Level;
 import com.saltosion.gladiator.listeners.ai.RelentlessAI;
 import com.saltosion.gladiator.util.AppUtil;
@@ -56,8 +57,13 @@ public class Round10Level implements Level {
 	public void generate() {
 		AppUtil.levelFactory.createLevelBase();
 		player = AppUtil.entityFactory.createPlayer(new Vector2(-7.5f, 2), Direction.RIGHT);
-		enemies.add(AppUtil.entityFactory.createEnemy(new Vector2(7.5f, 2), Direction.LEFT,
+		Entity enemy;
+		enemies.add(enemy = AppUtil.entityFactory.createEnemy(new Vector2(7.5f, 2), Direction.LEFT,
 				new CAI().setReactDistance(15f).setAIListener(new RelentlessAI())));
+		CCombat co = enemy.getComponent(CCombat.class);
+		co.setMaxHealth(1500);
+		co.setHealth(1500);
+		co.setBaseDamage(120);
 	}
 
 }
