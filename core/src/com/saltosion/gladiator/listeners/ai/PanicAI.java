@@ -27,53 +27,70 @@ import java.util.ArrayList;
 
 public class PanicAI implements AIListener {
 
-	private float swingCd = 0;
-	private final float swingInterval;
+	private float stateChange = 0;
+	private final float stateChangeInterval;
 
 	public PanicAI() {
-		swingInterval = 0.75f;
+		stateChangeInterval = 1;
 	}
 
-	public PanicAI(float swingInterval) {
-		this.swingInterval = swingInterval;
+	public PanicAI(float stateChangeInterval) {
+		this.stateChangeInterval = stateChangeInterval;
 	}
 
 	@Override
 	public void react(ArrayList<Entity> closeEntities, Entity host) {
+		stateChange += Gdx.graphics.getDeltaTime();
+		if (stateChange > stateChangeInterval) {
+			stateChange = 0;
+		} else {
+			return;
+		}
+		if (closeEntities.isEmpty()) {
+			return;
+		}
+
 		CPhysics po = host.getComponent(CPhysics.class);
 		CCombat co = host.getComponent(CCombat.class);
+		po.movingLeft = false;
+		po.movingRight = false;
+		po.jumping = false;
+		po.setMoveSpeed(16);
 		co.inputs.put(Direction.UP, false);
 		co.inputs.put(Direction.DOWN, false);
 		co.inputs.put(Direction.RIGHT, false);
 		co.inputs.put(Direction.LEFT, false);
-		if (closeEntities.isEmpty()) {
-			po.jumping = false;
-			return;
+
+		switch ((int) Math.ceil(Math.random() * 4)) {
+			case 1:
+				po.movingLeft = true;
+				break;
+			case 2:
+				po.movingRight = true;
+				break;
 		}
 
-		if (po.isGrounded()) {
-			po.jumping = true;
+		switch ((int) Math.ceil(Math.random() * 3)) {
+			case 1:
+				po.jumping = true;
+				break;
 		}
 
-		if (swingCd < swingInterval) {
-			swingCd += Gdx.graphics.getDeltaTime();
-		} else {
-			swingCd = 0;
-			switch ((int) Math.ceil(Math.random() * 6)) {
-				case 1:
-					co.inputs.put(Direction.LEFT, true);
-					break;
-				case 2:
-					co.inputs.put(Direction.RIGHT, true);
-					break;
-				case 3:
-					co.inputs.put(Direction.DOWN, true);
-					break;
-				case 4:
-					co.inputs.put(Direction.UP, true);
-					break;
-			}
+		switch ((int) Math.ceil(Math.random() * 8)) {
+			case 1:
+				co.inputs.put(Direction.UP, true);
+				break;
+			case 2:
+				co.inputs.put(Direction.DOWN, true);
+				break;
+			case 3:
+				co.inputs.put(Direction.RIGHT, true);
+				break;
+			case 4:
+				co.inputs.put(Direction.LEFT, true);
+				break;
 		}
+
 	}
 
 }
