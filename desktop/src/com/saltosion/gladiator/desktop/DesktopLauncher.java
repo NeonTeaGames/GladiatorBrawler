@@ -1,5 +1,6 @@
 package com.saltosion.gladiator.desktop;
 
+import com.badlogic.gdx.Files;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.saltosion.gladiator.GladiatorBrawler;
@@ -14,6 +15,9 @@ public class DesktopLauncher {
 		config.height = 720;
 		config.vSyncEnabled = true; // Change this to false for performance testing
 		config.foregroundFPS = 0;
+		config.addIcon("sprites/icon_16.png", Files.FileType.Internal);
+		config.addIcon("sprites/icon_32.png", Files.FileType.Internal);
+		config.addIcon("sprites/icon_128.png", Files.FileType.Internal);
 		LwjglApplication app = new LwjglApplication(new GladiatorBrawler(), config);
 	}
 }

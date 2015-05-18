@@ -19,8 +19,7 @@ package com.saltosion.gladiator.util;
 
 public class Name {
 
-	public static final String GAME_NAME = "Gladiator Brawl";
-	public static final String DEBUG = "DEBUG";
+	public static final String GAME_NAME = "Simply Gladiators";
 
 	public static final String SPLASH_SALTOSION = "SPLASH_SALTOSION";
 	public static final String SPLASH_LIBGDX = "SPLASH_LIBGDX";
@@ -52,6 +51,7 @@ public class Name {
 	public static final String SWING_UP = "SWING_UP";
 	public static final String SWING_DOWN = "SWING_DOWN";
 	public static final String SKIP_INTRO = "SKIP_INTRO";
+	public static final String DEBUG = "DEBUG";
 
 	public static final String MUSIC_THEME = "MUSIC_THEME";
 	public static final String MUSIC_BATTLE = "MUSIC_BATTLE";

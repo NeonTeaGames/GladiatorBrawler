@@ -66,10 +66,8 @@ public class RelentlessAI implements AIListener {
 				c0.inputs.put(Direction.LEFT, true);
 			}
 			if (p0.getPosition().y < p1.getPosition().y) {
-				Log.info("asd");
 				c0.inputs.put(Direction.UP, true);
 			} else if (p0.getPosition().y > p1.getPosition().y) {
-				Log.info("asd");
 				c0.inputs.put(Direction.DOWN, true);
 			}
 		}
