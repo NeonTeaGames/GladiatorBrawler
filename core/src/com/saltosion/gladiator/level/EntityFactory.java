@@ -141,6 +141,12 @@ public class EntityFactory {
 				.addSprite(playerSprites[1][9][1]);
 		renderedObject.addSequence("Legs-Run-Left", legsRunLeftSequence);
 
+		// Jumping animation
+		SpriteSequence legsJumpRightSequence = new SpriteSequence(SWING_ANIMATION_SPEED).addSprite(playerSprites[1][8][0]);
+		renderedObject.addSequence("Legs-Jump-Right", legsJumpRightSequence);
+		SpriteSequence legsJumpLeftSequence = new SpriteSequence(SWING_ANIMATION_SPEED).addSprite(playerSprites[1][8][1]);
+		renderedObject.addSequence("Legs-Jump-Left", legsJumpLeftSequence);
+
 		// Combat animations
 		SpriteSequence torsoCombatRightSequence = new SpriteSequence(SWING_ANIMATION_SPEED).addSprite(playerSprites[0][7][0])
 				.addSprite(playerSprites[0][8][0]).addSprite(playerSprites[0][9][0]).addSprite(playerSprites[0][10][0]);

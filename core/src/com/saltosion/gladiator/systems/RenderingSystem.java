@@ -222,6 +222,9 @@ public class RenderingSystem extends EntitySystem {
 			ro.playAnimation("torso", "Torso-Idle-" + dirMove);
 			ro.playAnimation("legs", "Legs-Idle-" + dirMove);
 		}
+		if (!po.isGrounded()) {
+			ro.playAnimation("legs", "Legs-Jump-" + dirMove);
+		}
 	}
 
 	private void tryToMakeStepSound(CPhysics po) {
