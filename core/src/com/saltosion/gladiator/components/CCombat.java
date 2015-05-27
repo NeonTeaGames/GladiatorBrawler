@@ -29,13 +29,14 @@ public class CCombat extends Component {
 	public int health = 0;
 	private int maxHealth = 0;
 	private int damage = 0;
-	private float swingForce = 20f;
+	private float swingForce = 15f;
 	private Vector2 swingsize = new Vector2(3, 3);
 	private CombatListener combatListener;
 
 	private Vector2 swinging = new Vector2();
 	private float swingDuration = 0.4f;
 	public float swingCdCounter = 0;
+	public float stunCounter = 0;
 
 	private boolean parrying = false;
 

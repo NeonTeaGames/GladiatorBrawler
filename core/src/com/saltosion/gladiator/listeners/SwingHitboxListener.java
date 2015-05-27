@@ -43,6 +43,10 @@ public class SwingHitboxListener implements CollisionListener {
 		this.direction = direction;
 	}
 
+	public CCombat getSourceCombat() {
+		return cm.get(source);
+	}
+
 	@Override
 	public void collision(Direction side, Entity host, Entity other) {
 		if (other.equals(source) || hitEntities.contains(other)) {
@@ -51,8 +55,7 @@ public class SwingHitboxListener implements CollisionListener {
 		hitEntities.add(other);
 
 		CCombat sourceCombat = cm.get(source);
-		CCombat otherCombat = cm.get(other);
-		if (otherCombat != null && !sourceCombat.isParrying()) {
+		if (cm.get(other) != null && !sourceCombat.isParrying()) {
 			int damage = cm.get(source).getDamage();
 			CombatSystem.dealDamage(source, other, damage);
 		}
@@ -66,6 +69,7 @@ public class SwingHitboxListener implements CollisionListener {
 					AudioLoader.getSound(Name.SOUND_CLANG04));
 			s.play(AppUtil.sfxVolume);
 
+			SwingHitboxListener otherListener = (SwingHitboxListener) otherPhysics.getCollisionListener();
 			if (!sourceCombat.isParrying()) {
 				// Source isn't parrying, throw back
 				float x = 0;
@@ -73,6 +77,11 @@ public class SwingHitboxListener implements CollisionListener {
 					x = 1;
 				} else if (direction == Direction.RIGHT) {
 					x = -1;
+				}
+				CCombat otherCombat = otherListener.getSourceCombat();
+				if (otherCombat != null && otherCombat.isParrying()) {
+					x *= 1.75f;
+					sourceCombat.stunCounter = otherCombat.getSwingForce() / 10f;
 				}
 				pm.get(source).setSimVelocity(x * sourceCombat.getSwingForce(), 0);
 			}

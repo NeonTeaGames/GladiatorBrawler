@@ -74,6 +74,12 @@ public class PhysicsSystem extends EntitySystem {
 						if (combat.swingCdCounter > 0) {
 							obj.getVelocity().x /= 2;
 						}
+						if (combat.isParrying()) {
+							obj.getVelocity().x /= 2;
+						}
+						if (combat.stunCounter > 0) {
+							obj.getVelocity().x = 0;
+						}
 					}
 					if (obj.jumping && obj.isGrounded()) {
 						obj.setGrounded(false);

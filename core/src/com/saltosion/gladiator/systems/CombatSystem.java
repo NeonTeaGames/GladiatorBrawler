@@ -58,6 +58,10 @@ public class CombatSystem extends EntitySystem {
 				combat.swingCdCounter -= deltaTime;
 				continue;
 			}
+			if (combat.stunCounter > 0) {
+				combat.stunCounter -= deltaTime;
+				continue;
+			}
 
 			// Ready to swing !
 			combat.getSwing().setZero();
