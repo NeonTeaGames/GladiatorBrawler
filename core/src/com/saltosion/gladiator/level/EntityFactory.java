@@ -110,67 +110,62 @@ public class EntityFactory {
 		renderedObject.addChannel("torso");
 
 		// Idle animations
-		SpriteSequence torsoIdleRightSequence = new SpriteSequence(IDLE_ANIMATION_SPEED).addSprite(playerSprites[0][0][0]).addSprite(playerSprites[0][1][0]);
-		renderedObject.addSequence("Torso-Idle-Right", torsoIdleRightSequence);
-		SpriteSequence legsIdleRightSquence = new SpriteSequence(IDLE_ANIMATION_SPEED).addSprite(playerSprites[1][0][0]).addSprite(playerSprites[1][1][0]);
-		renderedObject.addSequence("Legs-Idle-Right", legsIdleRightSquence);
-		SpriteSequence torsoIdleLeftSequence = new SpriteSequence(IDLE_ANIMATION_SPEED).addSprite(playerSprites[0][0][1]).addSprite(playerSprites[0][1][1]);
-		renderedObject.addSequence("Torso-Idle-Left", torsoIdleLeftSequence);
-		SpriteSequence legsIdleLeftSquence = new SpriteSequence(IDLE_ANIMATION_SPEED).addSprite(playerSprites[1][0][1]).addSprite(playerSprites[1][1][1]);
-		renderedObject.addSequence("Legs-Idle-Left", legsIdleLeftSquence);
+		addSpriteSequence(renderedObject, IDLE_ANIMATION_SPEED, "Torso-Idle-Right", playerSprites, 0, new int[]{0, 1}, 0);
+		addSpriteSequence(renderedObject, IDLE_ANIMATION_SPEED, "Legs-Idle-Right", playerSprites, 1, new int[]{0, 1}, 0);
+		addSpriteSequence(renderedObject, IDLE_ANIMATION_SPEED, "Torso-Idle-Left", playerSprites, 0, new int[]{0, 1}, 1);
+		addSpriteSequence(renderedObject, IDLE_ANIMATION_SPEED, "Legs-Idle-Left", playerSprites, 1, new int[]{0, 1}, 1);
 
 		// Running animations
-		SpriteSequence torsoRunRightSequence = new SpriteSequence(RUN_ANIMATION_SPEED).addSprite(playerSprites[0][2][0])
-				.addSprite(playerSprites[0][3][0]).addSprite(playerSprites[0][4][0]).addSprite(playerSprites[0][5][0])
-				.addSprite(playerSprites[0][6][0]).addSprite(playerSprites[0][5][0]).addSprite(playerSprites[0][4][0])
-				.addSprite(playerSprites[0][3][0]);
-		renderedObject.addSequence("Torso-Run-Right", torsoRunRightSequence);
-		SpriteSequence legsRunRightSequence = new SpriteSequence(RUN_ANIMATION_SPEED).addSprite(playerSprites[1][2][0])
-				.addSprite(playerSprites[1][3][0]).addSprite(playerSprites[1][4][0]).addSprite(playerSprites[1][5][0])
-				.addSprite(playerSprites[1][6][0]).addSprite(playerSprites[1][7][0]).addSprite(playerSprites[1][8][0])
-				.addSprite(playerSprites[1][9][0]);
-		renderedObject.addSequence("Legs-Run-Right", legsRunRightSequence);
-		SpriteSequence torsoRunLeftSequence = new SpriteSequence(RUN_ANIMATION_SPEED).addSprite(playerSprites[0][2][1])
-				.addSprite(playerSprites[0][3][1]).addSprite(playerSprites[0][4][1]).addSprite(playerSprites[0][5][1])
-				.addSprite(playerSprites[0][6][1]).addSprite(playerSprites[0][5][1]).addSprite(playerSprites[0][4][1])
-				.addSprite(playerSprites[0][3][1]);
-		renderedObject.addSequence("Torso-Run-Left", torsoRunLeftSequence);
-		SpriteSequence legsRunLeftSequence = new SpriteSequence(RUN_ANIMATION_SPEED).addSprite(playerSprites[1][2][1])
-				.addSprite(playerSprites[1][3][1]).addSprite(playerSprites[1][4][1]).addSprite(playerSprites[1][5][1])
-				.addSprite(playerSprites[1][6][1]).addSprite(playerSprites[1][7][1]).addSprite(playerSprites[1][8][1])
-				.addSprite(playerSprites[1][9][1]);
-		renderedObject.addSequence("Legs-Run-Left", legsRunLeftSequence);
+		addSpriteSequence(renderedObject, RUN_ANIMATION_SPEED, "Torso-Run-Right", playerSprites, 0, new int[]{2, 3, 4, 5, 6, 5, 4, 3}, 0);
+		addSpriteSequence(renderedObject, RUN_ANIMATION_SPEED, "Legs-Run-Right", playerSprites, 1, new int[]{2, 3, 4, 5, 6, 7, 8, 9}, 0);
+		addSpriteSequence(renderedObject, RUN_ANIMATION_SPEED, "Torso-Run-Left", playerSprites, 0, new int[]{2, 3, 4, 5, 6, 5, 4, 3}, 1);
+		addSpriteSequence(renderedObject, RUN_ANIMATION_SPEED, "Legs-Run-Left", playerSprites, 1, new int[]{2, 3, 4, 5, 6, 7, 8, 9}, 1);
 
 		// Jumping animation
-		SpriteSequence legsJumpRightSequence = new SpriteSequence(SWING_ANIMATION_SPEED).addSprite(playerSprites[1][8][0]);
-		renderedObject.addSequence("Legs-Jump-Right", legsJumpRightSequence);
-		SpriteSequence legsJumpLeftSequence = new SpriteSequence(SWING_ANIMATION_SPEED).addSprite(playerSprites[1][8][1]);
-		renderedObject.addSequence("Legs-Jump-Left", legsJumpLeftSequence);
+		addSpriteSequence(renderedObject, IDLE_ANIMATION_SPEED, "Legs-Jump-Right", playerSprites, 1, 8, 0);
+		addSpriteSequence(renderedObject, IDLE_ANIMATION_SPEED, "Legs-Jump-Left", playerSprites, 1, 8, 1);
 
 		// Combat animations
-		SpriteSequence torsoCombatRightSequence = new SpriteSequence(SWING_ANIMATION_SPEED).addSprite(playerSprites[0][7][0])
-				.addSprite(playerSprites[0][8][0]).addSprite(playerSprites[0][9][0]).addSprite(playerSprites[0][10][0]);
-		renderedObject.addSequence("Torso-Combat-Right", torsoCombatRightSequence);
-		SpriteSequence torsoCombatLeftSequence = new SpriteSequence(SWING_ANIMATION_SPEED).addSprite(playerSprites[0][7][1])
-				.addSprite(playerSprites[0][8][1]).addSprite(playerSprites[0][9][1]).addSprite(playerSprites[0][10][1]);
-		renderedObject.addSequence("Torso-Combat-Left", torsoCombatLeftSequence);
-		SpriteSequence torsoCombatRightDownSequence = new SpriteSequence(SWING_ANIMATION_SPEED).addSprite(playerSprites[0][11][0])
-				.addSprite(playerSprites[0][12][0]).addSprite(playerSprites[0][13][0]).addSprite(playerSprites[0][14][0]);
-		renderedObject.addSequence("Torso-Combat-Right-Down", torsoCombatRightDownSequence);
-		SpriteSequence torsoCombatRightUpSequence = new SpriteSequence(SWING_ANIMATION_SPEED).addSprite(playerSprites[0][15][0])
-				.addSprite(playerSprites[0][16][0]).addSprite(playerSprites[0][17][0]).addSprite(playerSprites[0][18][0]);
-		renderedObject.addSequence("Torso-Combat-Right-Up", torsoCombatRightUpSequence);
-		SpriteSequence torsoCombatLeftDownSequence = new SpriteSequence(SWING_ANIMATION_SPEED).addSprite(playerSprites[0][11][1])
-				.addSprite(playerSprites[0][12][1]).addSprite(playerSprites[0][13][1]).addSprite(playerSprites[0][14][1]);
-		renderedObject.addSequence("Torso-Combat-Left-Down", torsoCombatLeftDownSequence);
-		SpriteSequence torsoCombatLeftUpSequence = new SpriteSequence(SWING_ANIMATION_SPEED).addSprite(playerSprites[0][15][1])
-				.addSprite(playerSprites[0][16][1]).addSprite(playerSprites[0][17][1]).addSprite(playerSprites[0][18][1]);
-		renderedObject.addSequence("Torso-Combat-Left-Up", torsoCombatLeftUpSequence);
+		addSpriteSequence(renderedObject, SWING_ANIMATION_SPEED, "Torso-Combat-Right", playerSprites, 0, new int[]{7, 8, 9, 10}, 0);
+		addSpriteSequence(renderedObject, SWING_ANIMATION_SPEED, "Torso-Combat-Left", playerSprites, 0, new int[]{7, 8, 9, 10}, 1);
+		addSpriteSequence(renderedObject, SWING_ANIMATION_SPEED, "Torso-Combat-Right-Down", playerSprites, 0, new int[]{11, 12, 13, 14}, 0);
+		addSpriteSequence(renderedObject, SWING_ANIMATION_SPEED, "Torso-Combat-Right-Up", playerSprites, 0, new int[]{15, 16, 17, 18}, 0);
+		addSpriteSequence(renderedObject, SWING_ANIMATION_SPEED, "Torso-Combat-Left-Down", playerSprites, 0, new int[]{11, 12, 13, 14}, 1);
+		addSpriteSequence(renderedObject, SWING_ANIMATION_SPEED, "Torso-Combat-Left-Up", playerSprites, 0, new int[]{15, 16, 17, 18}, 1);
 
 		renderedObject.playAnimation("torso", "Torso-Idle-Right");
 		renderedObject.playAnimation("legs", "Legs-Idle-Right");
 
 		return renderedObject;
+	}
+
+	// Don't mind these
+	private void addSpriteSequence(CRenderedObject target, int speed, String name, Sprite[][][] sheet, int xVal, int yVal, int flipVal) {
+		addSpriteSequence(target, speed, name, sheet, new int[]{xVal}, new int[]{yVal}, new int[]{flipVal});
+	}
+
+	private void addSpriteSequence(CRenderedObject target, int speed, String name, Sprite[][][] sheet, int xVal, int[] yVals, int flipVal) {
+		addSpriteSequence(target, speed, name, sheet, new int[]{xVal}, yVals, new int[]{flipVal});
+	}
+
+	private void addSpriteSequence(CRenderedObject target, int speed, String name, Sprite[][][] sheet, int[] xVals, int yVal, int flipVal) {
+		addSpriteSequence(target, speed, name, sheet, xVals, new int[]{yVal}, new int[]{flipVal});
+	}
+
+	private void addSpriteSequence(CRenderedObject target, int speed, String name, Sprite[][][] sheet, int[] xVals, int[] yVals, int flipVal) {
+		addSpriteSequence(target, speed, name, sheet, xVals, yVals, new int[]{flipVal});
+	}
+
+	private void addSpriteSequence(CRenderedObject target, int speed, String name, Sprite[][][] sheet, int[] xVals, int[] yVals, int[] flipVals) {
+		SpriteSequence sequence = new SpriteSequence(speed);
+		for (int x : xVals) {
+			for (int y : yVals) {
+				for (int f : flipVals) {
+					sequence.addSprite(sheet[x][y][f]);
+				}
+			}
+		}
+		target.addSequence(name, sequence);
 	}
 
 }

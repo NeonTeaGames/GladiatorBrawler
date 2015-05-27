@@ -81,6 +81,7 @@ public class InGameState extends BaseState {
 		AppUtil.inputHandler.setInputEnabled(Name.SWING_LEFT, true);
 		AppUtil.inputHandler.setInputEnabled(Name.SWING_RIGHT, true);
 		AppUtil.inputHandler.setInputEnabled(Name.SWING_UP, true);
+		AppUtil.inputHandler.setInputEnabled(Name.PARRY, true);
 		AppUtil.inputHandler.setInputEnabled(Name.NEXT_LEVEL, true);
 	}
 
@@ -141,6 +142,7 @@ public class InGameState extends BaseState {
 		AppUtil.inputHandler.setInputEnabled(Name.SWING_LEFT, false);
 		AppUtil.inputHandler.setInputEnabled(Name.SWING_RIGHT, false);
 		AppUtil.inputHandler.setInputEnabled(Name.SWING_UP, false);
+		AppUtil.inputHandler.setInputEnabled(Name.PARRY, false);
 		AppUtil.inputHandler.setInputEnabled(Name.NEXT_LEVEL, false);
 
 		// Clear all entities that are left as they are no longer needed

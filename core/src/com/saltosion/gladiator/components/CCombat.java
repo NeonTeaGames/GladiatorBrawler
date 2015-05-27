@@ -37,6 +37,8 @@ public class CCombat extends Component {
 	private float swingDuration = 0.4f;
 	public float swingCdCounter = 0;
 
+	private boolean parrying = false;
+
 	public HashMap<Direction, Boolean> inputs = new HashMap<Direction, Boolean>();
 
 	public CCombat() {
@@ -93,6 +95,11 @@ public class CCombat extends Component {
 		return this;
 	}
 
+	public CCombat setParrying(boolean parrying) {
+		this.parrying = parrying;
+		return this;
+	}
+
 	public int getMaxHealth() {
 		return this.maxHealth;
 	}
@@ -142,5 +149,9 @@ public class CCombat extends Component {
 
 	public CombatListener getCombatListener() {
 		return this.combatListener;
+	}
+
+	public boolean isParrying() {
+		return parrying;
 	}
 }

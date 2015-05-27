@@ -47,6 +47,7 @@ public class InputHandler implements InputProcessor {
 		addInput(Keys.RIGHT, Name.SWING_RIGHT, false);
 		addInput(Keys.UP, Name.SWING_UP, false);
 		addInput(Keys.DOWN, Name.SWING_DOWN, false);
+		addInput(Keys.SHIFT_LEFT, Name.PARRY, false);
 		addInput(Keys.F2, Name.DEBUG, true);
 		addInput(Keys.ESCAPE, Name.SKIP_INTRO, false);
 		addInput(Keys.F3, Name.NEXT_LEVEL, false);

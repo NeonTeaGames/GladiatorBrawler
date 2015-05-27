@@ -34,6 +34,7 @@ public class InputReceivers {
 		inputreceivers.put(Name.SWING_RIGHT, new IRSwing(Direction.RIGHT));
 		inputreceivers.put(Name.SWING_UP, new IRSwing(Direction.UP));
 		inputreceivers.put(Name.SWING_DOWN, new IRSwing(Direction.DOWN));
+		inputreceivers.put(Name.PARRY, new IRParry());
 		inputreceivers.put(Name.DEBUG, new IRDebugToggle());
 		inputreceivers.put(Name.SKIP_INTRO, new IRSkipIntros());
 		inputreceivers.put(Name.NEXT_LEVEL, new IRNextLevel());

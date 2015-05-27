@@ -50,6 +50,7 @@ public class Name {
 	public static final String SWING_RIGHT = "SWING_RIGHT";
 	public static final String SWING_UP = "SWING_UP";
 	public static final String SWING_DOWN = "SWING_DOWN";
+	public static final String PARRY = "PARRY";
 	public static final String SKIP_INTRO = "SKIP_INTRO";
 	public static final String NEXT_LEVEL = "NEXT_LEVEL";
 	public static final String DEBUG = "DEBUG";

@@ -208,13 +208,26 @@ public class RenderingSystem extends EntitySystem {
 		}
 
 		if (moving && combat) {
-			ro.playAnimation("torso", "Torso-Combat-" + dirSwing);
+			if (co.isParrying()) {
+				// Parrying animation
+				ro.playAnimation("torso", "Torso-Combat-" + dirSwing); // Change this to parrying anim
+			} else {
+				// Swinging animation
+				ro.playAnimation("torso", "Torso-Combat-" + dirSwing);
+			}
+			// Moving animation
 			ro.playAnimation("legs", "Legs-Run-" + dirMove);
 			tryToMakeStepSound(po);
+		} else if (combat && co.isParrying()) {
+			// Parrying animation
+			ro.playAnimation("torso", "Torso-Combat-" + dirSwing); // Change this to parrying anim
+			ro.playAnimation("legs", "Legs-Idle-" + dirMove);
 		} else if (combat) {
+			// Swinging animation
 			ro.playAnimation("torso", "Torso-Combat-" + dirSwing);
 			ro.playAnimation("legs", "Legs-Idle-" + dirMove);
 		} else if (moving) {
+			// Moving animation
 			ro.playAnimation("torso", "Torso-Run-" + dirMove);
 			ro.playAnimation("legs", "Legs-Run-" + dirMove);
 			tryToMakeStepSound(po);
@@ -223,6 +236,7 @@ public class RenderingSystem extends EntitySystem {
 			ro.playAnimation("legs", "Legs-Idle-" + dirMove);
 		}
 		if (!po.isGrounded()) {
+			// In-air animation for legs
 			ro.playAnimation("legs", "Legs-Jump-" + dirMove);
 		}
 	}

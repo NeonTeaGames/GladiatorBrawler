@@ -50,8 +50,9 @@ public class SwingHitboxListener implements CollisionListener {
 		}
 		hitEntities.add(other);
 
+		CCombat sourceCombat = cm.get(source);
 		CCombat otherCombat = cm.get(other);
-		if (otherCombat != null) {
+		if (otherCombat != null && !sourceCombat.isParrying()) {
 			int damage = cm.get(source).getDamage();
 			CombatSystem.dealDamage(source, other, damage);
 		}
@@ -59,20 +60,22 @@ public class SwingHitboxListener implements CollisionListener {
 		CPhysics otherPhysics = pm.get(other);
 		if (otherPhysics != null && otherPhysics.getCollisionListener() != null
 				&& otherPhysics.getCollisionListener() instanceof SwingHitboxListener) {
-			float x = 0;
-			if (direction == Direction.LEFT) {
-				x = 1;
-			} else if (direction == Direction.RIGHT) {
-				x = -1;
-			}
-			float force = cm.get(source).getSwingForce();
-			pm.get(source).setSimVelocity(x * force, 0);
-
 			Sound s = AppUtil.jukebox.returnRandomSound(AudioLoader.getSound(Name.SOUND_CLANG01),
 					AudioLoader.getSound(Name.SOUND_CLANG02),
 					AudioLoader.getSound(Name.SOUND_CLANG03),
 					AudioLoader.getSound(Name.SOUND_CLANG04));
 			s.play(AppUtil.sfxVolume);
+
+			if (!sourceCombat.isParrying()) {
+				// Source isn't parrying, throw back
+				float x = 0;
+				if (direction == Direction.LEFT) {
+					x = 1;
+				} else if (direction == Direction.RIGHT) {
+					x = -1;
+				}
+				pm.get(source).setSimVelocity(x * sourceCombat.getSwingForce(), 0);
+			}
 		}
 	}
 
